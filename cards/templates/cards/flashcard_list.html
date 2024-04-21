@@ -1,0 +1,25 @@
+<!-- cards/templates/cards/flashcard_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcards</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cards/flashcards.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% for flashcard in flashcards %}
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <p>{{ flashcard.front_content }}</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>{{ flashcard.back_content }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
