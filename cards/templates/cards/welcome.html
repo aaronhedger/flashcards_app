@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+</head>
+
+<body class="home">
+     <div class="container">
+        <h1>Welcome to the Flashcard app !</h1>
+        <div class="buttons">
+            <a href="{% url 'existing_cards' %}" class="button">Existing cards</a>
+            <a href="{% url 'create_cards' %}" class="button">Make my own</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

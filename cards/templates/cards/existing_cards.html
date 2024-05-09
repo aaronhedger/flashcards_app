@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+     <link rel="stylesheet" href="{% static 'css/styles_cards_simple.css' %}">
+    <title>Clickable Flashcards</title>
+</head>
+
+<body class="existing">
+    <!-- Audio element for sound effect -->
+    <audio id="clickSound">
+        <source src="{{ audio_file_path }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+     <div class="container">
+        <h1>Multiple Cards</h1>
+        <div class="card-container">
+            {% for card in card_data %}
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2 class="title">{{ card.title }}</h2>
+                        <p>{{ card.front_content |safe}}</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <h2 class="title">{{ card.title }}</h2>
+                        <p>{{ card.back_content |safe}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Function to flip the card when clicked
+        function flipCard(card) {
+            card.classList.toggle('flipped'); // Toggle the 'flipped' class
+
+            // Play the click sound
+            var clickSound = document.getElementById('clickSound');
+            clickSound.play();
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+

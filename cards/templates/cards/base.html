@@ -1,92 +1,21 @@
-<!-- cards/templates/cards/base.html -->
-
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title>Flashcards</title>
-</head>
-
-<body>
-    <header>
-        <h1>Flashcards App</h1>
-        {% include "cards/navigation.html" %}
-    </header>
-    <main>
-        {% block content %}
-            <h2>Welcome to your Flashcards app!</h2>
-        {% endblock content %}
-    </main>
-</body>
-
-</html>
-
-<!-- cards/templates/cards/base.html -->
-
-<!DOCTYPE html>
-<html lang="en">
-
+{% load static %}
 <head>
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<style>
-    /* Custom CSS */
+<body>
+     <div class="container">
+        <h1>Welcome to Our Website</h1>
+        <div class="buttons">
+            <a href="{% url "explore.html" %}" class="button">Explore</a>
+            <a href="{% url "start_cards" %}" class="button">Get started</a>
+        </div>
+    </div>
+</body>
 
-    :root {
-        --accent: #6e48ad;
-        --accent-bg: white;
-        --bg: #fff;
-        --text: #212121;
-        --text-light: #585858;
-        --border: #d8dae1;
-        --code: #d81b60;
-        --preformatted: #444;
-        
-    }
-    
-
-    article {
-        background-color: var(--marked);
-        border: 1px solid var(--border);
-        border-radius: 5px;
-        padding: 1em;
-        margin: 1em 0;
-    }
-
-    h2 {
-        text-align: center;
-    }
-
-    h2, h4 {
-        margin-top: 0;
-    }
-
-    hr {
-        background-color: var(--accent);
-        border-color: var(--accent);
-    }
-
-    button,
-    a[role="button"] {
-        background-color: #4CAF50; /* Couleur de fond normale */
-    color: white; /* Couleur du texte */
-    padding: 15px 32px; /* Espacement du texte à l'intérieur du bouton */
-    text-align: center; /* Alignement du texte */
-    text-decoration: none; /* Suppression du soulignement du texte */
-    display: inline-block; /* Affichage en ligne */
-    font-size: 16px; /* Taille de la police */
-    margin: 4px 2px; /* Marge */
-    cursor: pointer; /* Curseur de souris en forme de main */
-    border-radius: 8px; /* Coins arrondis */
-    border: none; /* Suppression de la bordure */
-    transition: background-color 0.3s ease; /* Transition de couleur de fond au survol */
-    }
-
-    input, select, textarea {
-        width: 100%;
-    }
-</style>
-
-<!-- ... -->
+</html>

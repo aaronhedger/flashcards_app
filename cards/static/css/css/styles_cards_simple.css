@@ -1,0 +1,96 @@
+/* Define common variables */
+:root {
+    --frame-width: 300px;
+    --frame-height: 200px;
+    --frame-background-color: #ffffff;
+    --frame-border-radius: 40px;
+    --frame-border-width: 3px;
+    --frame-border-color: #cccccc;
+    --transition-duration: 0.5s;
+    --font-family: Arial, sans-serif;
+    --font-size-title: 24px;
+    --font-size-content: 18px;
+    --font-weight-title: bold;
+}
+
+/* Basic styling */
+.flashcard {
+    width: var(--frame-width);
+    height: var(--frame-height);
+    background-color: var(--frame-background-color);
+    margin: 20px;
+    perspective: 10000px; /* Enable 3D effects */
+    cursor: pointer;
+
+}
+
+
+.flashcard .front .title, .flashcard .back .title {
+    text-align: center;
+    margin-top: 10px; /* Adjust this value to control the spacing */
+    font-family: var(--font-family); /* Use global font family variable */
+    font-size: var(--font-size-title); /* Use global font size variable */
+    font-weight: var(--font-weight-title); /* Use global font weight variable */
+}
+
+.flashcard-inner code{
+    line-height: 0.5em; /* Adjust the line height as needed */
+    margin-bottom:-1em;
+}
+
+.flashcard-inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform var(--transition-duration);
+    backface-visibility: hidden; /* Hide the back of the card */
+    transform-style: preserve-3d; /* Preserve 3D transformations */
+    text-align: center;
+    font-family: var(--font-family);
+    font-size: var(--font-size-content);
+
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    padding: 20px; /* Add padding for better readability */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    border: var(--frame-border-width) solid var(--frame-border-color);
+    border-radius: var(--frame-border-radius);
+    justify-content: center;
+    align-items: center;
+    transition: transform var(--transition-duration);
+    backface-visibility: hidden; /* Hide the back of the card */
+
+}
+
+
+
+.flashcard-front {
+    background-color: var(--frame-background-color);
+}
+
+.flashcard-back {
+    background-color: var(--frame-background-color);
+    transform: rotateY(180deg);
+}
+
+/* Title styling */
+.title {
+    font-size: 24px; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    text-align: left; /* Center align text */
+    margin-bottom: 5px; /* Add some spacing below the title */
+}
+
