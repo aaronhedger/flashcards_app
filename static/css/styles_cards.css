@@ -1,0 +1,40 @@
+   /* Basic styling */
+        .flashcard {
+            width: 200px;
+            height: 300px;
+            background-color: #ffffff;
+            border: 3px solid #cccccc;
+
+            border-radius: 30px;
+            margin: 20px;
+            perspective: 1000px; /* Enable 3D effects */
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+
+.flashcard.flipped {
+        transform: rotateY(180deg); /* Flip when 'flipped' class is present */
+ }
+
+
+.flashcard .front, .flashcard .back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden; /* Hide the back of the card */
+             transform-style: preserve-3d; /* Preserve 3D transformations */
+        }
+
+        .flashcard .front {
+            background-color: #ffffff;
+ transform: rotateY(0deg)
+        }
+
+        .flashcard .back {
+            background-color: #f0f0f0;
+    transform: rotateY(180deg)
+        }
