@@ -1,0 +1,85 @@
+:root {
+    --marked: CadetBlue; /* Define the background color for article */
+    --accent: #6e48ad;
+    --accent-bg: white;
+    --bg: #fff;
+    --text: #212121;
+    --text-light: #585858;
+    --border: #d8dae1;
+    --code: #d81b60;
+    --preformatted: #444;
+}
+
+/* Add background image */
+body {
+    background-size: cover; /* Scale the background image to cover the entire body */
+}
+
+
+article {
+    background-color: var(--marked);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h2, h4 {
+    margin-top: 0;
+}
+
+hr {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+button,
+a[role="button"] {
+    color: white;
+    text-decoration: none;
+    margin-top: 40%;
+}
+
+input, select, textarea {
+    width: 100%;
+}
+/* styles.css */
+
+/* Style pour le conteneur principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style pour le titre */
+h1 {
+    color: #333;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Style pour les boutons */
+.buttons {
+    margin-top: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
