@@ -1,6 +1,5 @@
-# cards/views.py
 import random
-from django.shortcuts import render  # Add this import
+from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
 from django.shortcuts import get_object_or_404, redirect
@@ -64,3 +63,12 @@ def start_cards_view(request):
     # Logique de la vue
     return render(request, 'cards/start_cards.html')
 
+class CardCreateView(CreateView):
+    model = Card
+    fields = ["question", "answer", "box"]
+    success_url = reverse_lazy("card-create")
+
+
+class CardListView(ListView):
+    model = Card
+    queryset = Card.objects.all().order_by("box", "-date_created")

@@ -13,4 +13,9 @@ urlpatterns = ([
     path('create-cards/', views.create_cards_view, name='create_cards'),
     path("explore/", views.explore_view, name='explore'),
     path("start-cards/", views.start_cards_view, name='start_cards'),
+    path("card-form/", views.CardCreateView.as_view(), name='card_form'),
+    path("card-list/", views.CardListView.as_view, name='card-list'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+
+
+
