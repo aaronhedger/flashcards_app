@@ -1,7 +1,10 @@
 import random
+from audioop import reverse
+
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
+from .forms import CardForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -10,10 +13,13 @@ from django.views.generic import (
     UpdateView,
 )
 
+
 def welcome_page_view(request):
     # Logic to process the request (if needed)
     # Render the welcome page template
-    return render(request, 'cards/welcome.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+    return render(request,
+                  'cards/welcome.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+
 
 def existing_cards_view(request):
     card_data = [
@@ -23,7 +29,7 @@ def existing_cards_view(request):
         {
             'title': 'Card 3',
             'front_content': 'What is the output of the following code?<br/><pre><code>for i in range(5):<br/>&nbsp;&nbsp;&nbsp;&nbsp;print(i)</code></pre>',
-            'back_content': '0<br/>1<br/>2<br/>3<br/>4' },
+            'back_content': '0<br/>1<br/>2<br/>3<br/>4'},
         {'title': 'German Voc 1', 'front_content': 'der Vater', 'back_content': 'the father'},
         {'title': 'German Voc 2', 'front_content': 'die Mutter', 'back_content': 'the mother'},
         {'title': 'German Voc 3', 'front_content': 'der Sohn', 'back_content': 'the son'},
@@ -49,10 +55,13 @@ def existing_cards_view(request):
     audio_file_path = '/static/page-turn.wav'  # Replace this with the actual path to your audio file
     return render(request, 'cards/existing_cards.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
 
+
 def create_cards_view(request):
     # Logic to process the request (if needed)
     # Render the welcome page template
-    return render(request, 'cards/base.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+    return render(request,
+                  'cards/base.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+
 
 def explore_view(request):
     # Logique de la vue
@@ -63,6 +72,7 @@ def start_cards_view(request):
     # Logique de la vue
     return render(request, 'cards/start_cards.html')
 
+
 class CardCreateView(CreateView):
     model = Card
     fields = ["question", "answer", "box"]
@@ -72,3 +82,8 @@ class CardCreateView(CreateView):
 class CardListView(ListView):
     model = Card
     queryset = Card.objects.all().order_by("box", "-date_created")
+    template_name = 'cards/card_list.html'
+    context_object_name = 'card_list'
+
+class CardUpdateView(CardCreateView, UpdateView):
+    success_url = reverse_lazy("card-list")
