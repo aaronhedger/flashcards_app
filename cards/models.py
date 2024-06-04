@@ -31,3 +31,11 @@ class Card(models.Model):
 class Flashcard(models.Model):
     front_content = models.CharField(max_length=100)
     back_content = models.CharField(max_length=100)
+
+#classeur
+
+class Classeur(models.Model):
+    titre = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.titre

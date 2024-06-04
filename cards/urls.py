@@ -17,6 +17,11 @@ urlpatterns = ([
     path("card-list/", views.CardListView.as_view(), name='card-list'),
     path("edit/<int:pk>", views.CardUpdateView.as_view(), name="card-update"),
     path("card-create/", views.CardCreateView.as_view(), name="card-create"),
+    path('classeurs/', views.classeur_list, name='classeur_list'),
+    path('classeur/<int:pk>/', views.classeur_detail, name='classeur_detail'),
+    path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
+    path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur_edit'),
+    path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 

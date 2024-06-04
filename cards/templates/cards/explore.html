@@ -1,10 +1,24 @@
+<!--explore.html-->
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <title>explore</title>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
 
+<body>
+     <div class="container">
+         {% block content %}
+            <h1>Welcome to Our Website</h1>
+             <div class="buttons">
+                <a href="{% url "classeur_create" %}" class="button">create a card</a>
+             </div>
+         {% endblock %}
+        
+    </div>
 </body>
+
 </html>

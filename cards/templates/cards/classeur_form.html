@@ -1,0 +1,15 @@
+{% extends "cards/explore.html" %}
+
+{% block content %}
+    {% if classeur %}
+        <h2>✏️ Modifier Classeur</h2>
+    {% else %}
+        <h2>✨ Créer un nouveau Classeur</h2>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Sauvegarder">
+    </form>
+    <a href="{% url 'classeur_list' %}">Annuler</a>
+{% endblock %}

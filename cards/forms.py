@@ -1,6 +1,8 @@
 # cards/forms.py
 
+
 from django import forms
+from .models import Classeur
 
 from cards.models import Card
 
@@ -12,3 +14,11 @@ class CardForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = ["question", "answer", "box"]
+
+
+#classeur
+
+class ClasseurForm(forms.ModelForm):
+    class Meta:
+        model = Classeur
+        fields = ['titre']

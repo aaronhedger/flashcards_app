@@ -1,6 +1,8 @@
 import random
 from audioop import reverse
-
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Classeur
+from .forms import ClasseurForm
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
@@ -85,5 +87,49 @@ class CardListView(ListView):
     template_name = 'cards/card_list.html'
     context_object_name = 'card_list'
 
+
 class CardUpdateView(CardCreateView, UpdateView):
     success_url = reverse_lazy("card-list")
+
+
+#classeur
+
+def classeur_list(request):
+    classeurs = Classeur.objects.all()
+    return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
+
+
+def classeur_detail(request, pk):
+    classeur = get_object_or_404(Classeur, pk=pk)
+    return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
+
+
+def classeur_create(request):
+    if request.method == "POST":
+        form = ClasseurForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('classeur_list')
+    else:
+        form = ClasseurForm()
+    return render(request, 'cards/classeur_form.html', {'form': form})
+
+
+def classeur_edit(request, pk):
+    classeur = get_object_or_404(Classeur, pk=pk)
+    if request.method == "POST":
+        form = ClasseurForm(request.POST, instance=classeur)
+        if form.is_valid():
+            form.save()
+            return redirect('classeur_detail', pk=classeur.pk)
+    else:
+        form = ClasseurForm(instance=classeur)
+    return render(request, 'cards/classeur_form.html', {'form': form, 'classeur': classeur})
+
+
+def classeur_delete(request, pk):
+    classeur = get_object_or_404(Classeur, pk=pk)
+    if request.method == "POST":
+        classeur.delete()
+        return redirect('classeur_list')
+    return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
