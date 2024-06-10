@@ -1,11 +1,18 @@
-{% extends "cards/explore.html" %}
+
+<!-- classeur_list.html -->
+{% extends "cards/start_cards.html" %}
 
 {% block content %}
-<h2>Liste des classeurs</h2>
-<ul>
-    {% for classeur in classeurs %}
-        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.titre }}</a></li>
-    {% endfor %}
-</ul>
-<a href="{% url 'classeur_create' %}">Créer un nouveau classeur</a>
+    {% if classeurs %}
+        <h2>Liste des classeurs</h2>
+        <ul>
+            {% for classeur in classeurs %}
+                <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.titre }}</a></li>
+            {% endfor %}
+        </ul>
+        <div style="position: fixed; bottom: 20px; right: 20px;">
+            <button onclick="goBack()" class="btn btn-primary">Back</button>
+        </div>
+    {% endif %}
+    <a href="{% url 'classeur_create' %}" class="button">Créer un nouveau classeur</a>
 {% endblock %}

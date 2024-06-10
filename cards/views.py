@@ -72,7 +72,8 @@ def explore_view(request):
 
 def start_cards_view(request):
     # Logique de la vue
-    return render(request, 'cards/start_cards.html')
+    classeurs = Classeur.objects.all()
+    return render(request, 'cards/start_cards.html', {'classeurs': classeurs})
 
 
 class CardCreateView(CreateView):
@@ -133,3 +134,4 @@ def classeur_delete(request, pk):
         classeur.delete()
         return redirect('classeur_list')
     return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
+

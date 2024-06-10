@@ -1,11 +1,11 @@
 <!-- cards/templates/cards/card_list.html -->
 
-{% extends "cards/start_cards.html" %}
+{% extends "cards/classeur_detail.html" %}
 {% load humanize %}
 
 <!-- ... -->
 
-{% block content %}
+{% block card_form %}
     <h2>
         All Cards
     </h2>
@@ -18,5 +18,5 @@
         {% endifchanged %}
         {% include "cards/card.html" %}
     {% endfor %}
-{% endblock content %}
+{% endblock  %}
 

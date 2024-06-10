@@ -50,7 +50,38 @@
 </body>
 
 </html>
+<!-- Your existing HTML content -->
 
+<!-- Add this at the bottom of your template file -->
+<div style="position: fixed; bottom: 20px; right: 20px;">
+    <button onclick="goBack()" class="btn btn-primary">Back</button>
+</div>
+
+<!-- Optional: Add some CSS for styling the button -->
+<style>
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!-- Add JavaScript to handle the back button functionality -->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
 
 
