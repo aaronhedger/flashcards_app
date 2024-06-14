@@ -39,16 +39,7 @@
             <div style="position: fixed; bottom: 20px; right: 20px;">
                 <button onclick="goBack()" class="btn btn-primary">Back</button>
             </div>
-            {% if classeurs %}
-                <h2>Liste des classeurs</h2>
-                <ul>
-                    {% for classeur in classeurs %}
-                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.titre }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endblock %}
-    </div>
+        {%endblock%}
 
     <!-- Add JavaScript to handle the back button functionality -->
     <script>

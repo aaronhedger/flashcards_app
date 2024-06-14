@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 :root {
     --marked: CadetBlue; /* Define the background color for article */
     --accent: #6e48ad;
@@ -12,7 +17,11 @@
 
 /* Add background image */
 body {
-    background-size: cover; /* Scale the background image to cover the entire body */
+    display: flex;
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+    align-items: flex-start;     /* Aligne les éléments en haut */
+    min-height: 100vh;           /* Assure que le body prend toute la hauteur de la fenêtre */
+    padding: 20px;               /* Un peu de padding autour pour éviter que la liste colle aux bords */
 }
 
 
@@ -82,4 +91,20 @@ h1 {
 
 .button:hover {
     background-color: #0056b3;
+}
+/* Style pour la liste */
+.left-list {
+    list-style-type: none;       /* Enlève les puces de la liste */
+    margin: 0;                   /* Enlève la marge par défaut de la liste */
+    background-color: #f0f0f0;   /* Couleur de fond pour la liste */
+    padding: 10px;               /* Un peu de padding autour des éléments de la liste */
+    border: 1px solid #ccc;      /* Bordure pour la liste */
+}
+
+/* Style pour les éléments de la liste */
+.left.list li {
+    margin-bottom: 5px;          /* Espacement entre les éléments de la liste */
+    padding: 5px;                /* Un peu de padding pour les éléments */
+    background-color: #fff;      /* Couleur de fond des éléments */
+    border: 1px solid #ddd;      /* Bordure des éléments */
 }

@@ -1,8 +1,13 @@
 <!-- classeur_detail-->
-{% extends "cards/start_cards.html" %}
+{% extends "cards/classeur_list.html" %}
 
 {% block content %}
     <h2>{{ classeur.titre }}</h2>
     <p><a href="{% url 'classeur_edit' classeur.pk %}">Modifier</a> | <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a></p>
+    <div style="position: fixed; bottom: 20px; right: 20px;">
+                <a href="{% url "classeur_list" %}" class ="button">Back</a>
+    </div>
+    <a href="{% url 'card-form' %}" class="button">Create New Card</a>
+    
     {% block card_form %}{% endblock %}
 {% endblock %}
