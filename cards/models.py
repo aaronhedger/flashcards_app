@@ -32,6 +32,7 @@ class Flashcard(models.Model):
     front_content = models.CharField(max_length=100)
     back_content = models.CharField(max_length=100)
 
+
 #classeur
 
 class Classeur(models.Model):
