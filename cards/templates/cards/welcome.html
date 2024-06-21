@@ -5,16 +5,17 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/styles_welcome.css' %}" >
 </head>
 
-<body class="home">
-     <div class="container">
-        <h1>Welcome to the Flashcard app !</h1>
-        <div class="buttons">
+<body>
+     <div class="bloc">
+        <h1>Rousseau's Flascards App!</h1>
+     <div>
             <a href="{% url 'existing_cards' %}" class="button">Existing cards</a>
             <a href="{% url 'create_cards' %}" class="button">Make my own</a>
-        </div>
+            <p class="textAlign" >Practice with alredy prepared cards to test your general knowledge</p> <p class="textAlign" >Create your very own cards and test all the different type of games!</p>
+     </div>
     </div>
 </body>
 

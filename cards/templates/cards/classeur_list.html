@@ -14,7 +14,13 @@
             padding: 0;
             box-sizing: border-box;
         }
+        .assemblyButtonBase {
+            padding-top: 1.125rem;
+            padding-right: 1.875rem;
+            padding-bottom: 1.125rem;
+            padding-left: 1.875rem;
 
+        }
         /* Style pour le body pour occuper toute la fenêtre */
         body {
             display: flex;
@@ -35,7 +41,7 @@
         /* Style pour la liste */
         .liste-gauche {
             list-style-type: none;       /* Enlève les puces de la liste */
-            padding: 0;                  /* Enlève le padding par défaut de la liste */
+            padding:0;                  /* Enlève le padding par défaut de la liste */
             margin: 0;                   /* Enlève la marge par défaut de la liste */
             background-color: white;     /* Couleur de fond pour la liste */
             padding: 10px;               /* Un peu de padding autour des éléments de la liste */
@@ -75,7 +81,7 @@
         {% block content %}
             <h1>Rousseau's Binders</h1>
             <div class="buttons">
-                <a href="{% url 'classeur_create' %}" class="button">Create a Binder</a>
+                <a href="{% url 'classeur_create' %}" class="assemblyButtonBase">Create a Binder</a>
                 <!--button class="button" onclick="goBack()">Go Back to Start</button-->
             </div>
             {% if classeurs %}

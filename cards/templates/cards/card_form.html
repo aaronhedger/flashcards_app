@@ -1,6 +1,15 @@
 <!-- cards/templates/cards/card_form.html -->
-{% extends "cards/classeur_detail.html" %}
 
+<!-- start_cards.html -->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Optional: Add some CSS for styling the button -->
 
 {% block card_form %}
     {% if card %}
