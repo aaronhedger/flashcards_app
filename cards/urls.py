@@ -1,4 +1,5 @@
 # cards/urls.py
+
 from typing import List, Any
 from django.urls import path
 from django.conf import settings
@@ -20,7 +21,7 @@ urlpatterns = ([
     path('classeurs/', views.classeur_list, name='classeur_list'),
     path('classeur/<int:pk>/', views.classeur_detail, name='classeur_detail'),
     path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
-    path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur_edit'),
+    path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur-edit'),
     path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
