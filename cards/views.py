@@ -93,8 +93,6 @@ class CardUpdateView(CardCreateView, UpdateView):
     success_url = reverse_lazy("card-list")
 
 
-#classeur
-
 def classeur_list(request):
     classeurs = Classeur.objects.all()
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
@@ -134,4 +132,3 @@ def classeur_delete(request, pk):
         classeur.delete()
         return redirect('classeur_list')
     return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
-
