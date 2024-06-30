@@ -17,10 +17,8 @@ from django.views.generic import (
 
 
 def welcome_page_view(request):
-    # Logic to process the request (if needed)
-    # Render the welcome page template
     return render(request,
-                  'cards/welcome.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+                  "cards/welcome.html")  # Replace 'your_app/welcome.html' with the correct path to your welcome template
 
 
 def existing_cards_view(request):
@@ -132,3 +130,12 @@ def classeur_delete(request, pk):
         classeur.delete()
         return redirect('classeur_list')
     return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
+
+
+def card_delete(request, pk):
+    card = get_object_or_404(Card, pk=pk)
+    classeur = card.classeur
+    if request.method == "POST":
+        card.delete()
+        return redirect("card_list")
+    return render(request, "cards/cards_confirm_delete.html", {'card': card, "classeur": classeur})

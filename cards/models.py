@@ -6,14 +6,28 @@ NUM_BOXES = 5
 BOXES = range(1, NUM_BOXES + 1)
 
 
+#classeur
+
+class Classeur(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+def get_default_classeur():
+    return Classeur.objects.get_or_create(name='Default Classeur')[0]
+
+
 class Card(models.Model):
-    question = models.CharField(max_length=100)
-    answer = models.CharField(max_length=100)
+    question = models.CharField(max_length=255)
+    answer = models.CharField(max_length=255)
     box = models.IntegerField(
         choices=zip(BOXES, BOXES),
         default=BOXES[0],
     )
     date_created = models.DateTimeField(auto_now_add=True)
+    classeur = models.ForeignKey(Classeur, on_delete=models.CASCADE, related_name='cards', default=get_default_classeur)
 
     def __str__(self):
         return self.question
@@ -31,12 +45,3 @@ class Card(models.Model):
 class Flashcard(models.Model):
     front_content = models.CharField(max_length=100)
     back_content = models.CharField(max_length=100)
-
-
-#classeur
-
-class Classeur(models.Model):
-    titre = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.titre

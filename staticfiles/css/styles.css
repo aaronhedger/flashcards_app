@@ -52,6 +52,8 @@ a[role="button"] {
     color: white;
     text-decoration: none;
     margin-top: 40%;
+    background: #6e48ad;
+    border-radius: 15px;
 }
 
 input, select, textarea {

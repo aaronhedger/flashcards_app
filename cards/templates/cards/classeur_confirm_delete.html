@@ -2,11 +2,11 @@
 {% extends "cards/classeur_list.html" %}
 
 {% block content %}
-<h2>Supprimer Classeur</h2>
-<p>Es-tu sûr de vouloir supprimer le classeur "{{ classeur.titre }}" ?</p>
-<form method="post">
-    {% csrf_token %}
-    <input type="submit" value="Confirmer la suppression">
-</form>
-<a href="{% url 'classeur_detail' classeur.pk %}">Annuler</a>
+    <h2>Supprimer Classeur</h2>
+    <p>Es-tu sûr de vouloir supprimer le classeur "{{ classeur.titre }}" ?</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirmer la suppression">
+    </form>
+    <a href="{% url 'classeur_detail' classeur.pk %}">Annuler</a>
 {% endblock %}

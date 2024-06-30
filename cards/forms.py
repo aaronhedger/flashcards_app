@@ -21,4 +21,4 @@ class CardForm(forms.ModelForm):
 class ClasseurForm(forms.ModelForm):
     class Meta:
         model = Classeur
-        fields = ['titre']
+        fields = ['name']

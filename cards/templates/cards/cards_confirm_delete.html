@@ -1,0 +1,20 @@
+<!-- classeur_config.html-->
+{% extends "cards/card_list.html" %}
+
+<!-- cards/templates/cards/cards_confirm_delete.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete Card</title>
+</head>
+<body>
+    <h1>Delete Card</h1>
+    <p>Are you sure you want to delete the card "{{ card.title }}" from the classeur "{{ classeur.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm</button>
+        <a href="{% url 'card_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

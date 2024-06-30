@@ -1,12 +1,18 @@
-<!-- classeur_detail-->
+<!-- classeur_detail -->
 {% extends "cards/classeur_list.html" %}
 
 {% block content %}
     <h2>{{ classeur.titre }}</h2>
-    <p><a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
-        <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a></p>
+    {% if classeur.pk %}
+        <p>
+            <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
+            <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
+        </p>
+    {% else %}
+        <p>Classeur not found or invalid.</p>
+    {% endif %}
     <div style="position: fixed; bottom: 20px; right: 20px;">
-                <a href="{% url "classeur_list" %}" class ="button">Back</a>
+        <a href="{% url 'classeur_list' %}" class="button">Back</a>
     </div>
     <a href="{% url 'card_form' %}" class="button">Create New Card</a>
     
