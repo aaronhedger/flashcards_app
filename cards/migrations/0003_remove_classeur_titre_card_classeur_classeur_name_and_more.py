@@ -12,14 +12,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='classeur',
-            name='titre',
-        ),
+
         migrations.AddField(
             model_name='card',
             name='classeur',
-            field=models.ForeignKey(default=cards.models.get_default_classeur, on_delete=django.db.models.deletion.CASCADE, related_name='cards', to='cards.classeur'),
+            field=models.ForeignKey(default=cards.models.get_default_classeur, on_delete=django.db.models.deletion.CASCADE,  to='cards.classeur'),
+
+            preserve_default=False,
         ),
         migrations.AddField(
             model_name='classeur',

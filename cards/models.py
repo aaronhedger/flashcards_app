@@ -9,19 +9,21 @@ BOXES = range(1, NUM_BOXES + 1)
 #classeur
 
 class Classeur(models.Model):
-    name = models.CharField(max_length=255)
+    titre = models.CharField(max_length=200, null=False)
 
     def __str__(self):
-        return self.name
+        return self.titre
 
 
 def get_default_classeur():
-    return Classeur.objects.get_or_create(name='Default Classeur')[0]
+    default_classeur, _ = Classeur.objects.get_or_create(titre='Default Classeur')
+    return default_classeur.id
+
 
 
 class Card(models.Model):
-    question = models.CharField(max_length=255)
-    answer = models.CharField(max_length=255)
+    question = models.CharField(max_length=200)
+    answer = models.CharField(max_length=200)
     box = models.IntegerField(
         choices=zip(BOXES, BOXES),
         default=BOXES[0],
