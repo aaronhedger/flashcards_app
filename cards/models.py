@@ -6,8 +6,6 @@ NUM_BOXES = 5
 BOXES = range(1, NUM_BOXES + 1)
 
 
-#classeur
-
 class Classeur(models.Model):
     name = models.CharField(max_length=200, null=False)
 
@@ -16,7 +14,7 @@ class Classeur(models.Model):
 
 
 def get_default_classeur():
-    default_classeur, _ = Classeur.objects.get_or_create(titre='Default Classeur')
+    default_classeur, _ = Classeur.objects.get_or_create(name='Default Classeur')
     return default_classeur.id
 
 

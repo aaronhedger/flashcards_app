@@ -91,7 +91,7 @@ h1 {
     margin: 0;                   /* Enlève la marge par défaut de la liste */
     background-color: #f0f0f0;   /* Couleur de fond pour la liste */
     padding: 10px;               /* Un peu de padding autour des éléments de la liste */
-    border: 1px solid #ccc;      /* Bordure pour la liste */
+    border: 1px solid #af2222;      /* Bordure pour la liste */
 }
 
 /* Style pour les éléments de la liste */

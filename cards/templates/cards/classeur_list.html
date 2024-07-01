@@ -46,7 +46,8 @@
             background-color: white;     /* Couleur de fond pour la liste */
             padding: 10px;               /* Un peu de padding autour des éléments de la liste */
             border: 1px solid #ccc;      /* Bordure pour la liste */
-            text-align: left;            /* Aligne le texte à gauche dans la liste */
+            text-align: left;  
+           
         }
 
         /* Style pour les éléments de la liste */
@@ -88,6 +89,7 @@
                 <h3 class ="left">List</h3>
                 <ul class="liste-gauche">
                     {% for classeur in classeurs %}
+                        <p>hello</p>
                         <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.titre }}</a></li>
                     {% endfor %}
                 </ul>
