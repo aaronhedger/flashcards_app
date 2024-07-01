@@ -9,16 +9,15 @@ BOXES = range(1, NUM_BOXES + 1)
 #classeur
 
 class Classeur(models.Model):
-    titre = models.CharField(max_length=200, null=False)
+    name = models.CharField(max_length=200, null=False)
 
     def __str__(self):
-        return self.titre
+        return self.name
 
 
 def get_default_classeur():
     default_classeur, _ = Classeur.objects.get_or_create(titre='Default Classeur')
     return default_classeur.id
-
 
 
 class Card(models.Model):
