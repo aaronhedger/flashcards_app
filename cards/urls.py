@@ -1,7 +1,9 @@
 # cards/urls.py
-
+from django.contrib import admin
 from typing import List, Any
-from django.urls import path
+
+from django.urls import path,include
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core.wsgi import get_wsgi_application
