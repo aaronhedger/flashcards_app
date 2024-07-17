@@ -1,5 +1,7 @@
 import random
 from audioop import reverse
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Classeur
 from .forms import ClasseurForm
@@ -15,14 +17,17 @@ from django.views.generic import (
     UpdateView,
 )
 
+
 @login_required
 def welcome_page_view(request):
     return render(request, "cards/welcome.html")
 
+
 @login_required
 def existing_cards_view(request):
     card_data = [
-        {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6', 'back_content': 'Quand >6'},
+        {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
+         'back_content': 'Quand >6'},
         {'title': 'Card 2', 'front_content': 'Front content for card 2', 'back_content': 'Back content for card 2'},
         {
             'title': 'Card 3',
@@ -53,18 +58,22 @@ def existing_cards_view(request):
     audio_file_path = '/static/page-turn.wav'
     return render(request, 'cards/existing_cards.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
 
+
 @login_required
 def create_cards_view(request):
     return render(request, 'cards/base.html')
+
 
 @login_required
 def explore_view(request):
     return render(request, 'cards/explore.html')
 
+
 @login_required
 def start_cards_view(request):
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/start_cards.html', {'classeurs': classeurs})
+
 
 class CardCreateView(CreateView):
     model = Card
@@ -75,6 +84,7 @@ class CardCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class CardListView(ListView):
     model = Card
     template_name = 'cards/card_list.html'
@@ -83,25 +93,28 @@ class CardListView(ListView):
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user).order_by("classeur", "-date_created")
 
+
 class CardUpdateView(CardCreateView, UpdateView):
     success_url = reverse_lazy("card-list")
+
 
 @login_required
 def classeur_list(request):
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
 
+
 @login_required
 def classeur_detail(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
+
 
 @login_required
 def classeur_create(request):
     if request.method == "POST":
         form = ClasseurForm(request.POST)
         if form.is_valid():
-            form.save()
             classeur = form.save(commit=False)
             classeur.user = request.user
             classeur.save()
@@ -109,6 +122,7 @@ def classeur_create(request):
     else:
         form = ClasseurForm()
     return render(request, 'cards/classeur_form.html', {'form': form})
+
 
 @login_required
 def classeur_edit(request, pk):
@@ -122,6 +136,7 @@ def classeur_edit(request, pk):
         form = ClasseurForm(instance=classeur)
     return render(request, 'cards/classeur_form.html', {'form': form, 'classeur': classeur})
 
+
 @login_required
 def classeur_delete(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
@@ -129,6 +144,7 @@ def classeur_delete(request, pk):
         classeur.delete()
         return redirect('classeur_list')
     return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
+
 
 @login_required
 def card_delete(request, pk):
