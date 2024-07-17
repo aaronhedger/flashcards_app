@@ -15,16 +15,14 @@ from django.views.generic import (
     UpdateView,
 )
 
-
+@login_required
 def welcome_page_view(request):
-    return render(request,
-                  "cards/welcome.html")  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+    return render(request, "cards/welcome.html")
 
-
+@login_required
 def existing_cards_view(request):
     card_data = [
-        {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
-         'back_content': 'Quand >6'},
+        {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6', 'back_content': 'Quand >6'},
         {'title': 'Card 2', 'front_content': 'Front content for card 2', 'back_content': 'Back content for card 2'},
         {
             'title': 'Card 3',
@@ -52,68 +50,69 @@ def existing_cards_view(request):
          'back_content': 'the daughter-in-law'},
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
-    audio_file_path = '/static/page-turn.wav'  # Replace this with the actual path to your audio file
+    audio_file_path = '/static/page-turn.wav'
     return render(request, 'cards/existing_cards.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
 
-
+@login_required
 def create_cards_view(request):
-    # Logic to process the request (if needed)
-    # Render the welcome page template
-    return render(request,
-                  'cards/base.html')  # Replace 'your_app/welcome.html' with the correct path to your welcome template
+    return render(request, 'cards/base.html')
 
-
+@login_required
 def explore_view(request):
-    # Logique de la vue
     return render(request, 'cards/explore.html')
 
-
+@login_required
 def start_cards_view(request):
-    # Logique de la vue
-    classeurs = Classeur.objects.all()
+    classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/start_cards.html', {'classeurs': classeurs})
-
 
 class CardCreateView(CreateView):
     model = Card
-    fields = ["question", "answer", "box"]
+    fields = ["question", "answer"]
     success_url = reverse_lazy("card-create")
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class CardListView(ListView):
     model = Card
-    queryset = Card.objects.all().order_by("box", "-date_created")
     template_name = 'cards/card_list.html'
     context_object_name = 'card_list'
 
+    def get_queryset(self):
+        return Card.objects.filter(user=self.request.user).order_by("classeur", "-date_created")
 
 class CardUpdateView(CardCreateView, UpdateView):
     success_url = reverse_lazy("card-list")
 
-
+@login_required
 def classeur_list(request):
-    classeurs = Classeur.objects.all()
+    classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
 
-
+@login_required
 def classeur_detail(request, pk):
-    classeur = get_object_or_404(Classeur, pk=pk)
+    classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
 
-
+@login_required
 def classeur_create(request):
     if request.method == "POST":
         form = ClasseurForm(request.POST)
         if form.is_valid():
             form.save()
+            classeur = form.save(commit=False)
+            classeur.user = request.user
+            classeur.save()
             return redirect('classeur_list')
     else:
         form = ClasseurForm()
     return render(request, 'cards/classeur_form.html', {'form': form})
 
-
+@login_required
 def classeur_edit(request, pk):
-    classeur = get_object_or_404(Classeur, pk=pk)
+    classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     if request.method == "POST":
         form = ClasseurForm(request.POST, instance=classeur)
         if form.is_valid():
@@ -123,19 +122,18 @@ def classeur_edit(request, pk):
         form = ClasseurForm(instance=classeur)
     return render(request, 'cards/classeur_form.html', {'form': form, 'classeur': classeur})
 
-
+@login_required
 def classeur_delete(request, pk):
-    classeur = get_object_or_404(Classeur, pk=pk)
+    classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     if request.method == "POST":
         classeur.delete()
         return redirect('classeur_list')
     return render(request, 'cards/classeur_confirm_delete.html', {'classeur': classeur})
 
-
+@login_required
 def card_delete(request, pk):
-    card = get_object_or_404(Card, pk=pk)
-    classeur = card.classeur
+    card = get_object_or_404(Card, pk=pk, user=request.user)
     if request.method == "POST":
         card.delete()
         return redirect("card_list")
-    return render(request, "cards/cards_confirm_delete.html", {'card': card, "classeur": classeur})
+    return render(request, "cards/cards_confirm_delete.html", {'card': card})
