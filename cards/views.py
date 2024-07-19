@@ -8,6 +8,7 @@ from .forms import ClasseurForm
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
+
 from .forms import CardForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -18,12 +19,12 @@ from django.views.generic import (
 )
 
 
-@login_required
+
 def welcome_page_view(request):
     return render(request, "cards/welcome.html")
 
 
-@login_required
+
 def existing_cards_view(request):
     card_data = [
         {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
