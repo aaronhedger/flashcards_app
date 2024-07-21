@@ -1,6 +1,8 @@
 # cards/urls.py
 from django.contrib import admin
 from typing import List, Any
+from .views import register
+from django.urls import path
 
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
@@ -9,6 +11,7 @@ from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core.wsgi import get_wsgi_application
 from django.conf.urls.static import static
 from . import views
+from .views import login_view
 
 urlpatterns = ([
     path("", views.welcome_page_view, name="welcome"),
@@ -25,8 +28,9 @@ urlpatterns = ([
     path('classeur/<int:pk>/', views.classeur_detail, name='classeur_detail'),
     path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
     path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur-edit'),
-    path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete')
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),  # Add this line for login
+    path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
+    path('login/', login_view, name='login'),
+    path('register/', register, name='register'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 

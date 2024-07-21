@@ -89,8 +89,7 @@
                 <h3 class ="left">List</h3>
                 <ul class="liste-gauche">
                     {% for classeur in classeurs %}
-                        <p>hello</p>
-                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.titre }}</a></li>
+                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}

@@ -3,9 +3,16 @@
 
 from django import forms
 from .models import Classeur
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 
 from cards.models import Card
 
+class SignUpForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password1']
 
 class CardCheckForm(forms.Form):
     card_id = forms.IntegerField(required=True)
@@ -15,7 +22,7 @@ class CardCheckForm(forms.Form):
 class CardForm(forms.ModelForm):
     class Meta:
         model = Card
-        fields = ["question", "answer", "box"]
+        fields = ["question", "answer"]
 
 
 class ClasseurForm(forms.ModelForm):

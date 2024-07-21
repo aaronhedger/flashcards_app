@@ -4,11 +4,17 @@ from audioop import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Classeur
-from .forms import ClasseurForm
+from .forms import ClasseurForm, SignUpForm
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
 
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth.decorators import login_required
 from .forms import CardForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -17,8 +23,32 @@ from django.views.generic import (
     CreateView,
     UpdateView,
 )
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
 
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Automatically log in the user after registration
+            return redirect('welcome')  # Redirect to a success page or home
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/register.html', {'form': form})
 
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('classeur_list')  # Redirect to the home page or wherever you want
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'registration/login.html', {'form': form})
 
 def welcome_page_view(request):
     return render(request, "cards/welcome.html")
@@ -101,6 +131,10 @@ class CardUpdateView(CardCreateView, UpdateView):
 
 @login_required
 def classeur_list(request):
+    print(request.user)  # Debugging line
+    if not request.user.is_authenticated:
+        return redirect('login')  # Redirect to the login page or handle it as needed
+
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
 
