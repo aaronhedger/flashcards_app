@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <h1>Rousseau's Flashcards App!</h1>
+            <h1>Bienvenue !</h1>
             <div>
                 <a href="{% url 'existing_cards' %}" class="button">Existing cards</a>
                 <a href="{% url 'create_cards' %}" class="button">Make my own</a>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="right"></div>
-            <img src="{% static 'images/image_learning.jpg' %}" alt="Learning Image">
+            <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
     </div>
     {% block content %}
     {% endblock %}
