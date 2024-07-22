@@ -25,7 +25,6 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #a3650a;
 }
 
 .right {
@@ -33,7 +32,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: lightskyblue;
 }
 
 .right img {
@@ -66,6 +64,6 @@ h1 {
     text-decoration: none;
     font-size: 20px;
     background-color: #a3650a;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     border: none;
 }
