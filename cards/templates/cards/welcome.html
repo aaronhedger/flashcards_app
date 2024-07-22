@@ -2,28 +2,28 @@
 <html lang="en">
 {% load static %}
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles_welcome.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/styles_welcome.css' %}">
 </head>
 <body>
     <div class="container">
         <div class="left">
-            <div class="bloc">
-                <h1>Rousseau's Flashcards App!</h1>
-                <div>
+            <h1>Rousseau's Flashcards App!</h1>
+            <div>
                 <a href="{% url 'existing_cards' %}" class="button">Existing cards</a>
                 <a href="{% url 'create_cards' %}" class="button">Make my own</a>
-                <a href="{% url 'register' %}">Register</a>
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'logout' %}">Logout</a>
-                </div>
+                <a href="{% url 'register' %}" class="button">Register</a>
+                <a href="{% url 'login' %}" class="button">Login</a>
+                <a href="{% url 'logout' %}" class="button">Logout</a>
             </div>
-            <div class="right"></div>
+        </div>
+        <div class="right"></div>
+            <img src="{% static 'images/image_learning.jpg' %}" alt="Learning Image">
+    </div>
+    {% block content %}
+    {% endblock %}
 </body>
-{% block content %}
-
-{% endblock %}
-
 </html>
