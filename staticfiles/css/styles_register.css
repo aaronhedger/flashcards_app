@@ -23,7 +23,7 @@ body {
 
 
 .left {
-    width: 85%;
+    width: 37%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,15 +33,15 @@ body {
 }
 
 .right {
-    width: 15%;
+    width: 63%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .right img {
-    max-width: 20%; /* Adjusted to 80% of the container's width */
-    max-height: 20%; /* Adjusted to 80% of the container's height */
+    max-width: 100%; /* Adjusted to 80% of the container's width */
+    max-height: 100%; /* Adjusted to 80% of the container's height */
     object-fit: contain; /* Maintain the aspect ratio without cropping */
 }
 
@@ -52,7 +52,7 @@ h1 {
     margin-bottom: 80px;
 }
 
-.buttons {
+.buttons , .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;

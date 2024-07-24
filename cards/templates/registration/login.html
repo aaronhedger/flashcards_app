@@ -7,15 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles_welcome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_register.css' %}">
 </head>
 
-
-{% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-{% endblock %}
+<body>
+    <div class="container">
+        <div class="left">
+            <h2>Se connecter</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="right">
+            <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
+        </div>
+    </div>
+</body>
+</html>

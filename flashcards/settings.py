@@ -132,4 +132,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'  # Name of the login URL pattern
-LOGIN_REDIRECT_URL = '/classeurs/'  # Redirect after login
+LOGIN_REDIRECT_URL = '/create-cards/'  # Redirect after login

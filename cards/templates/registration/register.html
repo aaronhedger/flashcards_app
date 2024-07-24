@@ -1,6 +1,6 @@
 <!-- templates/registration/login.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 {% load static %}
 <head>
     <meta charset="UTF-8">
@@ -12,19 +12,21 @@
 <body>
     <div class="container">
         <div class="left">
-            <h2>Register</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Register</button>
-            </form>
-            {% if form.non_field_errors %}
-                <p>{{ form.non_field_errors }}</p>
-            {% endif %}
+            <h2>S'inscire</h2>
+            <div class="form-container">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Register</button>
+                </form>
+                {% if form.non_field_errors %}
+                    <p>{{ form.non_field_errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="right">
+            <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
         </div>
     </div>
-
-        <div class="right"></div>
-            <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
 </body>
 </html>
