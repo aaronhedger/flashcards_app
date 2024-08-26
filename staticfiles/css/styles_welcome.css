@@ -13,11 +13,19 @@
     height: 100%;
 }
 
+nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
 body {
     height: 100vh;
-    display: flex;
+    /*display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 }
 
 
@@ -72,3 +80,11 @@ h1 {
     border-radius: 0.5rem;
     border: none;
 }
+
+p {
+    color: white;
+    text-align: center;
+    font-family: Verdana, serif;
+    margin-bottom: 80px;
+}
+

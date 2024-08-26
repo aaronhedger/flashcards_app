@@ -5,17 +5,15 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_base.css' %}">
 </head>
 
 <body>
-     <div class="container">
-        <h1>Welcome to Our Website</h1>
-        <div class="buttons">
-            <a href="{% url "classeur_list" %}" class="button">Explore</a>
-            <a href="{% url "start_cards" %}" class="button">Get started</a>
-        </div>
+    <div class="container">
+        <div class="box-1"></div>
+        <div class="box-2"></div>
     </div>
+
 </body>
 
 </html>

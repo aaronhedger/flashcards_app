@@ -9,15 +9,20 @@
     <link rel="stylesheet" href="{% static 'css/styles_welcome.css' %}">
 </head>
 <body>
-    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'register' %}" class="button">S'inscrire</a></li>
+                <li><a href="{% url 'login' %}" class="button">Se connecter</a></li>
+                <li><a href="{% url 'logout' %}" class="button">Se déconnecter</a></li>
+            </ul>
+        </nav>
+        
+    <div class="container">    
         <div class="left">
             <h1>Bienvenue !</h1>
             <div>
-                <a href="{% url 'existing_cards' %}" class="button">Existing cards</a>
-                <a href="{% url 'create_cards' %}" class="button">Make my own</a>
-                <a href="{% url 'register' %}" class="button">S'inscrire</a>
-                <a href="{% url 'login' %}" class="button">Se connecter</a>
-                <a href="{% url 'logout' %}" class="button">Se déconnecter</a>
+                <p>Ou essayez des cartes sans connection !</p>
+                <a href="{% url 'existing_cards' %}" class="button">cartes</a>
             </div>
         </div>
         <div class="right"></div>
