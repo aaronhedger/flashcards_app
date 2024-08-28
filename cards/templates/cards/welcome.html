@@ -9,26 +9,34 @@
     <link rel="stylesheet" href="{% static 'css/styles_welcome2.css' %}">
 </head>
 <body>
-        <nav>
-            <ul>
-                <li><a href="{% url 'register' %}" class="button">S'inscrire</a></li>
-                <li><a href="{% url 'login' %}" class="button">Se connecter</a></li>
-                <li><a href="{% url 'logout' %}" class="button">Se déconnecter</a></li>
-            </ul>
-        </nav>
-        
-    <div class="container">    
+      <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+
+              <li><a href="{% url 'register' %}"> S'inscrire</a></li>
+              <li><a href="{% url 'login' %}"> Se connecter</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+                  
+          </ul>
+      </nav>
+      
+    
+      <div class="container">
         <div class="left">
-            <h1>Bienvenue !</h1>
-            <div>
-                <p>Ou essayez des cartes sans connection !</p>
-                <a href="{% url 'existing_cards' %}" class="button">cartes</a>
+            <h1> Bienvenue <br> dans votre app !</h1>
+            <div class="box-1">
+                <p> App'Roussô est heureux de vous présentez votre application personnelle qui vous aidera tout au long de vos études ! Transformez vos moments d'étude en succès avec notre app de flashcards. Plus de révisions ennuyeuses, juste des résultats ! 📚✨</p>
             </div>
+            
+                <p> Pour cela veuillez vous inscrire ou vous connecter si vous avez déja un compte. Vous pouvez également essayer les cartes déjà existantes sans connection.</p>
+                <div class="btn">
+                    <a href="{% url 'existing_cards' %}" class="button">cartes déja existantes</a>
+                </div>
+            
         </div>
-        <div class="right"></div>
+        <div class="right">
             <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
+        </div>
     </div>
-    {% block content %}
-    {% endblock %}
 </body>
 </html>
