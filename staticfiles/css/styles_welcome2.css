@@ -134,18 +134,3 @@ nav h1 {
     transition: background-color 0.3s;
 
 }
-.box-1  {
-    height: 100px;
-    width: 100px;
-    background-color: orange;
-
-}
-
-.box-2  {
-    height: 100px;
-    width: 100px;
-
-    background-color: green;
-
-
-}
