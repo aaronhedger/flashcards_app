@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<h1>{{ classeur.name }}</h1>
+
+<ul>
+    {% for card in cards %}
+        <li>{{ card.question }} - {{ card.answer }}</li>
+    {% empty %}
+        <li>Aucune carte dans ce classeur.</li>
+    {% endfor %}
+</ul>
+
+<!-- Lien pour créer une nouvelle carte en passant l'ID du classeur -->
+<a href="{% url 'card-create' classeur.id %}">Créer une nouvelle carte</a>

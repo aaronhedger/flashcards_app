@@ -12,7 +12,7 @@ body{
 }
 header {
     width: 100%;
-    height: auto;
+    height: 100%;
 
 }
 
@@ -138,6 +138,8 @@ nav h1 {
 .box-1  {
     height: 70vh;
     width: 70vw;
+    justify-content: center;
+    align-items: center;
     background-color: orange;
 
 
@@ -146,6 +148,8 @@ nav h1 {
 .box-2  {
     height: 70vh;
     width: 70vw;
+    justify-content: center;
+    align-items: center;
 
     background-color: green;
 

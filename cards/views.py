@@ -1,6 +1,9 @@
+#views.py
+
 import random
 from audioop import reverse
 
+import form
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Classeur
@@ -8,7 +11,6 @@ from .forms import ClasseurForm, SignUpForm
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
-
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -21,11 +23,12 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     CreateView,
-    UpdateView,
+    UpdateView, DetailView, FormView,
 )
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+
 
 def register(request):
     if request.method == 'POST':
@@ -37,6 +40,7 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -50,9 +54,9 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
+
 def welcome_page_view(request):
     return render(request, "cards/welcome.html")
-
 
 
 def existing_cards_view(request):
@@ -105,15 +109,60 @@ def start_cards_view(request):
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/start_cards.html', {'classeurs': classeurs})
 
+def card_form(request, classeur_id):
+    classeur = get_object_or_404(Classeur, pk=classeur_id)
+    # Your logic here
+    return render(request, 'cards/card_form.html', {'classeur': classeur})
+
+
+class ClasseurDetailView(DetailView):
+    model = Classeur
+    template_name = 'cards/classeur_cartes.html'  # Template à personnaliser
+    context_object_name = 'classeur'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cards'] = self.object.cards.all()  # Récupérer toutes les cartes liées à ce classeur
+        return context
+
 
 class CardCreateView(CreateView):
     model = Card
-    fields = ["question", "answer"]
-    success_url = reverse_lazy("card-create")
+    fields = ['question', 'answer']
+    template_name = 'cards/card_form.html'  # Template à personnaliser
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        user = self.request.user
+
+        # Récupérer l'ID du classeur depuis l'URL
+        classeur_id = self.kwargs['classeur_id']
+        classeur = get_object_or_404(Classeur, id=classeur_id, user=user)
+
+        # Associer la carte au classeur et à l'utilisateur
+        form.instance.classeur = classeur
+        form.instance.user = user
+
         return super().form_valid(form)
+
+
+class CardFormView(FormView):
+    form_class = CardForm
+    template_name = 'cards/card_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['classeur_id'] = self.kwargs.get('classeur_id')
+        return context
+
+    def form_valid(self, form):
+        # Handle form submission
+        card = form.save(commit=False)
+        card.classeur_id = self.kwargs.get('classeur_id')
+        card.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('card-list', kwargs=["card-list", self.object.id])  # Redirect after a successful form submission
 
 
 class CardListView(ListView):

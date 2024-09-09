@@ -1,7 +1,7 @@
 # cards/urls.py
 from django.contrib import admin
 from typing import List, Any
-from .views import register
+from .views import register, CardCreateView, ClasseurDetailView, CardListView, CardFormView
 from django.urls import path
 
 from django.urls import path,include
@@ -19,7 +19,9 @@ urlpatterns = ([
     path('create-cards/', views.create_cards_view, name='create_cards'),
     path("explore/", views.explore_view, name='explore'),
     path("start-cards/", views.start_cards_view, name='start_cards'),
-    path("card-form/", views.CardCreateView.as_view(), name='card_form'),
+    path("card-form/<int:pk>/", views.CardCreateView.as_view(), name='card_create'),
+    path('card-form/<int:classeur_id>/', CardFormView.as_view(), name='card_form'),
+    path("card-list/", CardListView.as_view(), name='card_list'),
     path("card-list/", views.CardListView.as_view(), name='card-list'),
     path("edit/<int:pk>", views.CardUpdateView.as_view(), name="card-update"),
     path("card/<int:pk>/delete", views.card_delete, name="card-delete"),
@@ -29,6 +31,8 @@ urlpatterns = ([
     path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
     path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur-edit'),
     path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
+    path('classeur/<int:pk>/', ClasseurDetailView.as_view(), name='classeur-detail'),
+    path('classeur/<int:classeur_id>/card/create/', CardCreateView.as_view(), name='card-create'),
     path('login/', login_view, name='login'),
     path('register/', register, name='register'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

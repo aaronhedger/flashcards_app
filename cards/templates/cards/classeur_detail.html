@@ -14,7 +14,7 @@
     <div style="position: fixed; bottom: 20px; right: 20px;">
         <a href="{% url 'classeur_list' %}" class="button">Back</a>
     </div>
-    <a href="{% url 'card_form' %}" class="button">Create New Card</a>
+    <a href="{% url 'card_form' classeur.pk %}" class="button">Create New Card</a>
     
     {% block card_form %}{% endblock %}
 {% endblock %}

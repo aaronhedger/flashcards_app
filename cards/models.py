@@ -12,9 +12,10 @@ class Classeur(models.Model):
         return self.name
 
 
-def get_default_classeur():
-    default_classeur, _ = Classeur.objects.get_or_create(name='Default Classeur')
-    return default_classeur.id
+def get_default_classeur(user=None):
+    if user:
+        default_classeur, _ = Classeur.objects.get_or_create(name='Default Classeur', user=user)
+        return default_classeur.id
 
 
 class Card(models.Model):
