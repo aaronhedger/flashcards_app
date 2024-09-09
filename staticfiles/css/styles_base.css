@@ -78,9 +78,9 @@ nav ul li a:active {
 }
 
 .left h1 {
-    font-size: 60px;
+    font-size: 40px;
     color: #ffffff;
-    padding-top: 90px;
+
 }
 
 .left p {
@@ -126,18 +126,37 @@ nav h1 {
     padding-top: 51.5px;
 }
 
-.button {
+.button-left {
     margin: 10px;
     padding: 15px 30px;
     font-size: 16px;
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    background-color: rgba(0,0,0,0.4);
+    background:#0056b3;
     color: white;
     transition: background-color 0.3s;
 
 }
+
+.button-right {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background:#e6d6c2;
+    color: white;
+    transition: background-color 0.3s;
+
+}
+
+.button-left, .button-right a{
+    color: white;
+}
+
+
 .box-1  {
     height: 70vh;
     width: 70vw;

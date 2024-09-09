@@ -20,16 +20,16 @@
     <div class="container">
         <div class="left">
             <h1>Explorez</h1>
-            <h3>
+            <p>
                 Amusez-vous et entraînez-vous avec vos propres mots !
-            </h3><br>
-            <h2>
+            </p>
+            <p>
                 Découvrez les flashcards !
-            </h2>
-            <a href="{% url "explore" %}" class= "button">Commencer</a>
+            </p>
+            <a href="{% url "explore" %}" class= "button-left">Commencez</a>
         </div>
         <div class="right">
-            <ul> <li><a href="{% url 'classeur_list' %}"> Créer</a></li> </ul>
+            <a href="{% url "classeur_list" %}" class= "button-right">Créez vos cartes</a>
         </div>
     </div>
 
