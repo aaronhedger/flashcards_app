@@ -10,8 +10,18 @@
     <link rel="stylesheet" href="{% static 'css/styles_register.css' %}">
 </head>
 <body>
+    
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+          </ul>
+    </nav>
+
+
     <div class="container">
-        <div class="left">
+        <div class="box-register">
             <h2>S'inscrire</h2>
             <div class="form-container">
                 <form method="post">
