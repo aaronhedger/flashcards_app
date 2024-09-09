@@ -56,11 +56,11 @@ nav ul li a:active {
 
 .container {
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content:center;
+    padding-top: 20px;
     column-gap: 70px;
 }
 .left{
