@@ -6,106 +6,44 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
     <!-- Optional: Add some CSS for styling the button -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .assemblyButtonBase {
-            padding-top: 1.125rem;
-            padding-right: 1.875rem;
-            padding-bottom: 1.125rem;
-            padding-left: 1.875rem;
-
-        }
-        /* Style pour le body pour occuper toute la fenêtre */
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* Aligne les éléments à gauche */
-            align-items: center;     /* Aligne les éléments au centre horizontalement */
-            min-height: 100vh;           /* Assure que le body prend toute la hauteur de la fenêtre */
-            padding: 20px;               /* Un peu de padding autour pour éviter que la liste colle aux bords */
-        }
-
-        /* Style pour le conteneur */
-        .container {
-            width: 100%;
-            max-width: 800px; /* Taille maximale pour le conteneur */
-            text-align: center; /* Centre le texte dans le conteneur */
-        }
-
-        /* Style pour la liste */
-        .liste-gauche {
-            list-style-type: none;       /* Enlève les puces de la liste */
-            padding:0;                  /* Enlève le padding par défaut de la liste */
-            margin: 0;                   /* Enlève la marge par défaut de la liste */
-            background-color: white;     /* Couleur de fond pour la liste */
-            padding: 10px;               /* Un peu de padding autour des éléments de la liste */
-            border: 1px solid #ccc;      /* Bordure pour la liste */
-            text-align: left;  
-           
-        }
-
-        /* Style pour les éléments de la liste */
-        .liste-gauche li {
-            margin-bottom: 5px;          /* Espacement entre les éléments de la liste */
-            padding: 5px;                /* Un peu de padding pour les éléments */
-            background-color: #fff;      /* Couleur de fond des éléments */
-            border: 0;                   /* Bordure des éléments */
-        }
-
-        /* Style pour le conteneur de boutons */
-        .buttons {
-            margin: 20px 0;
-        }
-
-        /* Style pour le bouton de retour */
-        .fixed-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-        
-        .left {
-            text-align: left;
-        }
-    </style>
+    
 </head>
 
 <body>
-
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+          </ul>
+    </nav>
+    {% block content %}  
     <div class="container">
-        {% block content %}
-            <h1>Rousseau's Binders</h1>
-            <div class="buttons">
-                <a href="{% url 'classeur_create' %}" class="assemblyButtonBase">Create a Binder</a>
-                <!--button class="button" onclick="goBack()">Go Back to Start</button-->
+        
+        
+            <div class ="box-classeur">
+                <h1>Bibliothèque</h1>
+                <h3>Vos classeurs</h3>
+            
+                {% if classeurs %}
+                    
+                    <ul>
+                        {% for classeur in classeurs %}
+                            <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+                <div class="buttons">
+                    <a href="{% url 'classeur_create' %}" class="button">Créer un classeur</a>
+                    <!--button class="button" onclick="goBack()">Go Back to Start</button-->
+                </div>
             </div>
-            {% if classeurs %}
-                <h3 class ="left">List</h3>
-                <ul class="liste-gauche">
-                    {% for classeur in classeurs %}
-                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endblock %}
+        
     </div>
-
-    <div class="fixed-button">
-        <a href="{% url 'create_cards' %}" class="button">Back</a>
-    </div>
-
-    <!-- Add JavaScript to handle the back button functionality -->
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+    {% endblock %}
 </body>
 </html>
 

@@ -29,6 +29,15 @@
             <a href="{% url "explore" %}" class= "button-left">Commencez</a>
         </div>
         <div class="right">
+            <h1>
+                Votre bibliothèque de cartes !
+            </h1>
+            <p>
+                Créez vos propres cartes, tous vos classeurs sont ici.
+            </p>
+            <p>
+                Commencez dès à présent !
+            </p>
             <a href="{% url "classeur_list" %}" class= "button-right">Créez vos cartes</a>
         </div>
     </div>
@@ -36,11 +45,3 @@
 </body>
 
 </html>
-
-<!-- Your existing HTML content -->
-
-<!-- Add this at the bottom of your template file -->
-<div style="position: fixed; bottom: 20px; right: 20px;">
-    <a href="{% url "welcome" %}" class= "button">Back</a>
-</div>
-
