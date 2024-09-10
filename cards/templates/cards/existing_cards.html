@@ -5,12 +5,18 @@
     <title>Flashcards</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
      <link rel="stylesheet" href="{% static 'css/styles_cards_simple.css' %}">
     <title>Clickable Flashcards</title>
 </head>
 
-<body class="existing">
+<body>
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+          </ul>
+    </nav>
     <!-- Audio element for sound effect -->
     <audio id="clickSound">
         <source src="{{ audio_file_path }}" type="audio/mpeg">
