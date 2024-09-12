@@ -17,78 +17,7 @@
               <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
           </ul>
     </nav>
-    <!-- Audio element for sound effect -->
-    <audio id="clickSound">
-        <source src="{{ audio_file_path }}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-     <div class="container">
-        <h1>Multiple Cards</h1>
-        <div class="card-container">
-            {% for card in card_data %}
-            <div class="flashcard" onclick="flipCard(this)">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front">
-                        <h2 class="title">{{ card.title }}</h2>
-                        <p>{{ card.front_content |safe}}</p>
-                    </div>
-                    <div class="flashcard-back">
-                        <h2 class="title">{{ card.title }}</h2>
-                        <p>{{ card.back_content |safe}}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <script>
-        // Function to flip the card when clicked
-        function flipCard(card) {
-            card.classList.toggle('flipped'); // Toggle the 'flipped' class
-
-            // Play the click sound
-            var clickSound = document.getElementById('clickSound');
-            clickSound.play();
-        }
-    </script>
+    
 </body>
 
 </html>
-<!-- Your existing HTML content -->
-
-<!-- Add this at the bottom of your template file -->
-<div style="position: fixed; bottom: 20px; right: 20px;">
-    <button onclick="goBack()" class="btn btn-primary">Back</button>
-</div>
-
-<!-- Optional: Add some CSS for styling the button -->
-<style>
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        color: white;
-        background-color: #007bff;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .btn:hover {
-        background-color: #0056b3;
-    }
-</style>
-
-<!-- Add JavaScript to handle the back button functionality -->
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
-
-
-
-
