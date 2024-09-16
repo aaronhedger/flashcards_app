@@ -196,3 +196,30 @@ h1{
     align-content: center;
     text-align: center;
 }
+
+.box-qa{
+    width: 30vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-between;
+    background: #5f80ec;
+    border:none;
+    color: white;
+    border-radius: 10px;
+
+
+
+}
+
+.container2{
+    width: 100%;
+    height: 90%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

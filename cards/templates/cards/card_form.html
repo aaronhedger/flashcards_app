@@ -8,26 +8,42 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_welcome2.css' %}">
     <!-- Optional: Add some CSS for styling the button -->
 
 <body>
-    {% block content %}
-        <p>Classeur ID: {{ classeur_id }}</p>
-        {% if card %}
-            <h2>✏️ Edit Card</h2>
-            <h2>Delete Card</h2>
-        {% else %}
-            <h2>✨ Create New Card</h2>
-        {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Save Card">
-        </form>
-        <a href="{% url 'card-list' %}">
-            Cancel
-        </a>
-    {% endblock %}
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+                  
+          </ul>
+      </nav>
+    
+    <div class="container2">
+            <h1>{{ classeur.name }}</h1>
+            {% if card %}
+                <h2>✏️ Edit Card</h2>
+                <h2>Delete Card</h2>
+            {% else %}
+                <h2>Créez une carte</h2>
+            {% endif %}
+            <div class="box-qa">
+                <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Sauvegarder">
+                </form>
+                
+                
+            </div>
+            <a href="{% url 'card-list' %}">
+                Annuler
+            </a>
+            
+    </div>
+
 </body>
 

@@ -1,12 +1,34 @@
-<!-- classeur_config.html-->
-{% extends "cards/classeur_list.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
+    <!-- Optional: Add some CSS for styling the button -->
 
-{% block content %}
+<body>
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+                  
+          </ul>
+      </nav>
+
+
+
     <h2>Supprimer Classeur</h2>
-    <p>Es-tu sûr de vouloir supprimer le classeur "{{ classeur.titre }}" ?</p>
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" value="Confirmer la suppression">
-    </form>
-    <a href="{% url 'classeur_detail' classeur.pk %}">Annuler</a>
-{% endblock %}
+       <div class="container2"> 
+            <div class="box-qa">
+                <p>Es-tu sûr de vouloir supprimer le classeur "{{ classeur.name }}" ?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Confirmer la suppression">
+                </form>
+            </div>    
+            <a href="{% url 'classeur_detail' classeur.pk %}">Annuler</a>
+        </div>
