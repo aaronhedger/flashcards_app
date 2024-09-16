@@ -93,7 +93,7 @@ def existing_cards_view(request):
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
     audio_file_path = '/static/page-turn.wav'
-    return render(request, 'cards/existing_classeur/classeur_sujet/voc_all1.html',
+    return render(request, 'cards/existing_classeur/existing_cards.html',
                   {'card_data': card_data, 'audio_file_path': audio_file_path})
 
 
