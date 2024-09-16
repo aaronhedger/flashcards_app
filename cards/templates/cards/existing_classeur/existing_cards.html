@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{% static 'css/styles_cards_simple.css' %}">
+    <title>Clickable Flashcards</title>
+</head>
+
+<body>
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+          </ul>
+    </nav>
+    <div class="container">
+        
+        <div class="box-1">
+            <h1>Choisissez une matière à étudier</h1>
+        </div>
+        <div class="box-2">
+            <a href="{% url 'classeurAll' %}" class="button">Allemand </a>
+            
+        </div>
+        <div class="box-3">
+            <a href="{% url 'classeurEng' %}" class="button">Englais </a>
+            
+        </div>
+        <div class="box-4">
+            <a href="{% url 'classeurEsp' %}" class="button">Espagnol </a>
+            
+        </div>
+        <div class="box-5">
+            <a href="{% url 'classeurIta' %}" class="button">Italien </a>
+            
+        </div>
+    </div>
+    
+</body>
+
+</html>

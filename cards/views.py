@@ -2,9 +2,11 @@
 
 import random
 from audioop import reverse
-
+from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Classeur
 from .forms import ClasseurForm, SignUpForm
@@ -91,7 +93,8 @@ def existing_cards_view(request):
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
     audio_file_path = '/static/page-turn.wav'
-    return render(request, 'cards/existing_cards.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
+    return render(request, 'cards/existing_classeur/classeur_sujet/voc_all1.html',
+                  {'card_data': card_data, 'audio_file_path': audio_file_path})
 
 
 @login_required
@@ -108,6 +111,7 @@ def explore_view(request):
 def start_cards_view(request):
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/start_cards.html', {'classeurs': classeurs})
+
 
 def card_form(request, classeur_id):
     classeur = get_object_or_404(Classeur, pk=classeur_id)
@@ -237,3 +241,27 @@ def card_delete(request, pk):
         card.delete()
         return redirect("card_list")
     return render(request, "cards/cards_confirm_delete.html", {'card': card})
+
+
+def classeur_all_view(request):
+    return render(request, "cards/existing_classeur/classeurAll.html")
+
+
+def classeur_eng_view(request):
+    return render(request, "cards/existing_classeur/classeurEng.html")
+
+
+def classeur_esp_view(request):
+    return render(request, "cards/existing_classeur/classeurEsp.html")
+
+
+def classeur_ita_view(request):
+    return render(request, "cards/existing_classeur/classeurIta.html")
+
+
+def retour(request):
+    return render(request, "cards/existing_classeur/existing_cards.html")
+
+
+def voc_all1_view(request):
+    return render(request, "cards/existing_classeur/classeur_sujet/voc_all1.html")

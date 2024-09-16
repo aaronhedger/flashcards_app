@@ -35,6 +35,12 @@ urlpatterns = ([
     path('classeur/<int:classeur_id>/card/create/', CardCreateView.as_view(), name='card-create'),
     path('login/', login_view, name='login'),
     path('register/', register, name='register'),
+    path('classeur-All/', views.classeur_all_view, name='classeurAll'),
+    path('classeur-Eng/', views.classeur_eng_view, name='classeurEng'),
+    path('classeur-Esp/', views.classeur_esp_view, name='classeurEsp'),
+    path('classeur-Ita/', views.classeur_ita_view, name='classeurIta'),
+    path('voc-all1/', views.voc_all1_view, name='voc_all1'),
+    path('retour/', views.retour, name='retour'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 
