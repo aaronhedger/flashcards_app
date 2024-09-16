@@ -2,7 +2,7 @@
 {% extends "cards/classeur_list.html" %}
 
 {% block content %}
-    <h2>{{ classeur.titre }}</h2>
+    <h2>{{ classeur.name }}</h2>
     {% if classeur.pk %}
         <p>
             <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
