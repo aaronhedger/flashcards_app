@@ -13,7 +13,7 @@ from .forms import ClasseurForm, SignUpForm
 from django.shortcuts import render
 from .models import Flashcard
 from .models import Card
-
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -92,9 +92,10 @@ def existing_cards_view(request):
          'back_content': 'the daughter-in-law'},
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
-    audio_file_path = '/static/page-turn.wav'
-    return render(request, 'cards/existing_classeur/existing_cards.html',
-                  {'card_data': card_data, 'audio_file_path': audio_file_path})
+    return render(request, 'cards/existing_classeur/existing_cards.html', {
+        'card_data': json.dumps(card_data),  # Convert Python list/dict to JSON string
+        'audio_file_path': '/static/page-turn.wav'
+    })
 
 
 @login_required

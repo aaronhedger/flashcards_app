@@ -9,7 +9,7 @@
         .flashcard {
             width: 300px;
             height: 400px;
-            perspective: 1000px;
+            perspective: 1000px; /* This ensures that 3D transforms like flipping are visible */
             margin: 0 auto;
             position: relative;
         }
@@ -19,17 +19,18 @@
             height: 100%;
             position: relative;
             transition: transform 0.8s;
-            transform-style: preserve-3d;
+            transform-style: preserve-3d; /* Preserve 3D effects */
         }
 
         .flashcard.flipped .flashcard-inner {
-            transform: rotateY(180deg);
+            transform: rotateY(180deg); /* Flip the card on Y-axis when 'flipped' class is added */
         }
-        .flashcard-back {
+
+        .flashcard-front, .flashcard-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
+            backface-visibility: hidden; /* Hide the back of the card when flipped */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,25 +38,15 @@
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            background: #af2222;
         }
-        .flashcard-front{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            background: #5f80ec;
+
+        .flashcard-front {
+            background-color: #5f80ec; /* Front side color */
         }
 
         .flashcard-back {
-            transform: rotateY(180deg);
+            background-color: #af2222; /* Back side color */
+            transform: rotateY(180deg); /* Start with the back side flipped */
         }
 
         .buttons {
@@ -140,7 +131,7 @@
         // Function to flip the card
         function flipCard() {
             const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
+            flashcard.classList.toggle('flipped'); // Toggle the 'flipped' class
             isFlipped = !isFlipped;
         }
 
