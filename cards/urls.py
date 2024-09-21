@@ -40,6 +40,7 @@ urlpatterns = ([
     path('classeur-Esp/', views.classeur_esp_view, name='classeurEsp'),
     path('classeur-Ita/', views.classeur_ita_view, name='classeurIta'),
     path('voc-all1/', views.voc_all1_view, name='voc_all1'),
+    path('voc-all2/', views.voc_all2_view, name='voc_all2'),
     path('retour/', views.retour, name='retour'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 

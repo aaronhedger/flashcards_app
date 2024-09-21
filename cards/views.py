@@ -266,3 +266,7 @@ def retour(request):
 
 def voc_all1_view(request):
     return render(request, "cards/existing_classeur/classeur_sujet/voc_all1.html")
+
+
+def voc_all2_view(request):
+    return render(request, "cards/existing_classeur/classeur_sujet/voc_all2.html")
