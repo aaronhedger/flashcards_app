@@ -23,7 +23,7 @@
     cursor: pointer;
 
 }
-}
+
 
 .flashcard .front .title, .flashcard .back .title {
     text-align: center;
@@ -94,3 +94,12 @@
     margin-bottom: 5px; /* Add some spacing below the title */
 }
 
+.card-container {
+    display: flex;              /* Use flexbox for layout */
+    flex-wrap: wrap;            /* Wrap the cards to the next line if they overflow */
+    justify-content: center;    /* Center the cards horizontally */
+    gap: 20px;                  /* Add space between cards */
+    margin: 20px auto;          /* Add margin to the top and bottom */
+    max-width: 1200px;          /* Set a maximum width for the container */
+    padding: 10px;              /* Optional: add padding inside the container */
+}
