@@ -66,18 +66,21 @@ nav ul li a:active {
 
 }
 .left{
+    width: 60vw;
+    height:80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #df2a2a;
-    flex: 1
+    background-color: #607D8B;
 }
-
+.left h2{
+    color:white
+}
 .left h1 {
     font-size: 60px;
-    color: black;
+    color: white;
     padding-top: 90px;
 }
 
@@ -87,7 +90,7 @@ nav ul li a:active {
     padding-right: 30px;
     font-family: "poppins", sans-serif;
     font-size: 20px;
-    color: black;
+    color: white;
     text-align: left;
 
 
