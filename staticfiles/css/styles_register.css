@@ -64,6 +64,7 @@ nav ul li a:active {
 
 
 }
+
 .left{
     width: 50%;
     height: 100%;
@@ -153,5 +154,5 @@ h2 {
     font-family:arial;
     font-size: 50px;
     display:flex;
-    justify-content:center
+    justify-content:start;
 }
