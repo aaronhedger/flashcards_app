@@ -1,4 +1,4 @@
-
+/* Define common variables */
 :root {
     --frame-width: 300px;
     --frame-height: 200px;
@@ -23,7 +23,7 @@
     cursor: pointer;
 
 }
-
+}
 
 .flashcard .front .title, .flashcard .back .title {
     text-align: center;
@@ -84,5 +84,13 @@
 .flashcard-back {
     background-color: var(--frame-background-color);
     transform: rotateY(180deg);
+}
+
+/* Title styling */
+.title {
+    font-size: 24px; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    text-align: left; /* Center align text */
+    margin-bottom: 5px; /* Add some spacing below the title */
 }
 
