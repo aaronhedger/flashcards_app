@@ -15,7 +15,7 @@ from .views import login_view
 
 urlpatterns = ([
     path("", views.welcome_page_view, name="welcome"),
-    path('existing-cards/', views.existing_cards_view, name='existing_cards'),
+    path('existing-cards/', views.voc_all2_view, name='existing_cards'),
     path('create-cards/', views.create_cards_view, name='create_cards'),
     path("explore/", views.explore_view, name='explore'),
     path("start-cards/", views.start_cards_view, name='start_cards'),
@@ -42,6 +42,7 @@ urlpatterns = ([
     path('voc-all1/', views.voc_all1_view, name='voc_all1'),
     path('voc-all2/', views.voc_all2_view, name='voc_all2'),
     path('retour/', views.retour, name='retour'),
+    path('sans-connection/', views.sans_connections_view, name='sans-connection'),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 
