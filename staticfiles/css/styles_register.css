@@ -74,6 +74,7 @@ nav ul li a:active {
     align-items: center;
     padding: 20px;
     background-color: #607D8B;
+    border: 60px;
 }
 .left h2{
     color:white
