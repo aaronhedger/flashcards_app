@@ -60,19 +60,18 @@ nav ul li a:active {
     box-sizing: border-box;
     display: flex;
     justify-content:center;
+    align-items: center;
     padding-top: 20px;
 
 
 }
 .left{
-    width: 50%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #df2a2a;
     flex: 1
 }
 
@@ -139,19 +138,20 @@ nav h1 {
 
 .box-register {
     background: #f4e09b;
+    flex-direction: column;
     width: 65%;
     height: 100%;
     justify-content: center;
     align-content: center;
+    text-align: center;
     padding: 60px;
 
 
 
 }
 
-h2 {
-    font-family:arial;
+.box-register h2 {
+    font-family: arial, serif;
     font-size: 50px;
-    display:flex;
-    justify-content:center
+    text-align: center;
 }
