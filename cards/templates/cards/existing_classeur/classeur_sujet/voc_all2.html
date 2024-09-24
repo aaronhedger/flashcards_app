@@ -1,54 +1,92 @@
-<!-- cards/existing_classeur/classeur_sujet/voc_all2.html -->
-<!DOCTYPE html>
-<html lang="en">
 {% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
 <head>
-    <title>Flashcards</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-     <link rel="stylesheet" href="{% static 'css/styles_cards_simple.css' %}">
-    <title>Clickable Flashcards</title>
+    <link rel="stylesheet" href="{% static 'css/styles_existing_flashcards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_existing_classeurs.css' %}">
+    
+    <title>Flashcards</title>
+    
 </head>
-
-<body class="existing">
-    <!-- Audio element for sound effect -->
+<body>
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
+              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
+              <li><a href="{% url 'retour' %}"> Retour</a></li>
+          </ul>
+    </nav>
     <audio id="clickSound">
         <source src="{{ audio_file_path }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <h1>Debugging Output</h1>
-    <pre>{{ card_data }}</pre>
-     <div class="container">
-        <h1>Multiple Cards</h1>
-        <div class="card-container">
-            {% for card in card_data %}
-            <div class="flashcard" onclick="flipCard(this)">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front">
-                        <h2 class="title">{{ card.title }}</h2>
-                        <p>{{ card.front_content |safe}}</p>
-                    </div>
-                    <div class="flashcard-back">
-                        <h2 class="title">{{ card.title }}</h2>
-                        <p>{{ card.back_content |safe}}</p>
-                    </div>
+
+    <div class="container3">
+        <h1>Voc Allemand 2</h1>
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h2 id="flashcardTitle"></h2>
+                    <p id="flashcardFrontContent"></p>
+                </div>
+                <div class="flashcard-back">
+                    <h2 id="flashcardTitleBack"></h2>
+                    <p id="flashcardBackContent"></p>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+
+        <div class="buttons">
+            <button onclick="categorizeCard('notLearned')">Not Learned</button>
+            <button onclick="categorizeCard('learned')">Learned</button>
         </div>
     </div>
 
     <script>
-        // Function to flip the card when clicked
-        function flipCard(card) {
-            card.classList.toggle('flipped'); // Toggle the 'flipped' class
+        // Parse card data from Django context
+        const cardData = {{ card_data|safe }};
+        let currentCardIndex = 0;
 
-            // Play the click sound
-            var clickSound = document.getElementById('clickSound');
-            clickSound.play();
+        function displayCard() {
+            if (currentCardIndex >= cardData.length) {
+                alert('All cards have been categorized!');
+                return;
+            }
+
+            const card = cardData[currentCardIndex];
+            document.getElementById('flashcardTitle').textContent = card.title;
+            document.getElementById('flashcardFrontContent').innerHTML = card.front_content;
+            document.getElementById('flashcardTitleBack').textContent = card.title;
+            document.getElementById('flashcardBackContent').innerHTML = card.back_content;
+
+            // Reset flip state
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped');
         }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+        }
+
+        function categorizeCard(category) {
+            const currentCard = cardData[currentCardIndex];
+            console.log(`Card categorized as: ${category}`, currentCard);
+
+            // Play sound on button click
+            const clickSound = document.getElementById('clickSound');
+            clickSound.play();
+
+            // Move to the next card
+            currentCardIndex++;
+            displayCard();
+        }
+
+        // Initialize the first card
+        displayCard();
     </script>
 </body>
-
 </html>

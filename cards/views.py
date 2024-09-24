@@ -62,7 +62,6 @@ def welcome_page_view(request):
 
 
 def voc_all2_view(request):
-    print("voc_all2_view called")
     card_data = [
         {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
          'back_content': 'Quand >6'},
@@ -94,7 +93,6 @@ def voc_all2_view(request):
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
     audio_file_path = '/static/page-turn.wav'  # Replace this with the actual path to your audio file
-    print(card_data)
     return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
 
 
@@ -267,9 +265,6 @@ def retour(request):
 def voc_all1_view(request):
     return render(request, "cards/existing_classeur/classeur_sujet/voc_all1.html")
 
-
-def voc_all2_view(request):
-    return render(request, "cards/existing_classeur/classeur_sujet/voc_all2.html")
 
 
 def sans_connections_view(request):

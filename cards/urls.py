@@ -15,7 +15,6 @@ from .views import login_view
 
 urlpatterns = ([
     path("", views.welcome_page_view, name="welcome"),
-    path('existing-cards/', views.voc_all2_view, name='existing_cards'),
     path('create-cards/', views.create_cards_view, name='create_cards'),
     path("explore/", views.explore_view, name='explore'),
     path("start-cards/", views.start_cards_view, name='start_cards'),
