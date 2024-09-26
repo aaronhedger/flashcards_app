@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles_existing_flashcards.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_existing_classeurs.css' %}">
-    
+
     <title>Flashcards</title>
-    
+
 </head>
 <body>
     <nav>
@@ -70,15 +70,17 @@
         function flipCard() {
             const flashcard = document.getElementById('flashcard');
             flashcard.classList.toggle('flipped');
-        }
 
+            const clickSound = document.getElementById('clickSound');
+            clickSound.play();
+        }
+        
         function categorizeCard(category) {
             const currentCard = cardData[currentCardIndex];
             console.log(`Card categorized as: ${category}`, currentCard);
 
             // Play sound on button click
-            const clickSound = document.getElementById('clickSound');
-            clickSound.play();
+            
 
             // Move to the next card
             currentCardIndex++;
