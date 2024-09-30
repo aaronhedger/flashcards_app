@@ -46,13 +46,7 @@
             <button onclick="categorizeCard('d')">d</button>
 
         </div>
-        <div id="percentageDisplay" style="margin-top: 20px;">
-            <h3>Percentages</h3>
-            <p id="percentageA">a: {{ percentages.a|floatformat:1 }}%</p>
-            <p id="percentageB">b: {{ percentages.b|floatformat:1 }}%</p>
-            <p id="percentageC">c: {{ percentages.c|floatformat:1 }}%</p>
-            <p id="percentageD">d: {{ percentages.d|floatformat:1 }}%</p>
-        </div>
+        
     </div>
     
 
@@ -89,14 +83,15 @@
         function categorizeCard(category) {
             const currentCard = cardData[currentCardIndex];
             console.log(`Card categorized as: ${category}`, currentCard);
-
-            // Play sound on button click
-            
-
+        
+            // Simulate sending the choice to the server (or handle it client-side)
+            // This is where you would normally use AJAX to send the choice to the server
+            // For now, just log it to the console
+        
             // Move to the next card
             currentCardIndex++;
             displayCard();
-        }
+}
 
         // Initialize the first card
         displayCard();
