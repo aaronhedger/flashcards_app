@@ -19,7 +19,7 @@ from django.views.generic import (
 
 from .forms import CardForm
 from .forms import ClasseurForm, SignUpForm
-from .models import Card
+from .models import Card, Flashcard
 from .models import Classeur
 
 
@@ -53,11 +53,10 @@ def welcome_page_view(request):
 
 
 def voc_all2_view(request):
+    flashcards = Flashcard.objects.all()
 
     card_data = [
-        {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
-         'back_content': 'Quand >6'},
-        {'title': 'Card 2', 'front_content': 'Front content for card 2', 'back_content': 'Back content for card 2'},
+
         {'title': 'German Voc 1', 'front_content': 'der Vater', 'back_content': 'the father'},
         {'title': 'German Voc 2', 'front_content': 'die Mutter', 'back_content': 'the mother'},
         {'title': 'German Voc 3', 'front_content': 'der Sohn', 'back_content': 'the son'},
