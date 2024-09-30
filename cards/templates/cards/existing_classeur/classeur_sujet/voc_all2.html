@@ -51,50 +51,92 @@
     
 
     <script>
-        // Parse card data from Django context
-        const cardData = {{ card_data|safe }};
-        let currentCardIndex = 0;
+    // Parse card data from Django context
+    let cardData = {{ card_data|safe }};
+    let currentCardIndex = 0;
+    let categorizedCards = [];
+    let currentRound = 1;
+    const cardsPerRound = 9;
 
-        function displayCard() {
-            if (currentCardIndex >= cardData.length) {
-                alert('All cards have been categorized!');
-                return;
+    function displayCard() {
+        if (currentCardIndex >= cardData.length) {
+            alert('All cards have been categorized!');
+            return;
+        }
+
+        const card = cardData[currentCardIndex];
+        document.getElementById('flashcardTitle').textContent = card.title;
+        document.getElementById('flashcardFrontContent').innerHTML = card.front_content;
+        document.getElementById('flashcardTitleBack').textContent = card.title;
+        document.getElementById('flashcardBackContent').innerHTML = card.back_content;
+
+        // Reset flip state
+        const flashcard = document.getElementById('flashcard');
+        flashcard.classList.remove('flipped');
+    }
+
+    function flipCard() {
+        const flashcard = document.getElementById('flashcard');
+        flashcard.classList.toggle('flipped');
+
+        const clickSound = document.getElementById('clickSound');
+        clickSound.play();
+    }
+    
+    function categorizeCard(category) {
+        const currentCard = cardData[currentCardIndex];
+        categorizedCards.push({ card: currentCard, category: category });
+
+        // Move to the next card
+        currentCardIndex++;
+
+        if (currentCardIndex % cardsPerRound === 0) {
+            // After every 9 cards, process the next round
+            processNextRound();
+        } else {
+            displayCard();
+        }
+    }
+
+    function processNextRound() {
+        // Update currentCardIndex based on categories
+        let nextRoundCards = [];
+        
+        categorizedCards.forEach(({ card, category }) => {
+            let roundsToWait = 0;
+            switch (category) {
+                case 'a':
+                    roundsToWait = 1;
+                    break;
+                case 'b':
+                    roundsToWait = 2;
+                    break;
+                case 'c':
+                    roundsToWait = 3;
+                    break;
+                case 'd':
+                    roundsToWait = 4;
+                    break;
             }
 
-            const card = cardData[currentCardIndex];
-            document.getElementById('flashcardTitle').textContent = card.title;
-            document.getElementById('flashcardFrontContent').innerHTML = card.front_content;
-            document.getElementById('flashcardTitleBack').textContent = card.title;
-            document.getElementById('flashcardBackContent').innerHTML = card.back_content;
+            // Add card to next round based on rounds to wait
+            const reappearIndex = (currentRound + roundsToWait - 1) * cardsPerRound;
+            if (nextRoundCards[reappearIndex]) {
+                nextRoundCards[reappearIndex].push(card);
+            } else {
+                nextRoundCards[reappearIndex] = [card];
+            }
+        });
 
-            // Reset flip state
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.remove('flipped');
-        }
+        // Flatten the next round cards and set for display
+        cardData = nextRoundCards.flat().filter(Boolean);
+        currentCardIndex = 0; // Reset for the next round
+        currentRound++; // Increment round
+        displayCard(); // Show first card of the next round
+    }
 
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
-
-            const clickSound = document.getElementById('clickSound');
-            clickSound.play();
-        }
-        
-        function categorizeCard(category) {
-            const currentCard = cardData[currentCardIndex];
-            console.log(`Card categorized as: ${category}`, currentCard);
-        
-            // Simulate sending the choice to the server (or handle it client-side)
-            // This is where you would normally use AJAX to send the choice to the server
-            // For now, just log it to the console
-        
-            // Move to the next card
-            currentCardIndex++;
-            displayCard();
-}
-
-        // Initialize the first card
-        displayCard();
-    </script>
+    // Initialize the first card
+    displayCard();
+</script>
 </body>
 </html>
