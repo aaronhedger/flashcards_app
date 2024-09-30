@@ -40,10 +40,21 @@
         </div>
 
         <div class="buttons">
-            <button onclick="categorizeCard('notLearned')">Not Learned</button>
-            <button onclick="categorizeCard('learned')">Learned</button>
+            <button onclick="categorizeCard('a')">a</button>
+            <button onclick="categorizeCard('b')">b</button>
+            <button onclick="categorizeCard('c')">c</button>            
+            <button onclick="categorizeCard('d')">d</button>
+
+        </div>
+        <div id="percentageDisplay" style="margin-top: 20px;">
+            <h3>Percentages</h3>
+            <p id="percentageA">a: {{ percentages.a|floatformat:1 }}%</p>
+            <p id="percentageB">b: {{ percentages.b|floatformat:1 }}%</p>
+            <p id="percentageC">c: {{ percentages.c|floatformat:1 }}%</p>
+            <p id="percentageD">d: {{ percentages.d|floatformat:1 }}%</p>
         </div>
     </div>
+    
 
     <script>
         // Parse card data from Django context

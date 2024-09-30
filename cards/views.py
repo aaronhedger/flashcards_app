@@ -1,35 +1,25 @@
 #views.py
 
-import random
 from audioop import reverse
-from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
-from django import forms
-from django.contrib.auth.decorators import login_required
-from django.http import request
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Classeur
-from .forms import ClasseurForm, SignUpForm
-from django.shortcuts import render
-from .models import Flashcard
-from .models import Card
-import json
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 
+from collections import defaultdict
+import random
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import CardForm
-from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     CreateView,
     UpdateView, DetailView, FormView,
 )
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
+
+from .forms import CardForm
+from .forms import ClasseurForm, SignUpForm
+from .models import Card
+from .models import Classeur
 
 
 def register(request):
@@ -62,6 +52,7 @@ def welcome_page_view(request):
 
 
 def voc_all2_view(request):
+    global percentages
     card_data = [
         {'title': 'Card 1', 'front_content': 'Quand s\'arrête la boucle définie par cette instruction? while a<=6',
          'back_content': 'Quand >6'},
@@ -92,8 +83,73 @@ def voc_all2_view(request):
          'back_content': 'the daughter-in-law'},
         {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
     ]
-    audio_file_path = '/static/page-turn.wav'  # Replace this with the actual path to your audio file
-    return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html', {'card_data': card_data, 'audio_file_path': audio_file_path})
+
+    audio_file_path = '/static/page-turn.wav'  # Replace with the actual path to your audio file
+
+    total_cards = len(card_data)
+    current_round_cards = []
+    reappear_cards = []
+    card_index = 0
+    round_number = 1
+
+    # Initialize choice counters
+    counts = {'a': 0, 'b': 0, 'c': 0, 'd': 0}
+
+    while card_index < total_cards or reappear_cards:
+        # Start a new round
+        current_round_cards = []
+
+        # Include reappearing cards first
+        current_round_cards.extend(reappear_cards)
+        reappear_cards.clear()
+
+        # Fill the rest of the round with new cards
+        while len(current_round_cards) < 9 and card_index < total_cards:
+            current_round_cards.append(card_data[card_index])
+            card_index += 1
+
+        # Simulate user choices (this should be replaced with actual user input in practice)
+        simulated_choices = []  # Collect user choices for each card displayed in the current round
+
+        # For each card, display it and simulate choice
+        for i in range(len(current_round_cards)):
+            # Here, you would display the card and get user input.
+            # For now, let's simulate choices randomly for demonstration.
+            simulated_choice = random.choice(['a', 'b', 'c', 'd'])  # Randomly simulating user choice
+            simulated_choices.append(simulated_choice)
+
+            # Categorize each card based on simulated choices
+            if simulated_choice == 'a':
+                reappear_cards.append(current_round_cards[i])  # Next round
+                counts['a'] += 1
+            elif simulated_choice == 'b':
+                reappear_cards.append(current_round_cards[i])  # In two rounds (handle logic later)
+                counts['b'] += 1
+            elif simulated_choice == 'c':
+                reappear_cards.append(current_round_cards[i])  # In three rounds (handle logic later)
+                counts['c'] += 1
+            elif simulated_choice == 'd':
+                reappear_cards.append(current_round_cards[i])  # In four rounds (handle logic later)
+                counts['d'] += 1
+
+        # Calculate percentages for choices a, b, c, d
+        total_choices = len(simulated_choices)
+
+        percentages = {
+            'a': (counts['a'] / total_choices) * 100 if total_choices else 0,
+            'b': (counts['b'] / total_choices) * 100 if total_choices else 0,
+            'c': (counts['c'] / total_choices) * 100 if total_choices else 0,
+            'd': (counts['d'] / total_choices) * 100 if total_choices else 0,
+        }
+
+        # Log percentages (for demonstration, you can display this in your template)
+        print(f'Round {round_number} Percentages: {percentages}')
+
+        # Increment round number
+        round_number += 1
+
+    return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html',
+                  {'card_data': card_data, 'audio_file_path': audio_file_path, 'percentages': percentages})
 
 
 @login_required
@@ -113,7 +169,7 @@ def start_cards_view(request):
 
 
 def card_form(request, classeur_id):
-    classeur = get_object_or_404(Classeur, pk=classeur_id)
+    classeur = get_object_or_404(Classeur, pk= classeur_id)
     # Your logic here
     return render(request, 'cards/card_form.html', {'classeur': classeur})
 
@@ -183,7 +239,6 @@ class CardUpdateView(CardCreateView, UpdateView):
 
 @login_required
 def classeur_list(request):
-    print(request.user)  # Debugging line
     if not request.user.is_authenticated:
         return redirect('login')  # Redirect to the login page or handle it as needed
 
@@ -264,7 +319,6 @@ def retour(request):
 
 def voc_all1_view(request):
     return render(request, "cards/existing_classeur/classeur_sujet/voc_all1.html")
-
 
 
 def sans_connections_view(request):

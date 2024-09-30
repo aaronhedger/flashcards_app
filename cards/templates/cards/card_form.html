@@ -2,7 +2,7 @@
 
 <!-- start_cards.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 {% load static %}
 <head>
     <title>Flashcards</title>
@@ -32,9 +32,10 @@
             {% endif %}
             <div class="box-qa">
                 <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Sauvegarder">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="hidden" name="classeur_id" value="{{ classeur_id }}">
+                    <button type="submit">Sauvegarder</button>
                 </form>
                 
                 
