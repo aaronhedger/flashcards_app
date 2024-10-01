@@ -1,5 +1,4 @@
-
-
+import os
 from audioop import reverse
 
 from collections import defaultdict
@@ -8,6 +7,7 @@ import random
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -56,68 +56,84 @@ def voc_all2_view(request):
     flashcards = Flashcard.objects.all()
 
     card_data = [
-
-        {'title': 'German Voc 1', 'front_content': 'der Vater', 'back_content': 'the father'},
-        {'title': 'German Voc 2', 'front_content': 'die Mutter', 'back_content': 'the mother'},
-        {'title': 'German Voc 3', 'front_content': 'der Sohn', 'back_content': 'the son'},
-        {'title': 'German Voc 4', 'front_content': 'die Tochter', 'back_content': 'the daughter'},
-        {'title': 'German Voc 5', 'front_content': 'die Großmutter', 'back_content': 'the grandmother'},
-        {'title': 'German Voc 6', 'front_content': 'der Großvater', 'back_content': 'the grandfather'},
-        {'title': 'German Voc 7', 'front_content': 'der Bruder', 'back_content': 'the brother'},
-        {'title': 'German Voc 8', 'front_content': 'die Schwester', 'back_content': 'the sister'},
-        {'title': 'German Voc 9', 'front_content': 'der Onkel', 'back_content': 'the uncle'},
-        {'title': 'German Voc 10', 'front_content': 'die Tante', 'back_content': 'the aunt'},
-        {'title': 'German Voc 11', 'front_content': 'der Neffe', 'back_content': 'the nephew'},
-        {'title': 'German Voc 12', 'front_content': 'die Nichte', 'back_content': 'the niece'},
-        {'title': 'German Voc 13', 'front_content': 'der Cousin', 'back_content': 'the cousin (male)'},
-        {'title': 'German Voc 14', 'front_content': 'die Cousine', 'back_content': 'the cousin (female)'},
-        {'title': 'German Voc 15', 'front_content': 'die Enkelin', 'back_content': 'the granddaughter'},
-        {'title': 'German Voc 16', 'front_content': 'der Enkel', 'back_content': 'the grandson'},
-        {'title': 'German Voc 17', 'front_content': 'die Schwiegermutter', 'back_content': 'the mother-in-law'},
-        {'title': 'German Voc 18', 'front_content': 'der Schwiegervater', 'back_content': 'the father-in-law'},
-        {'title': 'German Voc 19', 'front_content': 'die Schwiegertochter',
-         'back_content': 'the daughter-in-law'},
-        {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law'},
+        {'title': 'German Voc 1', 'front_content': 'der Vater', 'back_content': 'the father', 'index': 1},
+        {'title': 'German Voc 2', 'front_content': 'die Mutter', 'back_content': 'the mother', 'index': 2},
+        {'title': 'German Voc 3', 'front_content': 'der Sohn', 'back_content': 'the son', 'index': 3},
+        {'title': 'German Voc 4', 'front_content': 'die Tochter', 'back_content': 'the daughter', 'index': 4},
+        {'title': 'German Voc 5', 'front_content': 'die Großmutter', 'back_content': 'the grandmother', 'index': 5},
+        {'title': 'German Voc 6', 'front_content': 'der Großvater', 'back_content': 'the grandfather', 'index': 6},
+        {'title': 'German Voc 7', 'front_content': 'der Bruder', 'back_content': 'the brother', 'index': 7},
+        {'title': 'German Voc 8', 'front_content': 'die Schwester', 'back_content': 'the sister', 'index': 8},
+        {'title': 'German Voc 9', 'front_content': 'der Onkel', 'back_content': 'the uncle', 'index': 9},
+        {'title': 'German Voc 10', 'front_content': 'die Tante', 'back_content': 'the aunt', 'index': 10},
+        {'title': 'German Voc 11', 'front_content': 'der Neffe', 'back_content': 'the nephew', 'index': 11}
+        ###{'title': 'German Voc 12', 'front_content': 'die Nichte', 'back_content': 'the niece', 'index': 1},
+        ## {'title': 'German Voc 13', 'front_content': 'der Cousin', 'back_content': 'the cousin (male)', 'index': 1},
+        #{'title': 'German Voc 14', 'front_content': 'die Cousine', 'back_content': 'the cousin (female)', 'index': 1},
+        #{'title': 'German Voc 15', 'front_content': 'die Enkelin', 'back_content': 'the granddaughter', 'index': 1},
+        #{'title': 'German Voc 16', 'front_content': 'der Enkel', 'back_content': 'the grandson', 'index': 1},
+        #{'title': 'German Voc 17', 'front_content': 'die Schwiegermutter', 'back_content': 'the mother-in-law', 'index': 1},
+        #{'title': 'German Voc 18', 'front_content': 'der Schwiegervater', 'back_content': 'the father-in-law', 'index': 1},
+        # {'title': 'German Voc 19', 'front_content': 'die Schwiegertochter', 'back_content': 'the daughter-in-law', 'index': 1},
+        # {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law', 'index': 1},
     ]
 
-    audio_file_path = '/static/page-turn.wav'  # Replace with the actual path to your audio file
     total_cards = len(card_data)
-    current_round_cards = []
-    reappear_cards = []
-    card_index = 0
-    round_number = 1
+    card_reappear = {i: None for i in range(total_cards)}
+    print("----------------", card_reappear, os.getcwd())
+    categorized_cards = []
+    current_round = 1
 
-    while card_index < total_cards or reappear_cards:
+    # Vérifier si un choix a été fait et le traiter
+    if request.method == 'POST':
+        card_index = int(request.POST.get('card_index'))
+
+        choice = request.POST.get('choice')
+
+        # Marquer la carte comme catégorisée
+        categorized_cards.append(card_index)
+
+        # Déterminer quand la carte doit réapparaître
+        if choice == 'a':
+            card_reappear[card_index] = current_round + 1
+        elif choice == 'b':
+            card_reappear[card_index] = current_round + 2
+        elif choice == 'c':
+            card_reappear[card_index] = current_round + 3
+        elif choice == 'd':
+            card_reappear[card_index] = current_round + 4
+
+    while True:
         current_round_cards = []
-        current_round_cards.extend(reappear_cards)
-        reappear_cards.clear()
 
-        while len(current_round_cards) < 9 and card_index < total_cards:
-            current_round_cards.append(card_data[card_index])
-            card_index += 1
+        # Ajouter des cartes réapparaissant ce round
+        for index, next_round in card_reappear.items():
+            if next_round == current_round:
+                current_round_cards.append(card_data[index])
 
-        # Here we simulate user choices; in a real app, this would come from user interactions
-        simulated_choices = []  # Replace this with actual user input handling
+        while len(current_round_cards) < 9:
+            if len(categorized_cards) == total_cards:
+                break
 
-        for i in range(len(current_round_cards)):
-            # Simulate a user choice for demonstration; you will want to replace this
-            simulated_choice = random.choice(['a', 'b', 'c', 'd'])
-            simulated_choices.append(simulated_choice)
+            for index in range(total_cards):
+                if index not in categorized_cards and not any(
+                        data.get('index') == index for data in current_round_cards if data.get('index') is not None):
+                    current_round_cards.append(card_data[index])
+                    if len(current_round_cards) >= 9:
+                        break
 
-            # Categorize each card based on simulated choices
-            if simulated_choice == 'a':
-                reappear_cards.append(current_round_cards[i])  # Next round
-            elif simulated_choice == 'b':
-                reappear_cards.append(current_round_cards[i])  # In two rounds
-            elif simulated_choice == 'c':
-                reappear_cards.append(current_round_cards[i])  # In three rounds
-            elif simulated_choice == 'd':
-                reappear_cards.append(current_round_cards[i])  # In four rounds
+        if not current_round_cards:
+            break
 
-        round_number += 1
+        current_round += 1
+
+    # Pagination
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(card_data, 9)
+    current_page = paginator.get_page(page_number)
 
     return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html',
-                  {'card_data': card_data, 'audio_file_path': audio_file_path})
+                  {'card_data': current_page, 'audio_file_path': '/path/to/audio/file', 'paginator': paginator})
 
 
 @login_required

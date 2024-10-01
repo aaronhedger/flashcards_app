@@ -37,6 +37,7 @@
                     <p id="flashcardBackContent"></p>
                 </div>
             </div>
+            <div class="index">Card #{{ card.index }}</div>
         </div>
 
         <div class="buttons">
@@ -44,19 +45,25 @@
             <button onclick="categorizeCard('b')">b</button>
             <button onclick="categorizeCard('c')">c</button>            
             <button onclick="categorizeCard('d')">d</button>
-
         </div>
-        
+
+        <div class="pagination">
+            {% if paginator.has_previous %}
+                <a href="?page={{ paginator.previous_page_number }}">Précédent</a>
+            {% endif %}
+
+            <span>Page {{ paginator.number }} sur {{ paginator.num_pages }}</span>
+
+            {% if paginator.has_next %}
+                <a href="?page={{ paginator.next_page_number }}">Suivant</a>
+            {% endif %}
+        </div>
     </div>
-    
 
     <script>
     // Parse card data from Django context
     let cardData = {{ card_data|safe }};
     let currentCardIndex = 0;
-    let categorizedCards = [];
-    let currentRound = 1;
-    const cardsPerRound = 9;
 
     function displayCard() {
         if (currentCardIndex >= cardData.length) {
@@ -81,58 +88,6 @@
 
         const clickSound = document.getElementById('clickSound');
         clickSound.play();
-    }
-    
-    function categorizeCard(category) {
-        const currentCard = cardData[currentCardIndex];
-        categorizedCards.push({ card: currentCard, category: category });
-
-        // Move to the next card
-        currentCardIndex++;
-
-        if (currentCardIndex % cardsPerRound === 0) {
-            // After every 9 cards, process the next round
-            processNextRound();
-        } else {
-            displayCard();
-        }
-    }
-
-    function processNextRound() {
-        // Update currentCardIndex based on categories
-        let nextRoundCards = [];
-        
-        categorizedCards.forEach(({ card, category }) => {
-            let roundsToWait = 0;
-            switch (category) {
-                case 'a':
-                    roundsToWait = 1;
-                    break;
-                case 'b':
-                    roundsToWait = 2;
-                    break;
-                case 'c':
-                    roundsToWait = 3;
-                    break;
-                case 'd':
-                    roundsToWait = 4;
-                    break;
-            }
-
-            // Add card to next round based on rounds to wait
-            const reappearIndex = (currentRound + roundsToWait - 1) * cardsPerRound;
-            if (nextRoundCards[reappearIndex]) {
-                nextRoundCards[reappearIndex].push(card);
-            } else {
-                nextRoundCards[reappearIndex] = [card];
-            }
-        });
-
-        // Flatten the next round cards and set for display
-        cardData = nextRoundCards.flat().filter(Boolean);
-        currentCardIndex = 0; // Reset for the next round
-        currentRound++; // Increment round
-        displayCard(); // Show first card of the next round
     }
 
     // Initialize the first card
