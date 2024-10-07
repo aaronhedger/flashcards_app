@@ -1,9 +1,20 @@
-import os
+import json
 from audioop import reverse
+from django.http import JsonResponse
 
 from collections import defaultdict
+from django.shortcuts import render, redirect
+from .models import Card
+from .algorithms import flashcard_algorithm  # Assurez-vous d'importer votre algorithme
+
+from django.views.decorators.http import require_POST
 
 import random
+
+from .algorithms import flashcard_algorithm
+
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -52,88 +63,114 @@ def welcome_page_view(request):
     return render(request, "cards/welcome.html")
 
 
-def voc_all2_view(request):
-    flashcards = Flashcard.objects.all()
+def flashcard_view(request):
+    # Initialisation
+    rounds_to_reappear = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+    categorized_cards = {}  # Dictionnaire pour stocker les comptes de cartes classées
+    card_reappear = {}  # Dictionnaire pour gérer la réapparition des cartes
+    card_data = list(Flashcard.objects.all())  # Récupère toutes les cartes de la base de données
 
-    card_data = [
-        {'title': 'German Voc 1', 'front_content': 'der Vater', 'back_content': 'the father', 'index': 1},
-        {'title': 'German Voc 2', 'front_content': 'die Mutter', 'back_content': 'the mother', 'index': 2},
-        {'title': 'German Voc 3', 'front_content': 'der Sohn', 'back_content': 'the son', 'index': 3},
-        {'title': 'German Voc 4', 'front_content': 'die Tochter', 'back_content': 'the daughter', 'index': 4},
-        {'title': 'German Voc 5', 'front_content': 'die Großmutter', 'back_content': 'the grandmother', 'index': 5},
-        {'title': 'German Voc 6', 'front_content': 'der Großvater', 'back_content': 'the grandfather', 'index': 6},
-        {'title': 'German Voc 7', 'front_content': 'der Bruder', 'back_content': 'the brother', 'index': 7},
-        {'title': 'German Voc 8', 'front_content': 'die Schwester', 'back_content': 'the sister', 'index': 8},
-        {'title': 'German Voc 9', 'front_content': 'der Onkel', 'back_content': 'the uncle', 'index': 9},
-        {'title': 'German Voc 10', 'front_content': 'die Tante', 'back_content': 'the aunt', 'index': 10},
-        {'title': 'German Voc 11', 'front_content': 'der Neffe', 'back_content': 'the nephew', 'index': 11}
-        ###{'title': 'German Voc 12', 'front_content': 'die Nichte', 'back_content': 'the niece', 'index': 1},
-        ## {'title': 'German Voc 13', 'front_content': 'der Cousin', 'back_content': 'the cousin (male)', 'index': 1},
-        #{'title': 'German Voc 14', 'front_content': 'die Cousine', 'back_content': 'the cousin (female)', 'index': 1},
-        #{'title': 'German Voc 15', 'front_content': 'die Enkelin', 'back_content': 'the granddaughter', 'index': 1},
-        #{'title': 'German Voc 16', 'front_content': 'der Enkel', 'back_content': 'the grandson', 'index': 1},
-        #{'title': 'German Voc 17', 'front_content': 'die Schwiegermutter', 'back_content': 'the mother-in-law', 'index': 1},
-        #{'title': 'German Voc 18', 'front_content': 'der Schwiegervater', 'back_content': 'the father-in-law', 'index': 1},
-        # {'title': 'German Voc 19', 'front_content': 'die Schwiegertochter', 'back_content': 'the daughter-in-law', 'index': 1},
-        # {'title': 'German Voc 20', 'front_content': 'der Schwiegersohn', 'back_content': 'the son-in-law', 'index': 1},
-    ]
+    # Gestion des choix utilisateur
+    if request.method == "POST":
+        card_id = request.POST.get("card_id")
+        category = request.POST.get("category")
 
-    total_cards = len(card_data)
-    card_reappear = {i: None for i in range(total_cards)}
-    print("----------------", card_reappear, os.getcwd())
-    categorized_cards = []
-    current_round = 1
+        if card_id and category:
+            # Met à jour le round de réapparition de la carte selon le choix
+            reappear_round = rounds_to_reappear[category]
+            card_reappear[card_id] = reappear_round
 
-    # Vérifier si un choix a été fait et le traiter
-    if request.method == 'POST':
-        card_index = int(request.POST.get('card_index'))
+            # Si 'd' est choisi, incrémenter le compteur pour cette carte
+            if category == 'd':
+                categorized_cards[card_id] = categorized_cards.get(card_id, 0) + 1
 
-        choice = request.POST.get('choice')
+    # Vérifie si toutes les cartes ont été catégorisées 'd' deux fois
+    if all(categorized_cards.get(card.id, 0) >= 2 for card in card_data):
+        return render(request,
+                      'cards/existing_classeur/classeur_sujet/exercise_complete.html')  # Ou une autre page pour dire qu'il n'y a plus de cartes à afficher
+    # Redirige vers une page de fin si toutes les cartes sont classées
 
-        # Marquer la carte comme catégorisée
-        categorized_cards.append(card_index)
+    # Logique pour choisir la carte actuelle à afficher
+    current_card = None
 
-        # Déterminer quand la carte doit réapparaître
-        if choice == 'a':
-            card_reappear[card_index] = current_round + 1
-        elif choice == 'b':
-            card_reappear[card_index] = current_round + 2
-        elif choice == 'c':
-            card_reappear[card_index] = current_round + 3
-        elif choice == 'd':
-            card_reappear[card_index] = current_round + 4
-
-    while True:
-        current_round_cards = []
-
-        # Ajouter des cartes réapparaissant ce round
-        for index, next_round in card_reappear.items():
-            if next_round == current_round:
-                current_round_cards.append(card_data[index])
-
-        while len(current_round_cards) < 9:
-            if len(categorized_cards) == total_cards:
-                break
-
-            for index in range(total_cards):
-                if index not in categorized_cards and not any(
-                        data.get('index') == index for data in current_round_cards if data.get('index') is not None):
-                    current_round_cards.append(card_data[index])
-                    if len(current_round_cards) >= 9:
-                        break
-
-        if not current_round_cards:
+    for card in card_data:
+        if card.id not in card_reappear or card_reappear[card.id] <= 0:
+            current_card = card
             break
 
-        current_round += 1
+    # Si aucune carte n'est trouvée à afficher, on peut gérer ce cas (peut-être rediriger ou afficher un message)
+    if not current_card:
+        return render(request,
+                      'cards/existing_classeur/classeur_sujet/exercise_complete.html')  # Ou une autre page pour dire qu'il n'y a plus de cartes à afficher
 
-    # Pagination
-    page_number = request.GET.get('page', 1)
-    paginator = Paginator(card_data, 9)
-    current_page = paginator.get_page(page_number)
+    context = {
+        'card': current_card,
+        'audio_file_path': 'path/to/audio.mp3',  # Assure-toi que ce chemin est correct
+    }
+
+    return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html', context)
+
+
+card_data = [
+    {"index": 1, "title": "German Voc 1", "front_content": "der Vater", "back_content": "the father"},
+    {"index": 2, "title": "German Voc 2", "front_content": "die Mutter", "back_content": "the mother"},
+    {"index": 3, "title": "German Voc 3", "front_content": "der Sohn", "back_content": "the son"},
+    {"index": 4, "title": "German Voc 4", "front_content": "die Tochter", "back_content": "the daughter"},
+    {"index": 5, "title": "German Voc 5", "front_content": "die Großmutter", "back_content": "the grandmother"},
+    {"index": 6, "title": "German Voc 6", "front_content": "der Großvater", "back_content": "the grandfather"},
+    {"index": 7, "title": "German Voc 7", "front_content": "der Bruder", "back_content": "the brother"},
+    {"index": 8, "title": "German Voc 8", "front_content": "die Schwester", "back_content": "the sister"},
+    {"index": 9, "title": "German Voc 9", "front_content": "der Onkel", "back_content": "the uncle"},
+    {"index": 10, "title": "German Voc 10", "front_content": "die Tante", "back_content": "the aunt"},
+    {"index": 11, "title": "German Voc 11", "front_content": "der Neffe", "back_content": "the nephew"},
+    {"index": 12, "title": "German Voc 12", "front_content": "die Nichte", "back_content": "the niece"},
+    {"index": 13, "title": "German Voc 13", "front_content": "der Cousin", "back_content": "the cousin (male)"},
+    {"index": 14, "title": "German Voc 14", "front_content": "die Cousine", "back_content": "the cousin (female)"},
+    {"index": 15, "title": "German Voc 15", "front_content": "die Enkelin", "back_content": "the granddaughter"},
+    {"index": 16, "title": "German Voc 16", "front_content": "der Enkel", "back_content": "the grandson"},
+    {"index": 17, "title": "German Voc 17", "front_content": "die Schwiegermutter",
+     "back_content": "the mother-in-law"},
+    {"index": 18, "title": "German Voc 18", "front_content": "der Schwiegervater",
+     "back_content": "the father-in-law"}
+]
+current_card_data = []  # Une variable pour stocker les cartes en cours d'affichage
+
+
+def voc_all2_view(request):
+    cards = Card.objects.all()
+    global current_card_data  # Utiliser la variable globale pour suivre les cartes
+
+    if request.method == "POST":
+        card_id = request.POST.get("card_id")
+        category = request.POST.get("category")
+
+        # Traitez le choix de l'utilisateur
+        user_choices = {int(card_id): category}
+
+        # Utiliser l'algorithme pour obtenir la prochaine série de cartes
+        next_cards = flashcard_algorithm(current_card_data, user_choices)
+
+        # Si next_cards est vide, cela signifie que toutes les cartes ont été classées
+        if not next_cards:
+            return render(request,
+                          'cards/existing_classeur/classeur_sujet/exercise_complete.html')  # Rediriger vers une page de fin ou de récapitulatif
+
+        # Récupérer la prochaine carte à afficher
+        current_card_data = next_cards  # Mettez à jour la variable pour la prochaine série de cartes
+        return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html',
+                      {'card': current_card_data[0]})  # Passer la première carte à la vue
+
+    # Pour le premier chargement de la page, récupérer toutes les cartes
+    current_card_data = list(
+        Card.objects.all().values('index', 'question', 'answer'))  # Récupérez toutes les cartes disponibles
+    if current_card_data:  # S'il y a des cartes disponibles
+        initial_card = current_card_data[0]  # Prendre la première carte
+    else:
+        return render(request,
+                      'cards/existing_classeur/classeur_sujet/exercise_complete.html')  # Pas de cartes disponibles, rediriger vers une page de fin
 
     return render(request, 'cards/existing_classeur/classeur_sujet/voc_all2.html',
-                  {'card_data': current_page, 'audio_file_path': '/path/to/audio/file', 'paginator': paginator})
+                  {'card': cards})  # Passer la carte initiale à la vue
 
 
 @login_required
@@ -143,7 +180,8 @@ def create_cards_view(request):
 
 @login_required
 def explore_view(request):
-    return render(request, 'cards/explore.html')
+    classeurs = Classeur.objects.all()
+    return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
 
 @login_required
@@ -167,6 +205,12 @@ class ClasseurDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['cards'] = self.object.cards.all()  # Récupérer toutes les cartes liées à ce classeur
         return context
+
+
+def view_classeur(request, classeur_id):
+    classeur = Classeur.objects.get(id=classeur_id)
+    cards = Card.objects.all()
+    return render(request, 'cards/view_classeur.html', {'classeur': classeur, 'card': cards})
 
 
 class CardCreateView(CreateView):
@@ -211,10 +255,9 @@ class CardFormView(FormView):
 class CardListView(ListView):
     model = Card
     template_name = 'cards/card_list.html'
-    context_object_name = 'card_list'
 
     def get_queryset(self):
-        return Card.objects.filter(user=self.request.user).order_by("classeur", "-date_created")
+        return Card.objects.filter(user=self.request.user).order_by("classeur", "box", "-date_created")
 
 
 class CardUpdateView(CardCreateView, UpdateView):
@@ -307,3 +350,7 @@ def voc_all1_view(request):
 
 def sans_connections_view(request):
     return render(request, 'cards/sans_connection.html')
+
+
+def exercise_complete_view(request):
+    return render(request, 'cards/existing_classeur/classeur_sujet/exercise_complete.html')

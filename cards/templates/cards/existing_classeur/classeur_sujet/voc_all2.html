@@ -1,26 +1,24 @@
 {% load static %}
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles_existing_flashcards.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_existing_classeurs.css' %}">
-
     <title>Flashcards</title>
-
 </head>
 <body>
     <nav>
-          <h1> App'Roussô </h1>
-          <ul>
-              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
-              <li><a href="{% url 'retour' %}"> Retour</a></li>
-          </ul>
+        <h1>App'Roussô</h1>
+        <ul>
+            <li><a href="{% url 'welcome' %}">Page d'accueil</a></li>
+            <li><a href="{% url 'retour' %}">Retour</a></li>
+        </ul>
     </nav>
+    
     <audio id="clickSound">
-        <source src="{{ audio_file_path }}" type="audio/mpeg">
+        <source src="{% static 'page-turn.wav' %}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -29,69 +27,41 @@
         <div class="flashcard" id="flashcard" onclick="flipCard()">
             <div class="flashcard-inner">
                 <div class="flashcard-front">
-                    <h2 id="flashcardTitle"></h2>
-                    <p id="flashcardFrontContent"></p>
+                    <h2>{{ card.title }}</h2>
+                    <p>{{ card.front_content }}</p>
                 </div>
                 <div class="flashcard-back">
-                    <h2 id="flashcardTitleBack"></h2>
-                    <p id="flashcardBackContent"></p>
+                    <h2>{{ card.title }}</h2>
+                    <p>{{ card.back_content }}</p>
                 </div>
             </div>
             <div class="index">Card #{{ card.index }}</div>
         </div>
 
         <div class="buttons">
-            <button onclick="categorizeCard('a')">a</button>
-            <button onclick="categorizeCard('b')">b</button>
-            <button onclick="categorizeCard('c')">c</button>            
-            <button onclick="categorizeCard('d')">d</button>
-        </div>
-
-        <div class="pagination">
-            {% if paginator.has_previous %}
-                <a href="?page={{ paginator.previous_page_number }}">Précédent</a>
-            {% endif %}
-
-            <span>Page {{ paginator.number }} sur {{ paginator.num_pages }}</span>
-
-            {% if paginator.has_next %}
-                <a href="?page={{ paginator.next_page_number }}">Suivant</a>
-            {% endif %}
+            <form method="POST" action="{% url 'voc_all2' %}">
+                {% csrf_token %}
+                <input type="hidden" name="card_id" value="{{ card.id }}">
+                <button type="submit" name="category" value="a">a</button>
+                <button type="submit" name="category" value="b">b</button>
+                <button type="submit" name="category" value="c">c</button>            
+                <button type="submit" name="category" value="d">d</button>
+            </form>
         </div>
     </div>
+    
+    
 
-    <script>
-    // Parse card data from Django context
-    let cardData = {{ card_data|safe }};
-    let currentCardIndex = 0;
-
-    function displayCard() {
-        if (currentCardIndex >= cardData.length) {
-            alert('All cards have been categorized!');
-            return;
-        }
-
-        const card = cardData[currentCardIndex];
-        document.getElementById('flashcardTitle').textContent = card.title;
-        document.getElementById('flashcardFrontContent').innerHTML = card.front_content;
-        document.getElementById('flashcardTitleBack').textContent = card.title;
-        document.getElementById('flashcardBackContent').innerHTML = card.back_content;
-
-        // Reset flip state
-        const flashcard = document.getElementById('flashcard');
-        flashcard.classList.remove('flipped');
-    }
-
-    function flipCard() {
-        const flashcard = document.getElementById('flashcard');
-        flashcard.classList.toggle('flipped');
-
-        const clickSound = document.getElementById('clickSound');
-        clickSound.play();
-    }
-
-    // Initialize the first card
-    displayCard();
-</script>
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.flipCard = function() {
+            const flashcardInner = document.getElementById("flashcardInner");
+            if (flashcardInner) {
+                flashcardInner.classList.toggle("flipped");
+                document.getElementById("clickSound").play();
+            }
+        };
+    });
+</script>

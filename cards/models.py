@@ -12,16 +12,23 @@ class Classeur(models.Model):
         return self.name
 
 
-
 def get_default_classeur(user=None):
     if user:
         default_classeur, _ = Classeur.objects.get_or_create(name='Default Classeur', user=user)
         return default_classeur.id
 
 
+NUM_BOXES = 5
+BOXES = range(1, NUM_BOXES + 1)
+
+
 class Card(models.Model):
-    question = models.CharField(max_length=200)
-    answer = models.CharField(max_length=200)
+    question = models.CharField(max_length=100)
+    answer = models.CharField(max_length=100)
+    box = models.IntegerField(
+        choices=zip(BOXES, BOXES),
+        default=BOXES[0],
+    )
     date_created = models.DateTimeField(auto_now_add=True)
 
     classeur = models.ForeignKey(Classeur, on_delete=models.CASCADE, related_name='cards', default=get_default_classeur)
@@ -30,10 +37,10 @@ class Card(models.Model):
     def __str__(self):
         return self.question
 
-    def move(self, solved):
-        pass  # Implement any logic if needed
-
 
 class Flashcard(models.Model):
     front_content = models.CharField(max_length=100)
     back_content = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.front_content  # Ajouter une méthode pour afficher le contenu de la carte
