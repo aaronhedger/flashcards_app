@@ -285,9 +285,6 @@ def classeur_detail(request, pk):
     return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
 
     # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)
-
-    return render(request, 'cards/tutoriel.html', {'classeur': classeur, 'cards': cards})
-
 @login_required
 def classeur_create(request):
     if request.method == "POST":
