@@ -62,8 +62,10 @@
         <ul>
             {% for classeur in classeurs %}
                 <li>
-                    <a href="{% url 'view_classeur' classeur.id %}">{{ classeur.name }}</a>
+                    <a href="{% url 'tutoriel_view' classeur.pk %}?source=explore">{{ classeur.name }}</a>
                 </li>
+            {% empty %}
+                <li>Aucun classeur trouvé.</li>
             {% endfor %}
         </ul>
     </main>

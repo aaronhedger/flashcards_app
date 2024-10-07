@@ -1,49 +1,39 @@
-<!-- classeur_list.html -->
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
 <head>
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <!-- Link to your external CSS file -->
     <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
-    <!-- Optional: Add some CSS for styling the button -->
-    
 </head>
 
 <body>
     <nav>
-          <h1> App'Roussô </h1>
-          <ul>
-              <li><a href="{% url 'welcome' %}"> Page d'acceuil</a></li>
-              <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
-          </ul>
+        <h1> App'Roussô </h1>
+        <ul>
+            <li><a href="{% url 'welcome' %}"> Page d'accueil</a></li>
+            <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+        </ul>
     </nav>
     {% block content %}  
     <div class="container">
+        <div class ="box-classeur">
+            <h1>Bibliothèque</h1>
+            <h3>Vos classeurs</h3>
         
-        
-            <div class ="box-classeur">
-                <h1>Bibliothèque</h1>
-                <h3>Vos classeurs</h3>
+            {% if classeurs %}
+                <ul>
+                    {% for classeur in classeurs %}
+                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             
-                {% if classeurs %}
-                    
-                    <ul>
-                        {% for classeur in classeurs %}
-                            <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                
-                <div class="buttons">
-                    <a href="{% url 'classeur_create' %}" class="button">Créer un classeur</a>
-                    <!--button class="button" onclick="goBack()">Go Back to Start</button-->
-                </div>
+            <div class="buttons">
+                <a href="{% url 'classeur_create' %}" class="button">Créer un classeur</a>
             </div>
-        
+        </div>
     </div>
     {% endblock %}
 </body>
 </html>
-

@@ -1,5 +1,6 @@
 import json
-from audioop import reverse
+from django.urls import reverse
+
 from django.http import JsonResponse
 
 from collections import defaultdict
@@ -180,7 +181,7 @@ def create_cards_view(request):
 
 @login_required
 def explore_view(request):
-    classeurs = Classeur.objects.all()
+    classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
 
@@ -212,6 +213,11 @@ def view_classeur(request, classeur_id):
     cards = Card.objects.all()
     return render(request, 'cards/view_classeur.html', {'classeur': classeur, 'card': cards})
 
+@login_required
+def explore_view(request):
+    classeurs = Classeur.objects.filter(user=request.user)  # Récupérer tous les classeurs de l'utilisateur
+
+    return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
 class CardCreateView(CreateView):
     model = Card
@@ -278,6 +284,9 @@ def classeur_detail(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
 
+    # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)
+
+    return render(request, 'cards/tutoriel.html', {'classeur': classeur, 'cards': cards})
 
 @login_required
 def classeur_create(request):
