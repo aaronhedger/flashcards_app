@@ -1,19 +1,30 @@
 {% extends "cards/classeur_list.html" %}
-
+{% load humanize %}
 {% block content %}
     <h2>{{ classeur.name }}</h2>
+    
     {% if classeur.pk %}
         <p>
             <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
             <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
         </p>
+        
+        <h3>Cartes dans ce classeur :</h3>
+        <ul>
+            {% for card in cards %}
+                {% include "cards/card.html" %}
+                <li>Aucune carte trouvée dans ce classeur.</li>
+            {% endfor %}
+        </ul>
+        
     {% else %}
-        <p>Classeur not found or invalid.</p>
+        <p>Classeur non trouvé ou invalide.</p>
     {% endif %}
+    
     <div style="position: fixed; bottom: 20px; right: 20px;">
         <a href="{% url 'classeur_list' %}" class="button">Back</a>
     </div>
-    <a href="{% url 'card_form' classeur.pk %}" class="button">Create New Card</a>
-    
+    <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+
     {% block card_form %}{% endblock %}
 {% endblock %}

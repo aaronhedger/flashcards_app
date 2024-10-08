@@ -213,57 +213,58 @@ def view_classeur(request, classeur_id):
     cards = Card.objects.all()
     return render(request, 'cards/view_classeur.html', {'classeur': classeur, 'card': cards})
 
+
 @login_required
 def explore_view(request):
     classeurs = Classeur.objects.filter(user=request.user)  # Récupérer tous les classeurs de l'utilisateur
 
     return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
+
 class CardCreateView(CreateView):
     model = Card
-    fields = ['question', 'answer']
-    template_name = 'cards/card_form.html'  # Template à personnaliser
+    fields = ["question", "answer", "box"]  # Les champs à remplir dans le formulaire
+    template_name = 'cards/card_form.html'
+
+    # URL de redirection après la création réussie d'une carte
+    success_url = reverse_lazy("card-create")
 
     def form_valid(self, form):
+        # Récupérer l'utilisateur actuel
         user = self.request.user
 
         # Récupérer l'ID du classeur depuis l'URL
-        classeur_id = self.kwargs['classeur_id']
+        classeur_id = self.kwargs.get('classeur_id')
         classeur = get_object_or_404(Classeur, id=classeur_id, user=user)
 
         # Associer la carte au classeur et à l'utilisateur
         form.instance.classeur = classeur
         form.instance.user = user
 
-        return super().form_valid(form)
-
-
-class CardFormView(FormView):
-    form_class = CardForm
-    template_name = 'cards/card_form.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['classeur_id'] = self.kwargs.get('classeur_id')
-        return context
-
-    def form_valid(self, form):
-        # Handle form submission
-        card = form.save(commit=False)
-        card.classeur_id = self.kwargs.get('classeur_id')
-        card.save()
+        # Sauvegarder le formulaire et rediriger
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('card-list', kwargs=["card-list", self.object.id])  # Redirect after a successful form submission
+        # Redirige vers le détail du classeur après création de la carte
+        return reverse_lazy('classeur_detail', kwargs={'pk': self.kwargs['classeur_id']})
 
 
 class CardListView(ListView):
     model = Card
-    template_name = 'cards/card_list.html'
+    template_name = 'cards/classeur_detail.html'
+    context_object_name = 'cards'
 
     def get_queryset(self):
-        return Card.objects.filter(user=self.request.user).order_by("classeur", "box", "-date_created")
+        classeur_id = self.kwargs.get('classeur_id')
+        classeur = get_object_or_404(Classeur, id=classeur_id, user=self.request.user)
+        return Card.objects.filter(classeur=classeur).order_by("-date_created")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        classeur_id = self.kwargs.get('classeur_id')
+        classeur = get_object_or_404(Classeur, id=classeur_id, user=self.request.user)
+        context['classeur'] = classeur
+        return context
 
 
 class CardUpdateView(CardCreateView, UpdateView):
@@ -284,7 +285,9 @@ def classeur_detail(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
 
-    # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)
+    # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)card
+
+
 @login_required
 def classeur_create(request):
     if request.method == "POST":

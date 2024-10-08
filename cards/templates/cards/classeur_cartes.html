@@ -1,23 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "cards/classeur_list.html" %}
+{% load humanize %}
+{% block content %}
+    <h2>{{ classeur.name }}</h2>
+    
+    {% if classeur.pk %}
+        <p>
+            <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
+            <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
+        </p>
+        
+        <h3>Cartes dans ce classeur :</h3>
+        <ul>
+            {% for card in cards %}
+                {% include "cards/card.html" %}
+                <li>Aucune carte trouvée dans ce classeur.</li>
+            {% endfor %}
+        </ul>
+        
+    {% else %}
+        <p>Classeur non trouvé ou invalide.</p>
+    {% endif %}
+    
+    <div style="position: fixed; bottom: 20px; right: 20px;">
+        <a href="{% url 'classeur_list' %}" class="button">Back</a>
+    </div>
+    <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+    
 
-</body>
-</html>
-
-<h1>{{ classeur.name }}</h1>
-
-<ul>
-    {% for card in cards %}
-        <li>{{ card.question }} - {{ card.answer }}</li>
-    {% empty %}
-        <li>Aucune carte dans ce classeur.</li>
-    {% endfor %}
-</ul>
-
-<!-- Lien pour créer une nouvelle carte en passant l'ID du classeur -->
-<a href="{% url 'card-create' classeur.id %}">Créer une nouvelle carte</a>
+    {% block card_form %}{% endblock %}
+{% endblock %}
