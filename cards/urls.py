@@ -26,9 +26,14 @@ urlpatterns = [
 
                   path('classeur/<int:pk>/', ClasseurDetailView.as_view(), name='classeur_detail'),
                   path("classeur/<int:classeur_id>/card/create/",views.CardCreateView.as_view(),name="card-create"),
-                  path("", CardListView.as_view(), name='card-list'),
+                  path('classeur/<int:classeur_id>/cards/', CardListView.as_view(), name='card-list'),
                   path("edit/<int:pk>/", views.CardUpdateView.as_view(), name="card-update"),
-                  path("card/<int:pk>/delete/", views.card_delete, name="card-delete"),
+                  path("delete/<int:pk>/", views.card_delete, name="card-delete"),
+
+                  path("classeur/<int:classeur_id>/box/<int:box_num>/", views.ClasseurBoxView.as_view(),
+                       name="classeur-box"),
+
+                  path('entrainement/<int:classeur_id>/', views.entrainement_view, name='entrainement'),
 
 
                   path('login/', login_view, name='login'),

@@ -1,0 +1,13 @@
+<!-- templates/cards/box.html -->
+
+{% extends "cards/classeur_cartes.html" %}
+{% load humanize %}
+
+{% block content %}
+    <h2>{{ classeur.name }} - 🗃 {{ box_number | ordinal }} Box</h2>
+    <mark>{{ object_list | length }}</mark> Card{{ object_list | pluralize }} left in this box.
+    <hr>
+    {% if check_card %}
+        {% include "cards/card.html" with card=check_card %}
+    {% endif %}
+{% endblock content %}

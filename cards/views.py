@@ -1,5 +1,7 @@
 import json
 from django.urls import reverse
+from .forms import CardCheckForm
+from django.shortcuts import get_object_or_404, redirect
 
 from django.http import JsonResponse
 
@@ -251,7 +253,7 @@ class CardCreateView(CreateView):
 
 class CardListView(ListView):
     model = Card
-    template_name = 'cards/classeur_detail.html'
+    template_name = 'cards/classeur_cartes.html'
     context_object_name = 'cards'
 
     def get_queryset(self):
@@ -267,8 +269,22 @@ class CardListView(ListView):
         return context
 
 
-class CardUpdateView(CardCreateView, UpdateView):
-    success_url = reverse_lazy("card-list")
+class CardUpdateView(UpdateView):
+    model = Card
+    fields = ["question", "answer", "box"]  # You can adjust fields based on your model
+    template_name = 'cards/card_form.html'
+    success_url = None  # We'll define success_url in the get_success_url method
+
+    def form_valid(self, form):
+        # Ensure the Classeur associated with the card is valid
+        card = form.instance
+        classeur = get_object_or_404(Classeur, id=card.classeur.id, user=self.request.user)
+        form.instance.classeur = classeur
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Use the Classeur ID of the card to redirect to the correct card list
+        return reverse('card-list', kwargs={'classeur_id': self.object.classeur.id})
 
 
 @login_required
@@ -283,7 +299,9 @@ def classeur_list(request):
 @login_required
 def classeur_detail(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
-    return render(request, 'cards/classeur_detail.html', {'classeur': classeur})
+    cards = Card.objects.filter(classeur=classeur)  # Ensure you're filtering by the right Classeur
+
+    return render(request, 'cards/classeur_cartes.html', {'classeur': classeur, 'cards':cards})
 
     # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)card
 
@@ -326,11 +344,47 @@ def classeur_delete(request, pk):
 
 @login_required
 def card_delete(request, pk):
+    # Get the card and ensure the user has permission to delete it
     card = get_object_or_404(Card, pk=pk, user=request.user)
+
+    # Get the Classeur ID before deleting the card
+    classeur_id = card.classeur.id
+
     if request.method == "POST":
+        # Delete the card
         card.delete()
-        return redirect("card_list")
-    return render(request, "cards/cards_confirm_delete.html", {'card': card})
+        # Redirect to the list of cards in the same Classeur
+        return redirect('card-list', classeur_id=classeur_id)
+
+    return render(request, 'cards/cards_confirm_delete.html', {'card': card})
+
+
+class ClasseurBoxView(ListView):
+    template_name = "cards/classeur_box.html"
+    form_class = CardCheckForm
+
+    def get_queryset(self):
+        # Filter cards by the Classeur ID and box number
+        return Card.objects.filter(classeur=self.kwargs["classeur_id"], box=self.kwargs["box_num"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the Classeur and box number to the template
+        context["classeur"] = Classeur.objects.get(pk=self.kwargs["classeur_id"])
+        context["box_number"] = self.kwargs["box_num"]
+        if self.object_list:
+            context["check_card"] = random.choice(self.object_list)
+
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            card = get_object_or_404(Card, id=form.cleaned_data["card_id"])
+            card.move(form.cleaned_data["solved"])
+
+        return redirect(request.META.get("HTTP_REFERER"))
 
 
 def classeur_all_view(request):
@@ -363,3 +417,9 @@ def sans_connections_view(request):
 
 def exercise_complete_view(request):
     return render(request, 'cards/existing_classeur/classeur_sujet/exercise_complete.html')
+
+
+def entrainement_view(request, classeur_id):
+    classeur = get_object_or_404(Classeur, pk=classeur_id, user=request.user)  # Ensure the user owns the classeur
+    # You can now pass the classeur to your context if needed
+    return render(request, 'cards/entrainement.html', {'classeur': classeur})

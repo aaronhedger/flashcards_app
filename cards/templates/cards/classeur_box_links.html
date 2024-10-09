@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% load humanize %}
+
+    {% for box in boxes %}
+    <a href="{% url 'classeur-box' classeur_id=classeur.id box_num=box.number %}">
+        🗃 {{ box.number | ordinal }} Box <mark>{{ box.card_count }}</mark>
+        </a>
+    {% endfor %}
+</body>
+</html>

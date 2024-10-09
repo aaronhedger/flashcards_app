@@ -2,13 +2,13 @@
 {% load humanize %}
 {% block content %}
     <h2>{{ classeur.name }}</h2>
-    
+
     {% if classeur.pk %}
         <p>
             <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
             <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
         </p>
-        
+
         <h3>Cartes dans ce classeur :</h3>
         <ul>
             {% for card in cards %}
@@ -16,11 +16,11 @@
                 <li>Aucune carte trouvée dans ce classeur.</li>
             {% endfor %}
         </ul>
-        
+
     {% else %}
         <p>Classeur non trouvé ou invalide.</p>
     {% endif %}
-    
+
     <div style="position: fixed; bottom: 20px; right: 20px;">
         <a href="{% url 'classeur_list' %}" class="button">Back</a>
     </div>

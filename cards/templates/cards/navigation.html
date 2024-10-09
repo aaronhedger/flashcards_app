@@ -1,7 +1,7 @@
 <!-- cards/templates/cards/navigation.html -->
-{% load cards_tags %}
+{% load classeur_tags %}
 
 <nav>
-    <a href="{% url 'card-list' %}">🗂 All Cards</a>
+    <a href="{% url 'card-list' classeur_id %}">🗂 All Cards</a>
     {% boxes_as_links %}
 </nav>

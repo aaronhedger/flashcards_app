@@ -1,8 +1,13 @@
+<!--classeur_cartes.html -->
 {% extends "cards/classeur_list.html" %}
+{% load classeur_tags %}
 {% load humanize %}
 {% block content %}
     <h2>{{ classeur.name }}</h2>
-    
+    <nav>
+        <a href="{% url 'classeur_list' %}">Back to Classeur List</a>
+        {% classeur_boxes_as_links classeur %}
+    </nav>
     {% if classeur.pk %}
         <p>
             <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
@@ -11,9 +16,12 @@
         
         <h3>Cartes dans ce classeur :</h3>
         <ul>
+        
             {% for card in cards %}
+                {% ifchanged %}
+                    <h3>🗃 {{ card.box | ordinal }} Box</h3>
+                {% endifchanged %}
                 {% include "cards/card.html" %}
-                <li>Aucune carte trouvée dans ce classeur.</li>
             {% endfor %}
         </ul>
         
@@ -24,7 +32,11 @@
     <div style="position: fixed; bottom: 20px; right: 20px;">
         <a href="{% url 'classeur_list' %}" class="button">Back</a>
     </div>
-    <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+    <div class="buttons">
+        <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+    
+        <a href="{% url 'entrainement' classeur.pk%}" class="button">Commencer l'entrainement</a>
+    </div>
     
 
     {% block card_form %}{% endblock %}
