@@ -1,25 +1,51 @@
-<!-- templates/cards/card.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles_flashcards.css' %}">
+    <title>Flashcards</title>
+   
+</head>
+<body>
 
-<article>
-    <h4>{{ card.question }}</h4>
-    {% if not check_card %}
-        <p>{{ card.answer }}</p>
-        <hr>
-        <a href="{% url 'card-update' card.id %}" role="button">
-            ✏️ Edit Card
-        </a>
-        <a href="{% url 'card-delete' card.id %}"  role="button">Delete
-        </a>
-    {% else %}
-        <details>
-            <summary>Reveal Answer</summary>
-            <p>{{ card.answer }}</p>
-        </details>
-        <hr>
-        {% include "cards/card_check_form.html" with solved=True %}
-        {% include "cards/card_check_form.html" with solved=False %}
-    {% endif %}
+    <div class="container-card">
+        <!-- Flashcard display area -->
+        <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h4>{{ card.question }}</h4>
+                </div>
+                <div class="flashcard-back">
+                    <p>{{ card.answer }}</p>
+                </div>
+            </div>
+        </div>
 
-</article>
+        <!-- Buttons under the flashcard -->
+        <div class="card-actions">
+            {% if check_card %}
+                <!-- Show "I know" and "I don't know" buttons only in box view -->
+                <form method="post" class="check-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="card_id" value="{{ card.id }}">
+                    <input type="hidden" name="solved" value="true">
+                    <button type="submit" class="button">✅ I know</button>
+                </form>
+                <form method="post" class="check-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="card_id" value="{{ card.id }}">
+                    <input type="hidden" name="solved" value="false">
+                    <button type="submit" class="button">❌ I don't know</button>
+                </form>
+            {% else %}
+                <!-- Show Edit and Delete buttons only in card list view -->
+                <a href="{% url 'card-update' card.id %}" class="button">✏️ Edit Card</a>
+                <a href="{% url 'card-delete' card.id %}" class="button">Delete</a>
+            {% endif %}
+        </div>
+    </div>
 
-
+</body>
+</html>

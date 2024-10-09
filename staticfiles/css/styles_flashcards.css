@@ -1,12 +1,4 @@
-<!-- cards/existing_classeur/classeur_sujet/voc_all1.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards</title>
-    <style>
-        /* Flashcard styling */
+/* Flashcard styling */
         .flashcard {
             width: 300px;
             height: 400px;
@@ -50,61 +42,28 @@
             transform: rotateY(180deg); /* Start with the back side flipped */
         }
 
-        .buttons {
+        .card-actions {
             text-align: center;
             margin-top: 20px;
         }
 
-        .buttons button {
+        .card-actions button, .card-actions a {
             padding: 10px 20px;
             margin: 10px;
             font-size: 16px;
             cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <audio id="clickSound">
-        <source src="{{ audio_file_path }}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <div class="container">
-        <h1>Flashcards</h1>
-
-        <!-- Flashcard display area -->
-        <div class="flashcard" id="flashcard" onclick="flipCard()">
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <h2 class="title" id="flashcardTitle"></h2>
-                    <p id="flashcardFrontContent"></p>
-                </div>
-                <div class="flashcard-back">
-                    <h2 class="title" id="flashcardTitleBack"></h2>
-                    <p id="flashcardBackContent"></p>
-                </div>
-            </div>
-        </div>
-
-        
-    </div>
-
-    
-    <script>
-       
-        let isFlipped = false;
-
-        
-
-        // Function to flip the card
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped'); // Toggle the 'flipped' class
-            isFlipped = !isFlipped;
+            text-decoration: none;
+            color: #fff;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
         }
 
-        
+        .card-actions a {
+            background-color: #5f80ec; /* Change button color for links */
+        }
 
-    </script>
-</body>
-</html>
+        .card-actions a:hover, .card-actions button:hover {
+            background-color: #555;
+        }

@@ -14,30 +14,34 @@
             <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
         </p>
         
-        <h3>Cartes dans ce classeur :</h3>
-        <ul>
+        <div class="container3">
+            <div class="box-flashcards">
+                <h3>Cartes dans ce classeur :</h3>
+                <ul>
+                
+                    {% for card in cards %}
+                        
+                        {% include "cards/card.html" %}
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% else %}
+            <p>Classeur non trouvé ou invalide.</p>
+        {% endif %}
         
-            {% for card in cards %}
-                {% ifchanged %}
-                    <h3>🗃 {{ card.box | ordinal }} Box</h3>
-                {% endifchanged %}
-                {% include "cards/card.html" %}
-            {% endfor %}
-        </ul>
+        <div style="position: fixed; bottom: 20px; right: 20px;">
+            <a href="{% url 'classeur_list' %}" class="button">Back</a>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
         
-    {% else %}
-        <p>Classeur non trouvé ou invalide.</p>
-    {% endif %}
+        </div>
     
-    <div style="position: fixed; bottom: 20px; right: 20px;">
-        <a href="{% url 'classeur_list' %}" class="button">Back</a>
-    </div>
-    <div class="buttons">
-        <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
-    
-        <a href="{% url 'entrainement' classeur.pk%}" class="button">Commencer l'entrainement</a>
-    </div>
-    
-
     {% block card_form %}{% endblock %}
 {% endblock %}

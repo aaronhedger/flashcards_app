@@ -1,6 +1,8 @@
 import json
 from django.urls import reverse
 from .forms import CardCheckForm
+from django.contrib import messages
+
 from django.shortcuts import get_object_or_404, redirect
 
 from django.http import JsonResponse
@@ -301,7 +303,7 @@ def classeur_detail(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     cards = Card.objects.filter(classeur=classeur)  # Ensure you're filtering by the right Classeur
 
-    return render(request, 'cards/classeur_cartes.html', {'classeur': classeur, 'cards':cards})
+    return render(request, 'cards/classeur_cartes.html', {'classeur': classeur, 'cards': cards})
 
     # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)card
 
@@ -375,7 +377,6 @@ class ClasseurBoxView(ListView):
         if self.object_list:
             context["check_card"] = random.choice(self.object_list)
 
-
         return context
 
     def post(self, request, *args, **kwargs):
@@ -385,6 +386,14 @@ class ClasseurBoxView(ListView):
             card.move(form.cleaned_data["solved"])
 
         return redirect(request.META.get("HTTP_REFERER"))
+
+    def render_to_response(self, context, **response_kwargs):
+        # Check if the box is empty and redirect if there are no cards
+        if not context["object_list"]:
+            messages.success(self.request, "Vous avez terminé cette box!")  # Add success message
+            return redirect("card-list",
+                            classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
+        return super().render_to_response(context, **response_kwargs)
 
 
 def classeur_all_view(request):
