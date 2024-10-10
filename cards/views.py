@@ -432,3 +432,12 @@ def entrainement_view(request, classeur_id):
     classeur = get_object_or_404(Classeur, pk=classeur_id, user=request.user)  # Ensure the user owns the classeur
     # You can now pass the classeur to your context if needed
     return render(request, 'cards/entrainement.html', {'classeur': classeur})
+
+
+def card_list(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  # Redirect to the login page or handle it as needed
+
+    classeurs = Classeur.objects.filter(user=request.user)
+    cards = Card.objects.filter(classeur__in=classeurs)
+    return render(request, 'cards/classeur_list.html', {'classeurs': classeurs, 'cards': cards})

@@ -8,10 +8,6 @@
         {% classeur_boxes_as_links classeur %}
     </nav>
     {% if classeur.pk %}
-        <p>
-            <a href="{% url 'classeur-edit' classeur.pk %}">Modifier</a> |
-            <a href="{% url 'classeur_delete' classeur.pk %}">Supprimer</a>
-        </p>
 
         <div class="container3">
             <div class="box-flashcards">
@@ -21,7 +17,12 @@
                 <ul>
                     {% for card in cards %}
                       <div class="cards-list">
-                        <h4>{{ card.question }} - {{ card.answer }}</h4>
+                        <div class="card-content">
+                            <h4>{{ card.question }} - {{ card.answer }}</h4>
+                        </div>
+                        <div class="card-actions">
+                            <a href="{% url 'card-update' card.id %}" class="button">✏️ Edit Card</a>
+                        </div>
                       </div> 
                     {% endfor %}
                 </ul>

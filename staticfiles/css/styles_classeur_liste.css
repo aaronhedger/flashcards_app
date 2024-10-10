@@ -387,3 +387,12 @@ button.supprimer {
 button.supprimer:hover {
     background-color: #c0392b;
 }
+
+.card-content {
+    flex-grow: 1;
+}
+
+/* Aligns the button on the right */
+.card-actions {
+    flex-shrink: 0;
+}
