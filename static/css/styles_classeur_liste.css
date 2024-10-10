@@ -236,11 +236,10 @@ h1{
     width: 30vw;
     height: 60vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     align-content: space-between;
-    background: #5f80ec;
     border:none;
     color: white;
     border-radius: 10px;
@@ -259,3 +258,10 @@ h1{
  div h4{
     color: white;
 }
+
+.cards-list {
+    width: 50vw;
+    height: auto;
+    background: #5f80ec;
+}
+
