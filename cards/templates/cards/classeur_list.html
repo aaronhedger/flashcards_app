@@ -9,31 +9,42 @@
 
 <body>
     <nav>
-        <h1> App'Roussô </h1>
+        <h1>App'Roussô</h1>
         <ul>
-            <li><a href="{% url 'welcome' %}"> Page d'accueil</a></li>
-            <li><a href="{% url 'logout' %}"> Se déconnecter</a></li>
+            <li><a href="{% url 'welcome' %}">Page d'accueil</a></li>
+            <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
         </ul>
     </nav>
+
     {% block content %}  
     <div class="container">
-        <div class ="box-classeur">
+        <div class="box-classeur">
             <h1>Bibliothèque</h1>
             <h3>Vos classeurs</h3>
         
             {% if classeurs %}
-                <ul>
+                <ul class="classeur-list">
                     {% for classeur in classeurs %}
-                        <li><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></li>
+                        <li>
+                            <span class="classeur-title"><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></span>
+                            <div class="classeur-actions">
+                                <a href="{% url 'classeur-edit' classeur.pk %}">
+                                    <button class="modifier">Modifier</button>
+                                </a>
+                                <a href="{% url 'classeur_delete' classeur.pk %}">
+                                    <button class="supprimer">Supprimer</button>
+                                </a>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
+            {% else %}
+                <p>Aucun classeur trouvé.</p>
             {% endif %}
             
             <div class="buttons">
                 <a href="{% url 'classeur_create' %}" class="button">Créer un classeur</a>
             </div>
-             
-            
         </div>
     </div>
     {% endblock %}

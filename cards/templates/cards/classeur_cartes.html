@@ -3,7 +3,6 @@
 {% load classeur_tags %}
 {% load humanize %}
 {% block content %}
-    <h2>{{ classeur.name }}</h2>
     <nav>
         <a href="{% url 'classeur_list' %}">Back to Classeur List</a>
         {% classeur_boxes_as_links classeur %}
@@ -16,7 +15,9 @@
 
         <div class="container3">
             <div class="box-flashcards">
-                <h3>Cartes dans ce classeur :</h3>
+                
+                <h3>Cartes dans {{ classeur.name }}:</h3>
+                <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
                 <ul>
                     {% for card in cards %}
                       <div class="cards-list">
@@ -34,7 +35,7 @@
             <a href="{% url 'classeur_list' %}" class="button">Back</a>
         </div>
         <div class="buttons">
-            <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+            
 
         </div>
 
