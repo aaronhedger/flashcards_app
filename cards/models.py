@@ -39,7 +39,7 @@ class Card(models.Model):
         return self.question
 
     def move(self, solved):
-        new_box = self.box + 1 if solved else max(self.box - 1, 0)
+        new_box = self.box + 1 if solved else BOXES[0]
 
         if new_box in BOXES:
             self.box = new_box
