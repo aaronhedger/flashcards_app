@@ -140,8 +140,8 @@ nav h1 {
 
 }
 
-.box-register {
-    background: #f4e09b;
+.box-register, .box-register2{
+
     flex-direction: column;
     width: 65%;
     height: 100%;
@@ -149,16 +149,33 @@ nav h1 {
     align-content: center;
     text-align: center;
     padding: 60px;
-
-
+    border-radius: 15px;
+}
+.box-register{
+    background: #f4e09b;
+}
+.box-register2{
+    color:white;
+    background: #6f94c6;
 
 }
 
-.box-register h2 {
+.box-register h2, .box-register2 h2{
     font-family: arial, serif;
     font-size: 50px;
     text-align: center;
 }
+
+
 .error-message {
     color: #9f1111;
+}
+
+.button-next {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px
+
 }
