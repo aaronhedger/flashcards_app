@@ -14,18 +14,23 @@
 
 {% block content %}
      <div class="container">  
-         <div class="box-register">   
+         <div class="box-register2">   
             {% if classeur %}
                 <h2>✏️ Modifier Classeur</h2>
             {% else %}
-                <h1>Créer un nouveau Classeur</h1>
+                <h1>Créez un nouveau classeur</h1>
             {% endif %}
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Sauvegarder">
-            </form>
-            <a href="{% url 'classeur_list' %}">Annuler</a>
+             <div class="button-next">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="button-next">
+                            <input type="submit" value="Sauvegarder">
+                            <a href="{% url 'classeur_list' %}">Annuler</a>
+                        </div>    
+                    </form>
+                    
+             </div>
          </div>
      </div> 
 {% endblock %}
