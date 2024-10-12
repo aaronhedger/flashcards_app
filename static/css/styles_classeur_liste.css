@@ -139,8 +139,8 @@ nav h1 {
 
 .box-register, .box-classeur {
     background: #e6a24d;
-    width: 65%;
-    height: 100%;
+    width: 80vw;
+    height: auto;
     justify-content: center;
     align-content: center;
     padding: 60px;
@@ -250,14 +250,14 @@ h1{
 
 }
 
-.box-flashcards {
+.box-flashcards, .box-classeur {
     text-align: center;
     padding: 20px;
     background-color: #899cdc;
     border-radius: 15px;
 }
 
-.box-flashcards h3 {
+.box-flashcards h3, .box-classeur h3 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
@@ -268,7 +268,7 @@ ul {
     padding: 0;
 }
 
-.cards-list {
+.cards-list, .classeur-list {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -278,115 +278,54 @@ ul {
 
 }
 
-.cards-list:hover {
+.cards-list, .classeur-list :hover {
     transform: translateY(-5px);
 }
 
-.cards-list h4 {
+.cards-list h4, .classeur-list {
     font-size: 18px;
     color: #555;
 }
 
-.nav2 {
+nav2 {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 10px 0;
     /* gdzwgauhd */
     background: #d55d5d;
 
 }
-.nav2 ul {
+nav2 ul {
     list-style: none;
     width: 100%;
     text-align: right;
     padding-right: 60px;
+
 }
 
-.nav2 ul li {
+nav2 ul li {
     display: inline-block;
     margin: 10px 20px;
 
 }
 
-.nav2 ul li a {
-    color: #ffffff;
+nav2 ul li a {
+    color: white;
     text-decoration: none;
 }
-.nav2 ul li a:hover {
+nav2 ul li a:hover {
     color: white;
 }
-.nav2 ul li a:visited {
+nav2 ul li a:visited {
     color: white;
 }
-.nav2 ul li a:active {
+nav2 ul li a:active {
     color: white;
 }
 
-/* Style for the list of classeurs */
-.classeur-list {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-}
 
-.classeur-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    margin-bottom: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: box-shadow 0.3s ease;
-}
-
-.classeur-list li:hover {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Style for the main "classeur" text */
-.classeur-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    flex-grow: 2;  /* Makes the title take more space */
-    margin-right: 20px;
-}
-
-/* Style for the smaller buttons */
-.classeur-actions {
-    display: flex;
-    gap: 10px; /* Adds space between the buttons */
-}
-
-.classeur-actions button {
-    font-size: 14px;
-    padding: 5px 10px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.classeur-actions button:hover {
-    background-color: #004080;
-}
-
-button.supprimer {
-    background-color: #e74c3c;
-}
-
-button.supprimer:hover {
-    background-color: #c0392b;
-}
 
 .card-content {
     flex-grow: 1;
@@ -395,4 +334,10 @@ button.supprimer:hover {
 /* Aligns the button on the right */
 .card-actions {
     flex-shrink: 0;
+    justify-content: right;
+}
+
+.classeur-list li a button {
+    text-align: right;
+
 }

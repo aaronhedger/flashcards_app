@@ -1,4 +1,3 @@
-import json
 from django.urls import reverse
 from .forms import CardCheckForm
 from django.contrib import messages
@@ -389,6 +388,7 @@ class ClasseurBoxView(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         # Check if the box is empty and redirect if there are no cards
+
         if not context["object_list"]:
             messages.success(self.request, "Vous avez terminé cette box!")  # Add success message
             return redirect("card-list",

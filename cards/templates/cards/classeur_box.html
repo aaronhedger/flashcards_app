@@ -5,8 +5,9 @@
 
 {% block content %}
     <h2>{{ classeur.name }} - 🗃 {{ box_number | ordinal }} Box</h2>
-    <mark>{{ object_list | length }}</mark> Card{{ object_list | pluralize }} left in this box.
-    <hr>
+    <br>
+    <br>
+    <br>
     {% if check_card %}
         {% include "cards/card.html" with card=check_card %}
     {% endif %}

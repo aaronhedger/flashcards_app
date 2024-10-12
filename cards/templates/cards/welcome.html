@@ -23,17 +23,20 @@
     
       <div class="container">
         <div class="left">
-            <h1> Bienvenue <br> dans votre app !</h1>
-            <div class="box-1">
-                <p> App'Roussô est heureux de vous présenter votre application personnelle qui vous aidera tout au long de vos études ! Transformez vos moments d'étude en succès avec notre app de flashcards. Plus de révisions ennuyeuses, juste des résultats ! 📚✨</p>
+            <div class="text-block">
+                <h2>Bienvenue sur App'Roussô</h2>
+                <p>App'Roussô est heureux de vous présenter votre application personnelle qui vous aidera tout au long de vos études ! Transformez vos moments d'étude en succès avec notre app de flashcards. Plus de révisions ennuyeuses, juste des résultats ! 📚✨</p>
             </div>
             
-                <p> Pour cela veuillez vous inscrire ou vous connecter si vous avez déjà un compte. Vous pouvez également essayer les cartes déjà existantes sans connection.</p>
+            <div class="text-block">
+                <h2>Inscrivez-vous pour commencer</h2>
+                <p>Pour cela, veuillez vous inscrire ou vous connecter si vous avez déjà un compte. Vous pouvez également essayer les cartes déjà existantes sans connexion.</p>
                 <div class="btn">
-                    <a href="{% url 'sans-connection' %}" class="button">cartes déja existantes</a>
+                    <a href="{% url 'sans-connection' %}" class="button">Cartes déjà existantes</a>
                 </div>
             
-        </div>
+            </div>
+        </div> 
         <div class="right">
             <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
         </div>

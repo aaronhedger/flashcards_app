@@ -3,10 +3,11 @@
 {% load classeur_tags %}
 {% load humanize %}
 {% block content %}
-    <nav>
-        <a href="{% url 'classeur_list' %}">Back to Classeur List</a>
+    <br>
+    <nav2>
+        
         {% classeur_boxes_as_links classeur %}
-    </nav>
+    </nav2>
     {% if classeur.pk %}
 
         <div class="container3">
