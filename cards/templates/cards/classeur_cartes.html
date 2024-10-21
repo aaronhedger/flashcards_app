@@ -14,7 +14,7 @@
             <div class="box-flashcards">
                 
                 <h3>Cartes dans {{ classeur.name }}:</h3>
-                <a href="{% url 'card-create' classeur.pk %}" class="button">Create New Card</a>
+                <a href="{% url 'card-create' classeur.pk %}" class="button">Nouvelle carte</a>
                 <ul>
                     {% for card in cards %}
                       <div class="cards-list">
@@ -22,24 +22,58 @@
                             <h4>{{ card.question }} - {{ card.answer }}</h4>
                         </div>
                         <div class="card-actions">
-                            <a href="{% url 'card-update' card.id %}" class="button">✏️ Edit Card</a>
+                            <a href="{% url 'card-update' card.id %}" class="button">✏️ modifier</a>
                         </div>
                       </div> 
                     {% endfor %}
                 </ul>
             </div>
         </div>
-        {% else %}
+    {% else %}
             <p>Classeur non trouvé ou invalide.</p>
-        {% endif %}
+    {% endif %}
 
-        <div style="position: fixed; bottom: 20px; right: 20px;">
+    <div style="position: fixed; bottom: 20px; right: 20px;">
             <a href="{% url 'classeur_list' %}" class="button">Back</a>
-        </div>
-        <div class="buttons">
+    </div>
             
+    <!-- Bouton pour ouvrir la modale -->
+    <button id="rulesBtn" class="fixed-button">Règles du jeu</button>
 
+    <!-- Modale -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Règles du jeu</h2>
+            <p>Voici les règles du jeu que vous devez suivre...</p>
         </div>
+    </div>
 
     {% block card_form %}{% endblock %}
-{% endblock %}
+
+    <!-- JavaScript pour la modale -->
+    <script>
+        // Récupérer les éléments
+        var modal = document.getElementById("rulesModal");
+        var btn = document.getElementById("rulesBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Ouvrir la modale lorsque le bouton est cliqué
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Fermer la modale lorsque l'utilisateur clique sur le <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Fermer la modale si l'utilisateur clique en dehors de la modale
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    
+{% endblock %}    
