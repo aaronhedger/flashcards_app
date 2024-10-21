@@ -171,9 +171,8 @@ div ul li {
 }
 
 div ul li a {
-    color: black;
+    color:white;
     text-decoration: none;
-    background: #fbfbfb;
     border-radius: 5px;
     width: 100%;
     padding: 10px;
@@ -339,6 +338,12 @@ nav2 ul li a:active {
 .classeur-list li a button {
     text-align: right;
 
+}
+
+.classeur-list li{
+    background: rgb(232, 126, 159);
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .classeur-title {
