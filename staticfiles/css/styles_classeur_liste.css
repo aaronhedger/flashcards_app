@@ -279,7 +279,6 @@ ul {
 }
 
 .cards-list, .classeur-list :hover {
-    transform: translateY(-5px);
 }
 
 .cards-list h4, .classeur-list {
@@ -340,4 +339,8 @@ nav2 ul li a:active {
 .classeur-list li a button {
     text-align: right;
 
+}
+
+.classeur-title {
+    flex: 2
 }

@@ -23,18 +23,19 @@
         <div class="left">
             <div class="text-block">
                 <h2>Bienvenue sur App'Roussô</h2>
-                <p>App'Roussô est heureux de vous présenter votre application personnelle qui vous aidera tout au long de vos études ! Il s'agit d'une application aidant à la mémorisation à travers une optimisation du temps de travail. Alors, découvrez vite nos flashcards qui vous aideront à tout mémoriser !</p>
+                <p>App'Roussô est ravi de vous présenter votre application personnelle, conçue pour vous accompagner tout au long de vos études ! Cette application facilite la mémorisation en optimisant votre temps d’apprentissage. Explorez dès maintenant nos flashcards pour maîtriser facilement vos connaissances !</p>
             </div>
             
             <div class="text-block">
                 <h2>Inscrivez-vous pour commencer</h2>
-                <p>Pour cela, veuillez vous inscrire ou vous connecter si vous avez déjà un compte. Vous pouvez également essayer les cartes déjà existantes sans connexion.</p>
-                <div class="btn">
-                    <a href="{% url 'sans-connection' %}" class="button">Cartes déjà existantes</a>
-                </div>
+                <p>Créez un compte ou connectez-vous si vous en avez déjà un. Vous pouvez également essayer les cartes existantes sans avoir besoin de vous inscrire.</p>
+            
             
             </div>
-        </div> 
+            <div class="btn">
+                    <a href="{% url 'sans-connection' %}" class="button">Cartes déjà existantes</a>
+            </div>
+        </div>
         <div class="right">
             <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
         </div>
