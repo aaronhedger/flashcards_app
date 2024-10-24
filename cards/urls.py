@@ -17,12 +17,12 @@ urlpatterns = [
                   path('create-cards/', views.create_cards_view, name='create_cards'),
                   path("explore/", views.explore_view, name='explore'),
                   path("start-cards/", views.start_cards_view, name='start_cards'),
+
                   path('classeur/<int:classeur_id>/card/create/', views.CardCreateView.as_view(), name='card_create'),
                   path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
                   path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur-edit'),
                   path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
                   path('classeurs/', views.classeur_list, name='classeur_list'),
-                  # Updated card creation and form view paths
 
                   path('classeur/<int:pk>/', ClasseurDetailView.as_view(), name='classeur_detail'),
                   path("classeur/<int:classeur_id>/card/create/",views.CardCreateView.as_view(),name="card-create"),

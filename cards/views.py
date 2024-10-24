@@ -1,38 +1,21 @@
-from django.urls import reverse
-from .forms import CardCheckForm
+import random
 from django.contrib import messages
 
-from django.shortcuts import get_object_or_404, redirect
-
-from django.http import JsonResponse
-
-from collections import defaultdict
-from django.shortcuts import render, redirect
-from .models import Card
-from .algorithms import flashcard_algorithm  # Assurez-vous d'importer votre algorithme
-
-from django.views.decorators.http import require_POST
-
-import random
-
-from .algorithms import flashcard_algorithm
-
-from lib2to3.fixes.fix_input import context
-
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     CreateView,
-    UpdateView, DetailView, FormView,
-)
+    UpdateView, DetailView, )
 
-from .forms import CardForm
+from .algorithms import flashcard_algorithm
+from .forms import CardCheckForm
 from .forms import ClasseurForm, SignUpForm
 from .models import Card, Flashcard
 from .models import Classeur
@@ -43,8 +26,10 @@ def register(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Automatically log in the user after registration
-            return redirect('login')  # Redirect to a success page or home
+            messages.success(request, 'compte crée avec succès')
+
+            login(request, user) # connecte directement l'utilisateur après l'incript
+            return redirect('create_cards')  # redirige à la biblio
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -56,7 +41,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('classeur_list')  # Redirect to the home page or wherever you want
+            return redirect('classeur_list')  # redirige à la biblio
     else:
         form = AuthenticationForm()
 
@@ -233,12 +218,11 @@ class CardCreateView(CreateView):
     success_url = reverse_lazy("card-create")
 
     def form_valid(self, form):
-        # Récupérer l'utilisateur actuel
-        user = self.request.user
 
-        # Récupérer l'ID du classeur depuis l'URL
-        classeur_id = self.kwargs.get('classeur_id')
-        classeur = get_object_or_404(Classeur, id=classeur_id, user=user)
+        user = self.request.user # permet de récupérer l'utilisateur actuel
+
+        classeur_id = self.kwargs.get('classeur_id')  # Récupérer l'ID du classeur depuis l'URL
+        classeur = get_object_or_404(Classeur, id=classeur_id, user=user) # récup. objet Classeur dans la base de donn.
 
         # Associer la carte au classeur et à l'utilisateur
         form.instance.classeur = classeur
@@ -272,12 +256,11 @@ class CardListView(ListView):
 
 class CardUpdateView(UpdateView):
     model = Card
-    fields = ["question", "answer", "box"]  # You can adjust fields based on your model
+    fields = ["question", "answer", "box"]
     template_name = 'cards/card_form.html'
-    success_url = None  # We'll define success_url in the get_success_url method
+    success_url = None
 
     def form_valid(self, form):
-        # Ensure the Classeur associated with the card is valid
         card = form.instance
         classeur = get_object_or_404(Classeur, id=card.classeur.id, user=self.request.user)
         form.instance.classeur = classeur
