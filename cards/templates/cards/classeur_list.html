@@ -24,15 +24,13 @@
             {% if classeurs %}
                 <ul class="classeur-list">
                     {% for classeur in classeurs %}
-                        <li>
-                            <span class="classeur-title"><a href="{% url 'classeur_detail' classeur.pk %}">{{ classeur.name }}</a></span>
+                        <li class="classeur-item">
+                            <a href="{% url 'classeur_detail' classeur.pk %}" class="classeur-link">
+                                    <span class="classeur-title">{{ classeur.name }}</span>
+                            </a>
                             <div class="classeur-actions">
-                                <a href="{% url 'classeur-edit' classeur.pk %}">
-                                    Modifier
-                                </a>
-                                <a href="{% url 'classeur_delete' classeur.pk %}">
-                                    Supprimer
-                                </a>
+                                <a href="{% url 'classeur-edit' classeur.pk %}" class="action-link">Modifier</a>
+                                <a href="{% url 'classeur_delete' classeur.pk %}" class="action-link">Supprimer</a>
                             </div>
                         </li>
                     {% endfor %}

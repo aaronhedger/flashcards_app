@@ -179,13 +179,13 @@ div ul li a {
 }
 
 div ul li a:hover {
-    color: black;
+    color: white;
 }
 div ul li a:visited {
-    color: black;
+    color: white;
 }
 div ul li a:active {
-    color: black;
+    color: white;
 }
 
 h1{
@@ -267,7 +267,7 @@ ul {
     padding: 0;
 }
 
-.cards-list, .classeur-list {
+.cards-list {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -277,12 +277,24 @@ ul {
 
 }
 
-.cards-list, .classeur-list :hover {
+.classeur-list{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
 }
 
-.cards-list h4, .classeur-list {
+
+.cards-list h4{
     font-size: 18px;
     color: #555;
+}
+
+.classeur-list{
+     font-size: 18px;
+      color: #555;
 }
 
 nav2 {
@@ -351,8 +363,42 @@ nav2 ul li a:active {
 }
 
 
+.classeur-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgb(232, 126, 159);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.classeur-link {
+    flex-grow: 1;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+}
+.classeur-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
 
+.classeur-actions {
+    display: flex;
+    gap: 10px;
+}
 
+.action-link {
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.action-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+}
 
 /* Style pour la modale */
         .modal {
