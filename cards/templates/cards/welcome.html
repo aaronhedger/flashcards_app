@@ -22,19 +22,33 @@
       <div class="container">
         <div class="left">
             <div class="text-block">
-                <h2>Bienvenue sur App'Roussô</h2>
-                <p>App'Roussô est ravi de vous présenter votre application personnelle, conçue pour vous accompagner tout au long de vos études ! Cette application facilite la mémorisation en optimisant votre temps d’apprentissage. Explorez dès maintenant nos flashcards pour maîtriser facilement vos connaissances !</p>
+                <div class="hello-block">
+                    <h2>Bienvenue sur App'Roussô</h2>
+                    <p>App'Roussô est ravi de vous présenter votre application personnelle, conçue pour vous accompagner tout au long de vos études ! Cette application facilite la mémorisation en optimisant votre temps d’apprentissage. Explorez dès maintenant nos flashcards pour maîtriser facilement vos connaissances !</p>
+                </div>
             </div>
             
             <div class="text-block">
-                <h2>Inscrivez-vous pour commencer</h2>
-                <p>Créez un compte ou connectez-vous si vous en avez déjà un. Vous pouvez également essayer les cartes existantes sans avoir besoin de vous inscrire.</p>
+                
+                <div class="info-block">
+                    <h4>cartes existantes</h4>
+                    <br>
+                    <p>Il est possible de travailler des cartes déjà créées, sans avoir besoin de vous enregistrer. Essayez les différentes matières mises à votre disposition.</p>
+                    <ul>
+                              <li><a href="{% url 'sans-connection' %}"> cartes déjà existantes</a></li>               
+                    </ul>
+                     
+                    
+                </div>
+                <div class="info-block">
+                    <h4>Inscrivez-vous pour commencer</h4>
+                    <p>Pour accéder à votre espace personnelle, la première étape est de créer un compte ou de vous y connecter si vous en avez déjà un. 
+                </div>
+                
             
             
             </div>
-            <div class="btn">
-                    <a href="{% url 'sans-connection' %}" class="button">Cartes déjà existantes</a>
-            </div>
+            
         </div>
         <div class="right">
             <img src="{% static '/images/image_learning.jpg' %}" alt="Learning Image">
