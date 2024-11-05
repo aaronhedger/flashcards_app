@@ -148,7 +148,8 @@ nav h1 {
 }
 
 .text-block {
-    margin-bottom: 40px;
+    display: flex;
+    margin-bottom: 30px;
 }
 
 .text-block h2 {
@@ -181,3 +182,54 @@ nav h1 {
 .button:hover {
     background-color: #0072ff;
 }
+.hello-block{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: #0056b3;
+    border-radius: 10px;
+
+
+}
+.hello-block h2{
+    color: white;
+    text-align: center;
+}
+.info-block {
+    margin: 15px;
+    height:370px;
+    width: 300px;
+    background: #cd6d6d;
+    border-radius: 18px;
+
+}
+.info-block h4 {
+    margin-top: 8px;
+    color: white;
+    text-align: center;
+}
+.info-block ul{
+    list-style: none;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+
+}
+
+.info-block ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.info-block ul li a:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.1);
+
+}
+.info-block ul li a:visited {
+    color: white;
+}
+.info-block ul li a:active {
+    color: white;
+}
+
