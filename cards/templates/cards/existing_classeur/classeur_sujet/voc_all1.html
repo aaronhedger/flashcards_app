@@ -1,110 +1,59 @@
-<!-- cards/existing_classeur/classeur_sujet/voc_all1.html -->
-<!DOCTYPE html>
-<html lang="en">
+<!-- classeur_cartes.html -->
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
-    <style>
-        /* Flashcard styling */
-        .flashcard {
-            width: 300px;
-            height: 400px;
-            perspective: 1000px; /* This ensures that 3D transforms like flipping are visible */
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .flashcard-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transition: transform 0.8s;
-            transform-style: preserve-3d; /* Preserve 3D effects */
-        }
-
-        .flashcard.flipped .flashcard-inner {
-            transform: rotateY(180deg); /* Flip the card on Y-axis when 'flipped' class is added */
-        }
-
-        .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; /* Hide the back of the card when flipped */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .flashcard-front {
-            background-color: #5f80ec; /* Front side color */
-        }
-
-        .flashcard-back {
-            background-color: #af2222; /* Back side color */
-            transform: rotateY(180deg); /* Start with the back side flipped */
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .buttons button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
 </head>
-<body>
-    <audio id="clickSound">
-        <source src="{{ audio_file_path }}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 
-    <div class="container">
-        <h1>Flashcards</h1>
-
-        <!-- Flashcard display area -->
-        <div class="flashcard" id="flashcard" onclick="flipCard()">
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <h2 class="title" id="flashcardTitle"></h2>
-                    <p id="flashcardFrontContent"></p>
-                </div>
-                <div class="flashcard-back">
-                    <h2 class="title" id="flashcardTitleBack"></h2>
-                    <p id="flashcardBackContent"></p>
-                </div>
-            </div>
+<div class="container3">
+        <div class="box-flashcards">
+            {% if card_data %}
+                <ul>
+                    {% for card in card_data %}
+                        <li class="cards-list">
+                            <div class="card-content">
+                                <h4>{{ card.front_content }} - {{ card.back_content }}</h4>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>{{ no_cards_message }}</p>
+            {% endif %}
         </div>
+</div>
 
-        
+
+<!-- Bouton pour ouvrir la modale -->
+<button id="rulesBtn" class="fixed-button">Comment ça marche ?</button>
+
+<!-- Modale -->
+<div id="rulesModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Comment ça marche la méthode Leitner ?</h2>
+        <p>Cette méthode optimise le temps d'apprentissage en espaçant les sessions de révision.</p>
+        <p>Les cartes avancent ou reculent dans les boîtes en fonction de vos réponses.</p>
     </div>
+</div>
 
-    
-    <script>
-       
-        let isFlipped = false;
+<script>
+    var modal = document.getElementById("rulesModal");
+    var btn = document.getElementById("rulesBtn");
+    var span = document.getElementsByClassName("close")[0];
 
-        
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
 
-        // Function to flip the card
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped'); // Toggle the 'flipped' class
-            isFlipped = !isFlipped;
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
-
-        
-
-    </script>
-</body>
-</html>
+    }
+</script>
