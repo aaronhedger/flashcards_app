@@ -201,9 +201,21 @@ nav h1 {
     width: 300px;
     background: #cd6d6d;
     border-radius: 18px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s, box-shadow 0.2s;
 
 }
+
+.info-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
 .info-block h4 {
+    padding: 9px;
     margin-top: 8px;
     color: white;
     text-align: center;
