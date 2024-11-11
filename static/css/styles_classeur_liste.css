@@ -285,7 +285,7 @@ ul {
     color: #555;
 }
 
-nav2, .nav3 {
+nav2, nav3 {
     width: 100%;
     display: flex;
     align-items: center;
@@ -295,7 +295,7 @@ nav2, .nav3 {
     background: #d55d5d;
 
 }
-nav2 ul , .nav3 ul{
+nav2 ul , nav3 ul{
     list-style: none;
     width: 100%;
     text-align: right;
@@ -303,23 +303,23 @@ nav2 ul , .nav3 ul{
 
 }
 
-nav2 ul li, .nav3 ul li{
+nav2 ul li, nav3 ul li{
     display: inline-block;
     margin: 10px 20px;
 
 }
 
-nav2 ul li a , .nav3 ul li a{
+nav2 ul li a , nav3 ul li a{
     color: white;
     text-decoration: none;
 }
-nav2 ul li a, .nav3 ul li a:hover {
+nav2 ul li a, nav3 ul li a:hover {
     color: white;
 }
-nav2 ul li a, .nav3 ul li a :visited {
+nav2 ul li a, nav3 ul li a :visited {
     color: white;
 }
-nav2 ul li a, .nav3 ul li a :active {
+nav2 ul li a, nav3 ul li a :active {
     color: white;
 }
 
