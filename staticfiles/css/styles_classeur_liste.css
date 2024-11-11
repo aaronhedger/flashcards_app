@@ -179,13 +179,13 @@ div ul li a {
 }
 
 div ul li a:hover {
-    color: white;
+    color: black;
 }
 div ul li a:visited {
-    color: white;
+    color: black;
 }
 div ul li a:active {
-    color: white;
+    color: black;
 }
 
 h1{
@@ -267,7 +267,7 @@ ul {
     padding: 0;
 }
 
-.cards-list {
+.cards-list, .classeur-list {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -277,27 +277,15 @@ ul {
 
 }
 
-.classeur-list{
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
+.cards-list, .classeur-list :hover {
 }
 
-
-.cards-list h4{
+.cards-list h4, .classeur-list {
     font-size: 18px;
     color: #555;
 }
 
-.classeur-list{
-     font-size: 18px;
-      color: #555;
-}
-
-nav2 {
+nav2, .nav3 {
     width: 100%;
     display: flex;
     align-items: center;
@@ -307,7 +295,7 @@ nav2 {
     background: #d55d5d;
 
 }
-nav2 ul {
+nav2 ul , .nav3 ul{
     list-style: none;
     width: 100%;
     text-align: right;
@@ -315,23 +303,23 @@ nav2 ul {
 
 }
 
-nav2 ul li {
+nav2 ul li, .nav3 ul li{
     display: inline-block;
     margin: 10px 20px;
 
 }
 
-nav2 ul li a {
+nav2 ul li a , .nav3 ul li a{
     color: white;
     text-decoration: none;
 }
-nav2 ul li a:hover {
+nav2 ul li a, .nav3 ul li a:hover {
     color: white;
 }
-nav2 ul li a:visited {
+nav2 ul li a, .nav3 ul li a :visited {
     color: white;
 }
-nav2 ul li a:active {
+nav2 ul li a, .nav3 ul li a :active {
     color: white;
 }
 
@@ -363,42 +351,8 @@ nav2 ul li a:active {
 }
 
 
-.classeur-items {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background: rgb(232, 126, 159);
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-.classeur-link {
-    flex-grow: 1;
-    text-decoration: none;
-    color: white;
-    padding: 10px;
-}
-.classeur-link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-}
 
-.classeur-actions {
-    display: flex;
-    gap: 10px;
-}
 
-.action-link {
-    color: white;
-    padding: 8px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.action-link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: black;
-}
 
 /* Style pour la modale */
         .modal {
