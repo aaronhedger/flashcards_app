@@ -355,6 +355,19 @@ class ClasseurBoxView(ListView):
                             classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
         return super().render_to_response(context, **response_kwargs)
 
+class BoxView(CardListView):
+    template_name = "cards/box.html"
+
+    def get_queryset(self):
+        return Card.objects.filter(box=self.kwargs["box_num"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["box_number"] = self.kwargs["box_num"]
+        if self.object_list:
+            context["check_card"] = random.choice(self.object_list)
+        return context
+
 
 def classeur_all_view(request):
     return render(request, "cards/existing_classeur/classeurAll.html")

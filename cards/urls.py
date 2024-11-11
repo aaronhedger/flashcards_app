@@ -34,6 +34,7 @@ urlpatterns = [
 
                   path("classeur/<int:classeur_id>/box/<int:box_num>/", views.ClasseurBoxView.as_view(),
                        name="classeur-box"),
+                  path("box/<int:box_num>", views.BoxView.as_view(), name="box"),
 
                   path('entrainement/<int:classeur_id>/', views.entrainement_view, name='entrainement'),
 

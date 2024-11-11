@@ -1,11 +1,17 @@
 <!-- classeur_cartes.html -->
+{% load cards_tags %}
+{% load humanize %}
 {% load static %}
+
 <head>
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
 </head>
-
+ <nav3>
+        
+        {% boxes_as_links %}
+ </nav3>
 <div class="container3">
         <div class="box-flashcards">
             {% if card_data %}
