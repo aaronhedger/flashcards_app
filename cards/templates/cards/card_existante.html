@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles_flashcards.css' %}">
+    <title>Flashcards</title>
+   
+</head>
+<body>
+
+    <div class="container-card">
+        <!-- Flashcard display area -->
+        <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h4>{{ cards.front_content}}</h4>
+                </div>
+                <div class="flashcard-back">
+                    <h4>{{cards.back_content}}</h4>
+                </div>
+            </div>
+        </div>
+        <div>
+            {% for cards in voc_allemand1 %}
+                <h4>{{front_content}}</h4>
+
+            {% endfor %}
+            
+        </div>
+
+        <!-- Buttons under the flashcard -->
+        <div class="card-actions">
+            {% if check_card %}
+                <form method="post" class="check-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="card_id" value="{{ card.id }}">
+                    <input type="hidden" name="solved" value="true">
+                    <button type="submit" class="button">✅ Je sais</button>
+                </form>
+                <form method="post" class="check-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="card_id" value="{{ card.id }}">
+                    <input type="hidden" name="solved" value="false">
+                    <button type="submit" class="button">❌ Pas encore</button>
+                </form>
+            {% else %}
+                <a href="{% url 'card-update' card.id %}" class="button">✏️modifier</a>
+                <a href="{% url 'card-delete' card.id %}" class="button">supprimer</a>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

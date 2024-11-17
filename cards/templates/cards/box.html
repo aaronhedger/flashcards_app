@@ -1,0 +1,12 @@
+<!-- templates/cards/box.html -->
+
+{% load humanize %}
+
+{% block content %}
+    <h2>🗃 {{ box_number | ordinal }} Box jfnv</h2>
+    <mark>{{ object_list | length }}</mark> Card{{ object_list | pluralize }} left in box.
+    <hr>
+    {% if check_card %}
+        {% include "cards/card_existante.html" with card=check_card %}
+    {% endif %}
+{% endblock content %}

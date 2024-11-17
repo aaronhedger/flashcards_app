@@ -14,7 +14,7 @@ from .views import (
 
 urlpatterns = [
                   path("", views.welcome_page_view, name="welcome"),
-                  path('create-cards/', views.create_cards_view, name='create_cards'),
+                  path('create-cards/', views.bibliothèque_view, name='bibliothèque'),
                   path("explore/", views.explore_view, name='explore'),
                   path("start-cards/", views.start_cards_view, name='start_cards'),
 

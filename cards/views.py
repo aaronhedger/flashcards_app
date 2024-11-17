@@ -30,7 +30,7 @@ def register(request):
             messages.success(request, 'compte crée avec succès')
 
             login(request, user)  # connecte directement l'utilisateur après l'incript
-            return redirect('create_cards')  # redirige à la biblio
+            return redirect('bibliothèque')  # redirige à la biblio
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -141,7 +141,7 @@ def voc_all2_view(request):
 
 
 @login_required
-def create_cards_view(request):
+def bibliothèque_view(request):
     return render(request, 'cards/base.html')
 
 
@@ -355,19 +355,28 @@ class ClasseurBoxView(ListView):
                             classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
         return super().render_to_response(context, **response_kwargs)
 
-class BoxView(CardListView):
+class BoxView(ListView):
     template_name = "cards/box.html"
+    context_object_name = "cards"
 
     def get_queryset(self):
-        return Card.objects.filter(box=self.kwargs["box_num"])
+        box_num = int(self.kwargs["box_num"])  # Get the box number from URL parameters
+        # Filter the voc_allemand1 list based on the box number
+        return [card for card in voc_allemand1 if card["box"] == box_num]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["box_number"] = self.kwargs["box_num"]
-        if self.object_list:
-            context["check_card"] = random.choice(self.object_list)
+        if context["cards"]:
+            context["check_card"] = random.choice(context["cards"])
         return context
 
+    def render_to_response(self, context, **response_kwargs):
+        # If the box is empty, redirect to another page
+        if not context["cards"]:
+            messages.success(self.request, "Vous avez terminé cette box!")
+            return redirect("voc_all1")  # Redirect to a generic or specified page
+        return super().render_to_response(context, **response_kwargs)
 
 def classeur_all_view(request):
     return render(request, "cards/existing_classeur/classeurAll.html")
@@ -414,3 +423,26 @@ def card_list(request):
     classeurs = Classeur.objects.filter(user=request.user)
     cards = Card.objects.filter(classeur__in=classeurs)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs, 'cards': cards})
+
+voc_allemand1 = [
+        {"box": 1, "title": "German Voc 1", "front_content": "der Vater", "back_content": "the father"},
+        {"box": 1, "title": "German Voc 2", "front_content": "die Mutter", "back_content": "the mother"},
+        {"box": 1, "title": "German Voc 3", "front_content": "der Sohn", "back_content": "the son"},
+        {"box": 1, "title": "German Voc 4", "front_content": "die Tochter", "back_content": "the daughter"},
+        {"box": 1, "title": "German Voc 5", "front_content": "die Großmutter", "back_content": "the grandmother"},
+        {"box": 1, "title": "German Voc 6", "front_content": "der Großvater", "back_content": "the grandfather"},
+        {"box": 1, "title": "German Voc 7", "front_content": "der Bruder", "back_content": "the brother"},
+        {"box": 1, "title": "German Voc 8", "front_content": "die Schwester", "back_content": "the sister"},
+        {"box": 1, "title": "German Voc 9", "front_content": "der Onkel", "back_content": "the uncle"},
+        {"box": 1, "title": "German Voc 10", "front_content": "die Tante", "back_content": "the aunt"},
+        {"box": 1, "title": "German Voc 11", "front_content": "der Neffe", "back_content": "the nephew"},
+        {"box": 1, "title": "German Voc 12", "front_content": "die Nichte", "back_content": "the niece"},
+        {"box": 1, "title": "German Voc 13", "front_content": "der Cousin", "back_content": "the cousin (male)"},
+        {"box": 1, "title": "German Voc 14", "front_content": "die Cousine", "back_content": "the cousin (female)"},
+        {"box": 1, "title": "German Voc 15", "front_content": "die Enkelin", "back_content": "the granddaughter"},
+        {"box": 1, "title": "German Voc 16", "front_content": "der Enkel", "back_content": "the grandson"},
+        {"box": 1, "title": "German Voc 17", "front_content": "die Schwiegermutter",
+         "back_content": "the mother-in-law"},
+        {"box": 1, "title": "German Voc 18", "front_content": "der Schwiegervater",
+         "back_content": "the father-in-law"}
+    ]
