@@ -1,3 +1,4 @@
+#models.py
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -6,8 +7,17 @@ BOXES = range(1, NUM_BOXES + 1)
 
 
 class Classeur(models.Model):
+    LANGUAGES = [
+        ('DE', 'Allemand'),
+        ('IT', 'Italien'),
+        ('ES', 'Espagnol'),
+        ('EN', 'Anglais')
+    ]
+
     name = models.CharField(max_length=200, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Classeur asso. avec un utilisateur
+    public = models.BooleanField(default=False)
+    category = models.CharField(max_length=2, choices=LANGUAGES, default='FR')  # Catégorie / Langue
 
     def __str__(self):
         return self.name

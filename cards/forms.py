@@ -29,4 +29,4 @@ class CardForm(forms.ModelForm):
 class ClasseurForm(forms.ModelForm):
     class Meta:
         model = Classeur
-        fields = ["name"]
+        fields = ["name", "category"]

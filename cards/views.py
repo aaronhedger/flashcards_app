@@ -1,4 +1,6 @@
 import random
+from django.contrib.auth.decorators import user_passes_test
+
 from django.contrib import messages
 
 from django.contrib import messages
@@ -230,6 +232,25 @@ class CardListView(ListView):
         context['classeur'] = classeur
         return context
 
+class CardListExistingView(ListView):
+    model = Card
+    template_name = 'cards/classeur_cartes_existantes.html'
+    context_object_name = 'cards'
+
+    def get_queryset(self):
+        # Récupérer l'identifiant du classeur depuis les paramètres d'URL
+        classeur_id = self.kwargs.get('classeur_id')
+        # Récupérer le classeur sans vérification d'utilisateur, ce qui le rend public
+        classeur = get_object_or_404(Classeur, id=classeur_id, public=True)  # Assurez-vous que le classeur est public
+        return Card.objects.filter(classeur=classeur).order_by("-date_created")
+
+    def get_context_data(self, **kwargs):
+        # Ajouter le classeur au contexte pour le template
+        context = super().get_context_data(**kwargs)
+        classeur_id = self.kwargs.get('classeur_id')
+        classeur = get_object_or_404(Classeur, id=classeur_id, public=True)
+        context['classeur'] = classeur
+        return context
 
 class CardUpdateView(UpdateView):
     model = Card
@@ -256,6 +277,10 @@ def classeur_list(request):
     classeurs = Classeur.objects.filter(user=request.user)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs})
 
+@user_passes_test(lambda u: u.is_superuser)
+def admin_classeur_list(request):
+    Classeur.objects.filter(user=request.user)
+    return
 
 @login_required
 def classeur_detail(request, pk):
@@ -265,7 +290,12 @@ def classeur_detail(request, pk):
     return render(request, 'cards/classeur_cartes.html', {'classeur': classeur, 'cards': cards})
 
     # Tu peux ajouter de la logique ici pour le tutoriel (par exemple, démarrer le jeu de flashcards)card
+@user_passes_test(lambda u: u.is_superuser)  # Vérifie que l'utilisateur est admin
+def classeur_detail_admin(request, pk):
+    classeur = get_object_or_404(Classeur, pk=pk)  # Récupère le classeur par ID
+    cards = Card.objects.filter(classeur=classeur)  # Récupère les cartes pour ce classeur
 
+    return render(request, 'cards/classeur_cartes.html', {'classeur': classeur, 'cards': cards})
 
 @login_required
 def classeur_create(request):
@@ -274,12 +304,53 @@ def classeur_create(request):
         if form.is_valid():
             classeur = form.save(commit=False)
             classeur.user = request.user
+            classeur.public = False
             classeur.save()
             return redirect('classeur_list')
     else:
         form = ClasseurForm()
     return render(request, 'cards/classeur_form.html', {'form': form})
 
+
+@user_passes_test(lambda u: u.is_superuser)  # Vérifie que l'utilisateur est un administrateur
+def public_classeur_create(request):
+    if request.method == "POST":
+        form = ClasseurForm(request.POST)
+        if form.is_valid():
+            classeur = form.save(commit=False)
+            classeur.user = request.user  # Assigne le classeur à l'administrateur
+            classeur.public = True  # Définit le classeur comme public
+            classeur.save()  # Enregistre le classeur dans la base de données
+
+            # Récupérer la catégorie choisie pour rediriger vers la bonne liste
+            category = classeur.category
+
+            # Redirige vers la liste des classeurs de la catégorie choisie
+            if category == 'EN':
+                return redirect('classeurEng')  # Remplacez par la vue appropriée pour le français
+            elif category == 'DE':
+                return redirect('classeurAll')  # Remplacez par la vue appropriée pour l'allemand
+            elif category == 'IT':
+                return redirect('classeurIta')  # Remplacez par la vue appropriée pour l'italien
+            elif category == 'ES':
+                return redirect('classeurEsp')  # Remplacez par la vue appropriée pour l'espagnol
+        else:
+            # Si le formulaire n'est pas valide, rendre le même template avec le formulaire pour afficher les erreurs
+            return render(request, 'cards/classeur_form.html', {'form': form})  # Affiche le formulaire avec erreurs
+
+    else:
+        form = ClasseurForm()  # Affiche un nouveau formulaire vide sur une requête GET
+
+    return render(request, 'cards/classeur_form.html', {'form': form})
+
+def classeur_detail_public(request, pk):
+    # Récupérer le classeur par ID, sans filtrer par utilisateur pour afficher tous les classeurs publics.
+    classeur = get_object_or_404(Classeur, pk=pk, public=True)  # Vérifie que le classeur est public
+
+    # Récupérer toutes les cartes associées à ce classeur
+    cards = Card.objects.filter(classeur=classeur)
+
+    return render(request, 'cards/classeur_cartes_existantes.html', {'classeur': classeur, 'cards': cards})
 
 @login_required
 def classeur_edit(request, pk):
@@ -355,43 +426,59 @@ class ClasseurBoxView(ListView):
                             classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
         return super().render_to_response(context, **response_kwargs)
 
-class BoxView(ListView):
-    template_name = "cards/box.html"
-    context_object_name = "cards"
+
+class ClasseurBoxExistingView(ListView):
+    template_name = "cards/classeur_box.html"
+    form_class = CardCheckForm
 
     def get_queryset(self):
-        box_num = int(self.kwargs["box_num"])  # Get the box number from URL parameters
-        # Filter the voc_allemand1 list based on the box number
-        return [card for card in voc_allemand1 if card["box"] == box_num]
+        # Filter cards by the Classeur ID and box number
+        return Card.objects.filter(classeur=self.kwargs["classeur_id"], box=self.kwargs["box_num"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Pass the Classeur and box number to the template
+        context["classeur"] = Classeur.objects.get(pk=self.kwargs["classeur_id"])
         context["box_number"] = self.kwargs["box_num"]
-        if context["cards"]:
-            context["check_card"] = random.choice(context["cards"])
+        if self.object_list:
+            context["check_card"] = random.choice(self.object_list)
+
         return context
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            card = get_object_or_404(Card, id=form.cleaned_data["card_id"])
+            card.move(form.cleaned_data["solved"])
+
+        return redirect(request.META.get("HTTP_REFERER"))
+
     def render_to_response(self, context, **response_kwargs):
-        # If the box is empty, redirect to another page
-        if not context["cards"]:
-            messages.success(self.request, "Vous avez terminé cette box!")
-            return redirect("voc_all1")  # Redirect to a generic or specified page
+        # Check if the box is empty and redirect if there are no cards
+
+        if not context["object_list"]:
+            messages.success(self.request, "Vous avez terminé cette box!")  # Add success message
+            return redirect("card-list-existante",
+                            classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
         return super().render_to_response(context, **response_kwargs)
 
+
 def classeur_all_view(request):
-    return render(request, "cards/existing_classeur/classeurAll.html")
+    classeurs = Classeur.objects.filter(category='DE', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    return render(request, 'cards/existing_classeur/classeurAll.html', {'classeurs': classeurs})
 
 
 def classeur_eng_view(request):
-    return render(request, "cards/existing_classeur/classeurEng.html")
-
+    classeurs = Classeur.objects.filter(category='EN', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    return render(request, 'cards/existing_classeur/classeurEng.html', {'classeurs': classeurs})
 
 def classeur_esp_view(request):
-    return render(request, "cards/existing_classeur/classeurEsp.html")
-
+    classeurs = Classeur.objects.filter(category='ES', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    return render(request, 'cards/existing_classeur/classeurEsp.html', {'classeurs': classeurs})
 
 def classeur_ita_view(request):
-    return render(request, "cards/existing_classeur/classeurIta.html")
+    classeurs = Classeur.objects.filter(category='IT', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    return render(request, 'cards/existing_classeur/classeurIta.html', {'classeurs': classeurs})
 
 
 def retour(request):
@@ -410,11 +497,6 @@ def exercise_complete_view(request):
     return render(request, 'cards/existing_classeur/classeur_sujet/exercise_complete.html')
 
 
-def entrainement_view(request, classeur_id):
-    classeur = get_object_or_404(Classeur, pk=classeur_id, user=request.user)  # Ensure the user owns the classeur
-    # You can now pass the classeur to your context if needed
-    return render(request, 'cards/entrainement.html', {'classeur': classeur})
-
 
 def card_list(request):
     if not request.user.is_authenticated:
@@ -424,25 +506,3 @@ def card_list(request):
     cards = Card.objects.filter(classeur__in=classeurs)
     return render(request, 'cards/classeur_list.html', {'classeurs': classeurs, 'cards': cards})
 
-voc_allemand1 = [
-        {"box": 1, "title": "German Voc 1", "front_content": "der Vater", "back_content": "the father"},
-        {"box": 1, "title": "German Voc 2", "front_content": "die Mutter", "back_content": "the mother"},
-        {"box": 1, "title": "German Voc 3", "front_content": "der Sohn", "back_content": "the son"},
-        {"box": 1, "title": "German Voc 4", "front_content": "die Tochter", "back_content": "the daughter"},
-        {"box": 1, "title": "German Voc 5", "front_content": "die Großmutter", "back_content": "the grandmother"},
-        {"box": 1, "title": "German Voc 6", "front_content": "der Großvater", "back_content": "the grandfather"},
-        {"box": 1, "title": "German Voc 7", "front_content": "der Bruder", "back_content": "the brother"},
-        {"box": 1, "title": "German Voc 8", "front_content": "die Schwester", "back_content": "the sister"},
-        {"box": 1, "title": "German Voc 9", "front_content": "der Onkel", "back_content": "the uncle"},
-        {"box": 1, "title": "German Voc 10", "front_content": "die Tante", "back_content": "the aunt"},
-        {"box": 1, "title": "German Voc 11", "front_content": "der Neffe", "back_content": "the nephew"},
-        {"box": 1, "title": "German Voc 12", "front_content": "die Nichte", "back_content": "the niece"},
-        {"box": 1, "title": "German Voc 13", "front_content": "der Cousin", "back_content": "the cousin (male)"},
-        {"box": 1, "title": "German Voc 14", "front_content": "die Cousine", "back_content": "the cousin (female)"},
-        {"box": 1, "title": "German Voc 15", "front_content": "die Enkelin", "back_content": "the granddaughter"},
-        {"box": 1, "title": "German Voc 16", "front_content": "der Enkel", "back_content": "the grandson"},
-        {"box": 1, "title": "German Voc 17", "front_content": "die Schwiegermutter",
-         "back_content": "the mother-in-law"},
-        {"box": 1, "title": "German Voc 18", "front_content": "der Schwiegervater",
-         "back_content": "the father-in-law"}
-    ]

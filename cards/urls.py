@@ -9,7 +9,8 @@ from .views import (
     CardCreateView,
     ClasseurDetailView,
     CardListView,
-    login_view
+    login_view,
+    CardListExistingView
 )
 
 urlpatterns = [
@@ -20,13 +21,21 @@ urlpatterns = [
 
                   path('classeur/<int:classeur_id>/card/create/', views.CardCreateView.as_view(), name='card_create'),
                   path('classeur/nouveau/', views.classeur_create, name='classeur_create'),
+                  path('create-public-classeur/',views.public_classeur_create, name='public_classeur_create'),
+                  path('classeur/public/<int:pk>/', views.classeur_detail_public, name='classeur_detail_public'),
+
+
                   path('classeur/<int:pk>/modifier/', views.classeur_edit, name='classeur-edit'),
                   path('classeur/<int:pk>/supprimer/', views.classeur_delete, name='classeur_delete'),
                   path('classeurs/', views.classeur_list, name='classeur_list'),
 
                   path('classeur/<int:pk>/', ClasseurDetailView.as_view(), name='classeur_detail'),
+                  path('admin/classeur/<int:pk>/', views.classeur_detail_admin, name='classeur_detail_admin'),
+
                   path("classeur/<int:classeur_id>/card/create/",views.CardCreateView.as_view(),name="card-create"),
                   path('classeur/<int:classeur_id>/cards/', CardListView.as_view(), name='card-list'),
+                  path('classeur/public/<int:classeur_id>/cards/', CardListExistingView.as_view(), name='card-list-existante'),
+
                   path('classeur/<int:classeur_id>/cards/', views.card_list, name='card_list'),
 
                   path("edit/<int:pk>/", views.CardUpdateView.as_view(), name="card-update"),
@@ -34,9 +43,8 @@ urlpatterns = [
 
                   path("classeur/<int:classeur_id>/box/<int:box_num>/", views.ClasseurBoxView.as_view(),
                        name="classeur-box"),
-                  path("box/<int:box_num>", views.BoxView.as_view(), name="box"),
-
-                  path('entrainement/<int:classeur_id>/', views.entrainement_view, name='entrainement'),
+                  path("classeur/public/<int:classeur_id>/box/<int:box_num>/", views.ClasseurBoxExistingView.as_view(),
+                       name="classeur-box-existing"),
 
 
                   path('login/', login_view, name='login'),
@@ -45,7 +53,7 @@ urlpatterns = [
                   # Other views...
                   path('classeur-All/', views.classeur_all_view, name='classeurAll'),
                   path('classeur-Eng/', views.classeur_eng_view, name='classeurEng'),
-                  path('classeur-Esp/', views.classeur_esp_view, name='classeurEsp'),
+                  path('classeurs/espagnol/', views.classeur_esp_view, name='classeurEsp'),
                   path('classeur-Ita/', views.classeur_ita_view, name='classeurIta'),
 
                   path('voc-all1/', views.voc_all1_view, name='voc_all1'),

@@ -1,3 +1,4 @@
+<!-- card_existante.html-->
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -11,46 +12,29 @@
 <body>
 
     <div class="container-card">
-        <!-- Flashcard display area -->
-        <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <h4>{{ cards.front_content}}</h4>
-                </div>
-                <div class="flashcard-back">
-                    <h4>{{cards.back_content}}</h4>
+        {% if check_card %}
+            <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h4>{{ check_card.front_content }}</h4>
+                    </div>
+                    <div class="flashcard-back">
+                        <h4>{{ check_card.back_content }}</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            {% for cards in voc_allemand1 %}
-                <h4>{{front_content}}</h4>
-
-            {% endfor %}
-            
-        </div>
-
-        <!-- Buttons under the flashcard -->
-        <div class="card-actions">
-            {% if check_card %}
-                <form method="post" class="check-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="card_id" value="{{ card.id }}">
-                    <input type="hidden" name="solved" value="true">
-                    <button type="submit" class="button">✅ Je sais</button>
-                </form>
-                <form method="post" class="check-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="card_id" value="{{ card.id }}">
-                    <input type="hidden" name="solved" value="false">
-                    <button type="submit" class="button">❌ Pas encore</button>
-                </form>
-            {% else %}
-                <a href="{% url 'card-update' card.id %}" class="button">✏️modifier</a>
-                <a href="{% url 'card-delete' card.id %}" class="button">supprimer</a>
-            {% endif %}
-        </div>
+    
+            <form method="post" action="{% url 'box' box_num=box_number %}">
+                {% csrf_token %}
+                <input type="hidden" name="card_id" value="{{ check_card.id }}"> <!-- L'ID de la carte aléatoire -->
+                <div>
+                    <button type="submit" name="solved" value="true">Je sais</button>
+                    <button type="submit" name="solved" value="false">Je ne sais pas</button>
+                </div>
+            </form>
+        {% else %}
+            <p>Aucune carte disponible dans cette boîte.</p>
+        {% endif %}
     </div>
-
 </body>
 </html>

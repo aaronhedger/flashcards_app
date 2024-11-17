@@ -1,3 +1,4 @@
+<!--classeurEsp.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,29 @@
     <title>Title</title>
 </head>
 <body>
+    <h1>Liste de Classeurs : Espagnol</h1>
+
+    {% block content %}  
+    <div class="container">
+        <div class="box-classeur">
+            <h1>Bibliothèque</h1>
+            <h3>Vos classeurs</h3>
+        
+            {% if classeurs %}
+                <ul class="classeur-list">
+                    {% for classeur in classeurs %}
+                        <li class="classeur-item">
+                            <a href="{% url 'classeur_detail_public' classeur.pk %}" class="classeur-link">
+                                    <span class="classeur-title">{{ classeur.name }}</span>
+                            </a>
+                            
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucun classeur trouvé.</p>
+            {% endif %}
+    {% endblock %}
 
 </body>
 </html>
