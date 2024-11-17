@@ -1,19 +1,24 @@
 <!--classeurEsp.html-->
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
 </head>
 <body>
-    <h1>Liste de Classeurs : Espagnol</h1>
 
-    {% block content %}  
+
+    {% block content %}
     <div class="container">
-        <div class="box-classeur">
-            <h1>Bibliothèque</h1>
-            <h3>Vos classeurs</h3>
+        <div class="title">
+            
+            <h1>Espagnol</h1>
         
+        </div>
+        <div class="box-classeur">
+
             {% if classeurs %}
                 <ul class="classeur-list">
                     {% for classeur in classeurs %}
@@ -21,7 +26,7 @@
                             <a href="{% url 'classeur_detail_public' classeur.pk %}" class="classeur-link">
                                     <span class="classeur-title">{{ classeur.name }}</span>
                             </a>
-                            
+
                         </li>
                     {% endfor %}
                 </ul>
