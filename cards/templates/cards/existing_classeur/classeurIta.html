@@ -6,8 +6,10 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
+    
 </head>
-<body>
+<body2>
+    <img src="{% static '/images/colisée2.jpg' %}" alt="colisée" class="background-image">
 
 
     {% block content %}
@@ -17,7 +19,7 @@
             <h1>Italien</h1>
         
         </div>
-        <div class="box-classeur">
+        <div class="box-classeur12">
 
             {% if classeurs %}
                 <ul class="classeur-list">
@@ -38,6 +40,6 @@
             <a href="{% url 'sans-connection' %}" class="button">Back</a>
         </div>
     {% endblock %}
-
-</body>
+    </div>
+</body2>
 </html>
