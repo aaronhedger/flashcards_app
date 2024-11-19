@@ -9,6 +9,7 @@ body{
     height: 100%;
     display: flex;
     flex-direction: column;
+    background: white;
 }
 header {
     width: 100%;
@@ -157,6 +158,9 @@ nav h1 {
 .box-register2{
     color:white;
     background: #6f94c6;
+    height:80vh;
+    width:60vw;
+    align-items: space-between;
 
 }
 
@@ -177,5 +181,17 @@ nav h1 {
     justify-content: center;
     align-items: center;
     gap: 40px
+
+}
+
+.container4 {
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    padding: 50px;
+
 
 }
