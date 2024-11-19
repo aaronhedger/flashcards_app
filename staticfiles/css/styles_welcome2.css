@@ -9,6 +9,7 @@ body{
     height: 100%;
     display: flex;
     flex-direction: column;
+    background: white;
 }
 header {
     width: 100%;
@@ -245,3 +246,121 @@ nav h1 {
     color: white;
 }
 
+@media (max-width: 1200px), (max-height: 700px) {
+
+    nav ul {
+        list-style: none;
+        width: 100%;
+        text-align: right;
+        padding-right: 30px;
+    }
+
+    nav ul li {
+        display: inline-block;
+        margin: 5px 10px;
+
+    }
+
+    nav ul li a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    nav ul li a:hover {
+        color: white;
+    }
+    nav ul li a:visited {
+        color: white;
+    }
+    nav ul li a:active {
+        color: white;
+    }
+
+
+    .container4{
+        width : 1000px;
+        height: auto;
+        display: flex;
+
+    }
+
+
+    .left h1 {
+        font-size: 1.5rem;
+        color: #ffffff;
+    }
+
+    .left p {
+        font-family: "poppins", sans-serif;
+        font-size: 1rem;
+        color: white;
+        text-align: left;
+
+
+    }
+
+    .hello-block{
+    background: #0056b3;
+    border-radius: 10px;
+    height: 200px;
+    box-sizing: border-box;
+
+    }
+
+    .hello-block h2 {
+    display: none;
+    }
+
+    .info-block {
+    height:auto;
+    width: 300px;
+    background: #cd6d6d;
+    border-radius: 18px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .info-block p {
+        font-size: 1rem;
+    }
+
+    .info-block:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
+
+    .info-block h4 {
+        color: white;
+        text-align: center;
+        font-size: 1rem;
+    }
+    .info-block ul{
+
+        list-style: none;
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+
+    }
+
+    .info-block ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 10px;
+    }
+
+    .info-block ul li a:hover {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.1);
+
+    }
+    .info-block ul li a:visited {
+        color: white;
+    }
+    .info-block ul li a:active {
+        color: white;
+    }
+
+}

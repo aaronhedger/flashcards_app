@@ -246,7 +246,7 @@ nav h1 {
     color: white;
 }
 
-@media (max-width: 1200px), (max-height: 6700px) {
+@media (max-width: 1200px), (max-height: 700px) {
 
     nav ul {
         list-style: none;
