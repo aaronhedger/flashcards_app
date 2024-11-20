@@ -86,22 +86,19 @@ nav ul li a:active {
     background: rgba(63, 71, 99, 0.5);
     border-radius:15px;
     margin-top: 10vh;
-    margin-left: -40vh
 
 
 }
 .title h1{
     color:#ffffff;
     text-align:center;
-    justify-content:center;
-    justify-items:center;
-    font-size:13rem;
+    max-font-size:13rem;
+    font-size: 8vw;
 }
 .text0{
     display:flex;
-    margin-top: 10vh;
+    margin-top: 5vh;
     background: rgba(63, 71, 99, 0.5);
-    margin-left: -15vw;
     border-radius: 15px;
 
 
@@ -111,7 +108,7 @@ nav ul li a:active {
 
 }
 .text0 p {
-    font-size: 2rem;
+    font-size: 1.2vw;
 
 }
 
@@ -139,6 +136,7 @@ nav ul li a:active {
     transition: transform 0.3s ease;
     background: rgba(255, 255, 255, 0.5); /* 0.5 pour 50% de transparence */
     border-radius: 10px;
+    font-size: 0.8vw;
 
 
 }
@@ -149,7 +147,7 @@ nav ul li a:active {
     cursor: pointer;
     border-radius: 5px;
     color: black;
-    font-size: 2rem;
+    font-size: 1.5vw;
 
 
 }
@@ -165,7 +163,7 @@ div ul {
 
 div ul li {
     display: flex;
-    margin: 20px 30px;
+    margin: 0.5vh 0.5vw;
 }
 
 div ul li a {
