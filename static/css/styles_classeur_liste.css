@@ -186,7 +186,7 @@ div ul li a:hover {
     color: black;
 }
 div ul li a:visited {
-    color: black;
+    color: #ffffff;
 }
 div ul li a:active {
     color: black;
@@ -306,6 +306,7 @@ ul {
     padding: 15px;
     margin-bottom: 15px;
     transition: transform 0.3s ease;
+    background: white;
 
 }
 
@@ -380,7 +381,17 @@ nav2 ul li a, nav3 ul li a :active {
     flex: 2
 }
 
+div ul li  {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
 
+
+
+div ul li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
 
 
 
