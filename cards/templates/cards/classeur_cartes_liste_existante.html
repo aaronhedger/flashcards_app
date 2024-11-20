@@ -1,0 +1,36 @@
+<!--classeur_cartes_liste_existante.html-->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
+</head>
+{% if classeur.pk %}
+
+        <div class="container3">
+            <div class="box-flashcards">
+                
+                <h1>Cartes dans "{{ classeur.name }}":</h1>
+                <br>
+                <br>
+                <ul>
+                    {% for card in cards %}
+                      <div class="cards-list">
+                        <div class="card-content">
+                            <h4>{{ card.question }} - {{ card.answer }}</h4>
+                        </div>
+                        
+                      </div> 
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+            <p>Classeur non trouvé ou invalide.</p>
+    {% endif %}
+
+<div style="position: fixed; bottom: 20px; right: 20px;">
+        <a href="{% url 'classeur_detail_public' classeur.pk %}" class="button">Back</a>   
+    </div>

@@ -16,7 +16,6 @@ from .views import (
 urlpatterns = [
                   path("", views.welcome_page_view, name="welcome"),
                   path('create-cards/', views.bibliothèque_view, name='bibliothèque'),
-                  path("explore/", views.explore_view, name='explore'),
                   path("start-cards/", views.start_cards_view, name='start_cards'),
 
                   path('classeur/<int:classeur_id>/card/create/', views.CardCreateView.as_view(), name='card_create'),

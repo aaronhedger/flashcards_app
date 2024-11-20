@@ -147,10 +147,6 @@ def bibliothèque_view(request):
     return render(request, 'cards/base.html')
 
 
-@login_required
-def explore_view(request):
-    classeurs = Classeur.objects.filter(user=request.user)
-    return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
 
 @login_required
@@ -176,17 +172,8 @@ class ClasseurDetailView(DetailView):
         return context
 
 
-def view_classeur(request, classeur_id):
-    classeur = Classeur.objects.get(id=classeur_id)
-    cards = Card.objects.all()
-    return render(request, 'cards/view_classeur.html', {'classeur': classeur, 'card': cards})
 
 
-@login_required
-def explore_view(request):
-    classeurs = Classeur.objects.filter(user=request.user)  # Récupérer tous les classeurs de l'utilisateur
-
-    return render(request, 'cards/explore.html', {'classeurs': classeurs})
 
 
 class CardCreateView(CreateView):
@@ -234,7 +221,7 @@ class CardListView(ListView):
 
 class CardListExistingView(ListView):
     model = Card
-    template_name = 'cards/classeur_cartes_existantes.html'
+    template_name = 'cards/classeur_cartes_liste_existante.html'
     context_object_name = 'cards'
 
     def get_queryset(self):
@@ -458,8 +445,7 @@ class ClasseurBoxExistingView(ListView):
 
         if not context["object_list"]:
             messages.success(self.request, "Vous avez terminé cette box!")  # Add success message
-            return redirect("card-list-existante",
-                            classeur_id=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
+            return redirect('classeur_detail_public', pk=self.kwargs["classeur_id"])  # Redirect to card list if no cards left
         return super().render_to_response(context, **response_kwargs)
 
 

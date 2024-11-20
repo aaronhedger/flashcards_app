@@ -8,9 +8,9 @@
     {% load humanize %}
 
     {% for box in boxes %}
-    <a href="{% url 'classeur-box-existing' classeur_id=classeur.id box_num=box.number %}">
-        🗃 {{ box.number | ordinal }} Boite <mark>{{ box.card_count }}</mark>
-        </a>
+    <a href="{% url 'classeur-box-existing' classeur_id=classeur.id box_num=box.number %}" class="box">
+        <span>🗃 {{ box.number | ordinal }} Boite <mark>{{ box.card_count }}</mark></span>
+    </a>
     {% endfor %}
 </body>
 </html>
