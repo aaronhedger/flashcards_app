@@ -450,20 +450,20 @@ class ClasseurBoxExistingView(ListView):
 
 
 def classeur_all_view(request):
-    classeurs = Classeur.objects.filter(category='DE', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    classeurs = Classeur.objects.filter(category='DE', public=True)
     return render(request, 'cards/existing_classeur/classeurAll.html', {'classeurs': classeurs})
 
 
 def classeur_eng_view(request):
-    classeurs = Classeur.objects.filter(category='EN', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    classeurs = Classeur.objects.filter(category='EN', public=True)
     return render(request, 'cards/existing_classeur/classeurEng.html', {'classeurs': classeurs})
 
 def classeur_esp_view(request):
-    classeurs = Classeur.objects.filter(category='ES', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    classeurs = Classeur.objects.filter(category='ES', public=True)
     return render(request, 'cards/existing_classeur/classeurEsp.html', {'classeurs': classeurs})
 
 def classeur_ita_view(request):
-    classeurs = Classeur.objects.filter(category='IT', public=True)  # Filtrer par catégorie 'ES' sans filtre utilisateur
+    classeurs = Classeur.objects.filter(category='IT', public=True)
     return render(request, 'cards/existing_classeur/classeurIta.html', {'classeurs': classeurs})
 
 

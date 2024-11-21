@@ -9,20 +9,30 @@
    
 </head>
 <body>
-
-    <div class="container-card">
-        <!-- Flashcard display area -->
-        <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <h4>{{ card.question }}</h4>
-                </div>
-                <div class="flashcard-back">
-                    <h4>{{ card.answer }}</h4>
+    {% if classeur.category == 'ES' %}
+        <img src="{% static 'images/pexels-olenagoldman-998736.jpg' %}" alt="Image pour catégorie ES" class="background-image">
+    {% elif classeur.category == 'EN' %}
+        <img src="{% static 'images/pexels-sean-ingram-825343707-27940325.jpg' %}" alt="Image pour catégorie EN" class="background-image">
+    {% elif classeur.category == 'DE' %}
+        <img src="{% static 'images/pexels-detait-25053929.jpg' %}" alt="Image pour catégorie DE" class="background-image">
+    {% elif classeur.category == 'IT' %}
+        <img src="{% static 'images/colisée2.jpg' %}" alt="Image pour catégorie IT" class="background-image">
+    {% else %}
+        <img src="{% static 'images/colisée2.jpg' %}" alt="Image par défaut" class="background-image">
+    {% endif %}
+    <div class="container00">
+        <div class="flash-pos">
+            <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h4>{{ card.question }}</h4>
+                    </div>
+                    <div class="flashcard-back">
+                        <h4>{{ card.answer }}</h4>
+                    </div>
                 </div>
             </div>
         </div>
-
         <!-- Buttons under the flashcard -->
         <div class="card-actions">
             {% if check_card %}
@@ -44,6 +54,7 @@
             {% endif %}
         </div>
     </div>
+    
 
 </body>
 </html>

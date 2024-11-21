@@ -4,12 +4,14 @@
 {% load humanize %}
 
 {% block content %}
-    <h2>{{ classeur.name }} - 🗃 {{ box_number | ordinal }} Box</h2>
-    <br>
-    <br>
-    <br>
+    <div class="title-card">
+        <h2> Boite {{ box_number }} </h2>
+    </div>
+    
     {% if check_card %}
         {% include "cards/card.html" with card=check_card %}
     {% endif %}
-    	
+    <div class="number-left">
+        <div class="123"><mark>{{ object_list | length }}</mark> Carte{{ object_list | pluralize }} dans cette boite</div>
+    </div>	
 {% endblock content %}

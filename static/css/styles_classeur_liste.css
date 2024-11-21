@@ -661,3 +661,51 @@ nav2 ul li a, nav3 ul li a :active {
     padding: 3vw;
     color: black;
 }
+
+.title-card{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 20vh;
+    background: rgba(63, 71, 99, 0.5);
+}
+
+.title-card h2{
+    color:white;
+    font-size: 3vw;
+}
+
+.flash-pos{
+    margin-top: 10vh;
+    display: flex;
+    width: 100vw;
+    height: 40vh;
+    justify-items: center;
+    align-items:center;
+}
+
+.number-left{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height:auto;
+    width: 10vw;
+    padding: 0.5vh;
+    border-radius: 0.2vw;
+    align-items:center;
+    justify-content:center;
+    background: #d58b47;
+    margin: auto;
+    margin-top: 6vh;
+    font-size: 0.7vw;
+
+}
+
+.number-left mark{
+    background:#f0c692;
+    color: white;
+}
+
