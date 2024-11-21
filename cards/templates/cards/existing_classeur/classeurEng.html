@@ -5,39 +5,60 @@
 <head>
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_existant.css' %}">
+
+    
+    
 </head>
 <body>
+    
+   <img src="{% static '/images/pexels-sean-ingram-825343707-27940325.jpg' %}" alt="sagrada" class="background-image">
+    <nav>
+          <h1> App'Roussô </h1>
+          <ul>
 
+              <li><a href="{% url 'register' %}"> S'inscrire</a></li>
+              <li><a href="{% url 'login' %}"> Se connecter</a></li>               
+          </ul>
+    </nav>
 
     {% block content %}
     <div class="container">
-        <div class="title">
+        <div class="left0">
+            <div class="title">
+                
+                <h1>Anglais</h1>
             
-            <h1>Anglais</h1>
-        
+            </div>
+            <div class="text0">
+                <p>
+                Bienvenue !<br><br> Voici la liste des vocabulaires d'anglais. <br>Cliquez sur un vocabulaire pour commencer la révision !  
+                </p>
+            </div>
         </div>
-        <div class="box-classeur">
-
-            {% if classeurs %}
-                <ul class="classeur-list">
-                    {% for classeur in classeurs %}
-                        <li class="classeur-item">
-                            <a href="{% url 'classeur_detail_public' classeur.pk %}" class="classeur-link">
-                                    <span class="classeur-title">{{ classeur.name }}</span>
-                            </a>
-
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Aucun classeur trouvé.</p>
-            {% endif %}
+        <div class="right0">
+            <div class="classeur-existant">
+    
+                {% if classeurs %}
+                    <ul class="list-existante">
+                        {% for classeur in classeurs %}
+                            <li class="classeur-item-existant">
+                                <a href="{% url 'classeur_detail_public' classeur.pk %}" class="classeur-link">
+                                        <span class="classeur-title">{{ classeur.name }}</span>
+                                </a>
+    
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun classeur trouvé.</p>
+                {% endif %}
+            </div>
         </div>
         <div style="position: fixed; bottom: 20px; right: 20px;">
             <a href="{% url 'sans-connection' %}" class="button">Back</a>
         </div>
     {% endblock %}
-
+    </div>
 </body>
 </html>

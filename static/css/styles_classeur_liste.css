@@ -26,6 +26,8 @@ nav {
     padding: 10px 0;
     /* gdzwgauhd */
     background: #e6b063;
+    position: relative;
+    z-index: 1;
 
 }
 nav ul {
@@ -412,10 +414,10 @@ nav2 ul li a, nav3 ul li a :active {
 
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
+            margin: 5% auto;
+            padding: 2vw;
             border: 1px solid #888;
-            width: 80%; /* Largeur de la modale */
+            width: 50%; /* Largeur de la modale */
         }
 
         /* Le bouton de fermeture (x) */
@@ -503,4 +505,159 @@ nav2 ul li a, nav3 ul li a :active {
     cursor: pointer;
     background:white;
     border-radius: 5px;
+}
+
+.container-existant{
+    display:flex;
+    height: 90vh;
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+
+
+
+
+}
+
+.title-existant{
+    display:flex;
+    background: rgba(63, 71, 99, 0.5);
+    width: 40vw;
+    height: 10vh;
+    align-items: center;
+    justify-content: center;
+    border-radius:1vw;
+
+}
+
+.title-existant h1{
+    color: white;
+    font-size: 5rem;
+
+
+}
+
+.text-expli{
+    display:flex;
+    height:auto;
+    background: rgba(63, 71, 99, 0.5);
+    width: 50vw;
+    padding: 1vw;
+    border-radius: 1vw;
+
+}
+
+.text-expli p {
+    font-size: 0.8vw;
+    word-spacing: 0.1vw;
+    line-height:2.5
+
+
+}
+
+.box-boxes{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    height: 16rem;
+    width: 80vw;
+
+
+}
+
+.box{
+    display: flex;
+    flex-direction:column;
+    width: 16rem;
+    height: 16rem;
+    background: rgba(63, 71, 99, 0.5);
+    align-items: center;
+    justify-content:center;
+    border-radius: 1.5vw ;
+    transition: background-color 0.3s, transform 0.3s ease;
+    text-decoration:none;
+
+}
+
+
+
+
+
+.box .number {
+    font-size: 6rem;
+    color: white;
+    text-decoration:none;
+}
+
+.box-link {
+    display: block;
+    text-decoration: none;
+}
+
+/* Style de la boîte */
+.box {
+    padding: 10px;
+    background: rgba(63, 71, 99, 0.5);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.box:hover {
+    background-color: #e0e0e0;
+    color: #8989bb;
+    transform: scale(1.05);
+}
+
+.number {
+    font-weight: bold;
+}
+
+.card-count {
+    font-size: 0.7vw;
+    color: #555;
+}
+
+
+
+@media (max-width: 1580px), (max-height: 800px) {
+
+
+    .box{
+        display: flex;
+        flex-direction:column;
+        width: 10vw;
+        height: 20vh;
+        background: rgba(63, 71, 99, 0.5);
+        align-items: center;
+        justify-content:center;
+        border-radius: 1.5vw ;
+    }
+
+    .box .number {
+    font-size: 4vw;
+    color: white;
+    text-decoration:none;
+    }
+
+    .box a {
+        text-decoration:none;
+        font-size: 10px;
+
+
+    }
+
+    .box a mark{
+        font-size: 0.8vw;
+
+    }
+}
+
+
+.text-modal{
+    padding: 3vw;
+    color: black;
 }

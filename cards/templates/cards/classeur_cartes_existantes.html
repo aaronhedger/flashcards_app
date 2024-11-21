@@ -1,51 +1,74 @@
 <!--classeur_cartes_existantes.html -->
 {% extends "cards/classeur_list.html" %}
 {% load classeur_tags_existant %}
-{% load humanize %}
+{% load static %}
 {% block content %}
     <br>
-<div class="container-existant">        
-    <div class="title-existant">
-            <h1>{{ classeur.name }}</h1>
-    </div>
-    <div class=" box-boxes">    
-            {% classeur_boxes_as_links_existing classeur %}
-    </div>
-    <br>
-    <div>    
-        <div>
-            <a href="{% url 'card-list-existante' classeur.pk %}" class="button">Liste des cartes dans ce dossier</a>   
+<body>
+    {% if classeur.category == 'ES' %}
+        <img src="{% static 'images/pexels-olenagoldman-998736.jpg' %}" alt="Image pour catégorie ES" class="background-image">
+    {% elif classeur.category == 'EN' %}
+        <img src="{% static 'images/pexels-sean-ingram-825343707-27940325.jpg' %}" alt="Image pour catégorie EN" class="background-image">
+    {% elif classeur.category == 'DE' %}
+        <img src="{% static 'images/pexels-detait-25053929.jpg' %}" alt="Image pour catégorie DE" class="background-image">
+    {% elif classeur.category == 'IT' %}
+        <img src="{% static 'images/colisée2.jpg' %}" alt="Image pour catégorie IT" class="background-image">
+    {% else %}
+        <img src="{% static 'images/colisée2.jpg' %}" alt="Image par défaut" class="background-image">
+    {% endif %}
+
+    <div class="container-existant">        
+        <div class="title-existant">
+                <h1>{{ classeur.name }}</h1>
         </div>
-    
+        <div class="text-expli">
+            <p><strong>Commencez la révision du vocabulaire "{{ classeur.name }}". Pour ce faire, commencez par la première boite. Chaque fois qu'une carte est apprise, elle passe à la boite suivante !
+            Cependant, si vous ne la connaissez pas, elle retournera à la première boite. Pour un meilleur apprentissage, il est recommandé de faire avancer toutes les cartes jusqu'à la dernière boite !</strong></p>
+        </div>
+        <div class=" box-boxes">    
+                {% classeur_boxes_as_links_existing classeur %}
+        </div>
+        <br>
+        <div class="button-existant">    
+            <a href="{% url 'card-list-existante' classeur.pk %}" class="button">Cartes dans "{{ classeur.name }}"</a> 
+            
+            <a id="rulesBtn" class="button">La méthode Leitner ?</a>
+        </div>            
         
-        <!-- Bouton pour ouvrir la modale -->
-        <button id="rulesBtn" class="fixed-button">Comment ça marche ?</button>
-    </div>            
-    <div style="position: fixed; bottom: 20px; right: 20px;">
-            <a href="{% if classeur.category == 'ES' %}{% url 'classeurEsp' %}
-                     {% elif classeur.category == 'EN' %}{% url 'classeurEng' %}
-                     {% elif classeur.category == 'DE' %}{% url 'classeurAll' %}
-                     {% elif classeur.category == 'IT' %}{% url 'classeurIta' %}
-                     {% else %}{% url 'classeur_list' %}{% endif %}" class="button">Back</a>   
+        
+        
+        
+        
+        
+        
+        <div style="position: fixed; bottom: 20px; right: 20px;">
+                <a href="{% if classeur.category == 'ES' %}{% url 'classeurEsp' %}
+                         {% elif classeur.category == 'EN' %}{% url 'classeurEng' %}
+                         {% elif classeur.category == 'DE' %}{% url 'classeurAll' %}
+                         {% elif classeur.category == 'IT' %}{% url 'classeurIta' %}
+                         {% else %}{% url 'classeur_list' %}{% endif %}" class="button">Back</a>   
+        </div>
+            <!-- Modale -->
+        <div id="rulesModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Comment ça marche, la méthode Leitner ?</h2>
+                    <br>
+                    <div class="text-modal">
+                        <p>Bienvenue sur App'Roussô ! Cette méthode d'apprentissage repose sur la méthode Leitner, qui optimise le temps d'apprentissage en espaçant les sessions de travail.</p>
+                        <p>Cela signifie que pour chaque boîte, la fréquence de révision sera différente, en fonction de votre niveau de connaissance des cartes. La première boîte sera révisée plus souvent que la deuxième, la deuxième plus que la troisième, et ainsi de suite.</p>
+                        <p>Par exemple, la première boîte sera révisée toutes les heures, la deuxième toutes les 3 heures, la troisième toutes les 7 heures, la quatrième une fois par jour, et la cinquième tous les 3 jours.</p>
+                        <p>Trouvez votre propre rythme, tout en maintenant un espacement adéquat entre les révisions de chaque boîte.</p>
+                        <p>Les cartes se déplaceront entre les boîtes en fonction de vos réponses : plus vous maîtrisez une carte, plus elle avance ; si vous l'oubliez, elle retourne dans la première boîte.</p>
+                        <br>
+                        <p>Amusez-vous et bon apprentissage !</p>
+                    </div>
+                </div>
+        </div>
+        
+            {% block card_form %}{% endblock %}
     </div>
-        <!-- Modale -->
-    <div id="rulesModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Comment ça marche la méthode Leitner ?</h2>
-                <br>
-                <p>Bienvenue sur App'Roussô ! Cette méthode d'apprentissage repose sur la méthode Leitner, qui optimise le temps d'apprentissage en espaçant les sessions de travail.</p>
-                <p>Cela signifie que pour chaque boîte, la fréquence de révision sera différente, en fonction de votre niveau de connaissance des cartes. La première boîte sera révisée plus souvent que la deuxième, la deuxième plus que la troisième, et ainsi de suite.</p>
-                <p>Par exemple, la première boîte sera révisée toutes les heures, la deuxième toutes les 3 heures, la troisième toutes les 7 heures, la quatrième une fois par jour, et la cinquième tous les 3 jours.</p>
-                <p>Trouvez votre propre rythme, tout en maintenant un espacement adéquat entre les révisions de chaque boîte.</p>
-                <p>Les cartes se déplaceront entre les boîtes en fonction de vos réponses : plus vous maîtrisez une carte, plus elle avance ; si vous l'oubliez, elle retourne dans la première boîte.</p>
-                <br>
-                <p>Amusez-vous et bon apprentissage !</p>
-            </div>
-    </div>
-    
-        {% block card_form %}{% endblock %}
-</div>
+</body>
     <!-- JavaScript pour la modale -->
     <script>
         // Récupérer les éléments
