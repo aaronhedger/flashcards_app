@@ -706,6 +706,7 @@ nav2 ul li a, nav3 ul li a :active {
 
 .number-left mark{
     background:#f0c692;
-    color: white;
+    color: #555;
+    font-size: 0.8vw;
 }
 
