@@ -17,8 +17,8 @@ from django.views.generic import (
     UpdateView, DetailView, )
 
 from .algorithms import flashcard_algorithm
-from .forms import CardCheckForm
-from .forms import ClasseurForm, SignUpForm
+from .forms import CardCheckForm, ClasseurUserForm, ClasseurAdminForm
+from .forms import  SignUpForm
 from .models import Card, Flashcard
 from .models import Classeur
 from .cards_data import voc_allemand1
@@ -287,7 +287,7 @@ def classeur_detail_admin(request, pk):
 @login_required
 def classeur_create(request):
     if request.method == "POST":
-        form = ClasseurForm(request.POST)
+        form = ClasseurUserForm(request.POST)
         if form.is_valid():
             classeur = form.save(commit=False)
             classeur.user = request.user
@@ -295,14 +295,14 @@ def classeur_create(request):
             classeur.save()
             return redirect('classeur_list')
     else:
-        form = ClasseurForm()
+        form = ClasseurUserForm()
     return render(request, 'cards/classeur_form.html', {'form': form})
 
 
 @user_passes_test(lambda u: u.is_superuser)  # Vérifie que l'utilisateur est un administrateur
 def public_classeur_create(request):
     if request.method == "POST":
-        form = ClasseurForm(request.POST)
+        form = ClasseurAdminForm(request.POST)
         if form.is_valid():
             classeur = form.save(commit=False)
             classeur.user = request.user  # Assigne le classeur à l'administrateur
@@ -326,7 +326,7 @@ def public_classeur_create(request):
             return render(request, 'cards/classeur_form.html', {'form': form})  # Affiche le formulaire avec erreurs
 
     else:
-        form = ClasseurForm()  # Affiche un nouveau formulaire vide sur une requête GET
+        form = ClasseurAdminForm()  # Affiche un nouveau formulaire vide sur une requête GET
 
     return render(request, 'cards/classeur_form.html', {'form': form})
 
@@ -343,12 +343,12 @@ def classeur_detail_public(request, pk):
 def classeur_edit(request, pk):
     classeur = get_object_or_404(Classeur, pk=pk, user=request.user)
     if request.method == "POST":
-        form = ClasseurForm(request.POST, instance=classeur)
+        form = ClasseurUserForm(request.POST, instance=classeur)
         if form.is_valid():
             form.save()
             return redirect('classeur_detail', pk=classeur.pk)
     else:
-        form = ClasseurForm(instance=classeur)
+        form = ClasseurUserForm(instance=classeur)
     return render(request, 'cards/classeur_form.html', {'form': form, 'classeur': classeur})
 
 
@@ -391,6 +391,7 @@ class ClasseurBoxView(ListView):
         # Pass the Classeur and box number to the template
         context["classeur"] = Classeur.objects.get(pk=self.kwargs["classeur_id"])
         context["box_number"] = self.kwargs["box_num"]
+        context["is_existing"] = False
         if self.object_list:
             context["check_card"] = random.choice(self.object_list)
 
@@ -427,6 +428,7 @@ class ClasseurBoxExistingView(ListView):
         # Pass the Classeur and box number to the template
         context["classeur"] = Classeur.objects.get(pk=self.kwargs["classeur_id"])
         context["box_number"] = self.kwargs["box_num"]
+        context["is_existing"] = True
         if self.object_list:
             context["check_card"] = random.choice(self.object_list)
 

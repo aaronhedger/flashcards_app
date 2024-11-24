@@ -26,7 +26,12 @@ class CardForm(forms.ModelForm):
         fields = ["question", "answer", "classeur"]
 
 
-class ClasseurForm(forms.ModelForm):
+class ClasseurAdminForm(forms.ModelForm):
     class Meta:
         model = Classeur
         fields = ["name", "category"]
+
+class ClasseurUserForm(forms.ModelForm):
+    class Meta:
+        model = Classeur
+        fields = ["name", ]
