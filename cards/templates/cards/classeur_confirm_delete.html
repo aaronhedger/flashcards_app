@@ -20,8 +20,13 @@
 
 
 
-    <h2>Supprimer Classeur</h2>
+    
        <div class="container2"> 
+            <div class="title-existant">
+                
+                <h4>Supprimer le classeur "{{ classeur.name }}" ?</h4> 
+            </div>
+           
             <div class="box-qa">
                 <p>Es-tu sûr de vouloir supprimer le classeur "{{ classeur.name }}" ?</p>
                 <form method="post">
@@ -30,4 +35,4 @@
                 </form>
             </div>    
             <a href="{% url 'classeur_detail' classeur.pk %}">Annuler</a>
-        </div>
+       </div>
