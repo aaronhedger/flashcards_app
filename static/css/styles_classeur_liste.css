@@ -205,17 +205,18 @@ h1{
 
 .box-qa{
     width: 20vw;
-    height: 40vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-around ;
     align-items: center;
     background: #d55d5d;
     border:none;
+    margin-top:3vh;
     color: white;
     border-radius: 10px;
-    margin: 10vh;
     padding: 2vw;
+    box-sizing: border-box;
 
 
 

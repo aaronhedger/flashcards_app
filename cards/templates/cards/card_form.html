@@ -8,7 +8,10 @@
     <title>Flashcards</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/styles_welcome2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_welcome2.css' %}">    
+    <link rel="stylesheet" href="{% static 'css/styles_classeur_liste.css' %}">
+
+    
     <!-- Optional: Add some CSS for styling the button -->
 
 <body>
@@ -22,9 +25,12 @@
       </nav>
     
     <div class="container2">
+    
             <h1>{{ classeur.name }}</h1>
             {% if card %}
-                <h2>✏️Modifiez la carte</h2>
+                <div class="title-existant">
+                    <h4>Modifiez la carte</h4>
+                </div>
             {% else %}
                 <h2>Créez une carte</h2>
             {% endif %}
