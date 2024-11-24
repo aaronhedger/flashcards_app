@@ -146,14 +146,16 @@ div ul {
     width: 100%;
     text-align: left;
     padding-right: 60px;
-    row-gap: 10px
+    row-gap: 10px;
 
 }
 
 div ul li {
     display: flex;
     margin: 0.5vh 0.5vw;
-    background: rgba(255, 255, 255, 0.8); /* 0.5 pour 50% de transparence */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.4vw;
+
 }
 div ul li:hover {
     transform: translateY(-5px);
